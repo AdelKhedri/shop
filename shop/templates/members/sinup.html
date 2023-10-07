@@ -1,0 +1,69 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.rtl.min.css"
+        integrity="sha384-gXt9imSW0VcJVHezoNQsP+TNrjYXoGcrqBZJpry9zJt8PCQjobwmhMGaDHTASo9N" crossorigin="anonymous">
+</head>
+
+<body dir="rtl">
+    <div class="row justify-content-center">
+        <div class="col-lg-6 col-md-10 col-sm-12 pt-4 mt-4">
+            <div class="card shadow py-3">
+                <div class="card-img-top bg-success text-center py-3 text-white">فروشگاه فلان</div>
+                <form action="" method="post">
+                    <div class="row justify-content-center">
+                        <div class="col-10">
+                            <label for="Email" class="form-label">ایمیل</label>
+                            <input type="email" name="" class="form-control" id="Email">
+                        </div>
+                        <div class="col-10">
+                            <label for="phone_number" class="form-label">شماره تلفن</label>
+                            <input type="number" name="" class="form-control" id="phone_number">
+                        </div>
+                        <div class="col-lg-5 col-10">
+                            <label for="password1" class="form-label">پسورد</label>
+                            <input type="password" name="" class="form-control" id="password1">
+                        </div>
+                        <div class="col-lg-5 col-10">
+                            <label for="password2" class="form-label">تکرار پسورد</label>
+                            <input type="password" name="" class="form-control" id="password2">
+                        </div>
+                        <div class="col-10 pt-3">
+                            <div class="form-check">
+                                <!-- <button type="button" onclick="check_rules()" >accept rules</button> -->
+                                <input class="form-check-input" onclick="check_rules()" type="checkbox" value="" id="accept_rules" checked="">
+                                <label for="accept_rules" class="form-check-label">من <a href="">قوانین</a> سایت را قبول
+                                    دارم</label>
+                                    
+                            </div>
+                        </div>
+                        <div class="col-10 pt-2">
+                            <button type="submit" id="submit" class="btn btn-success me-2">ثبت نام</button>
+                            <button type="reset" class="btn btn-danger">پاک کردن فرم</button>
+                        </div>
+                        <div class="col-12 text-center">
+                            <p><a class="btn btn-primary mx-2" href="#">ورود</a><a class="btn btn-primary mx-2" href="#">فراموشی رمز عبور</a></p>
+                        </div>
+                    </div>
+                    <script>
+                        function check_rules(){
+                            if ($("#accept_rules").is(":checked")){
+                                $("#submit").show();
+                            } else {
+                                $("#submit").hide();
+                            }
+                        }
+                    </script>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script src="{% static 'js/jquery.js' %}"></script>
+</body>
+
+</html>

@@ -1,0 +1,93 @@
+{% extends 'home/base.html' %}
+{% load static %}
+{% block title %}ویرایش مشخصات{% endblock %}
+{% block active2 %}
+open
+{% endblock %}
+{% block active3 %}
+active
+{% endblock %}
+{% block content %}
+    <div class="cintainer">
+        <div class="card mb-4">
+          <form action="" enctype="multipart/form-data" method="post">
+            <h5 class="card-header">Profile Details</h5>
+            <!-- Account -->
+            <div class="card-body">
+              <div class="d-flex align-items-start align-items-sm-center gap-4">
+                <img src="{% static 'assets/img/avatars/1.png' %}" alt="user-avatar" class="d-block rounded" id="uploadedAvatar" width="100" height="100">
+                <div class="button-wrapper">
+                  <!-- <form action=""  method="post" enctype="multipart/form-data"> -->
+                    {% csrf_token %}
+                    <label for="upload" class="btn btn-primary me-2 mb-4" tabindex="0">
+                        <span class="d-none d-sm-block">Upload new photo</span>
+                        <!-- <i class="bx bx-upload d-block d-sm-none"></i> -->
+                        <!-- <input type="file" id="upload" class="account-file-input" hidden=""> -->
+                        {{profile_form.image}}
+                    </label>
+                    <button class="btn btn-outline-success" type="submit">Update</button>
+                  <!-- </form> -->
+                  <button type="button" class="btn btn-outline-danger account-image-reset mb-4">
+                    <i class="bx bx-reset d-block d-sm-none"></i>
+                    <span class="d-none d-sm-block">Reset</span>
+                  </button>
+      
+                  <!-- <p class="text-muted mb-0">Allowed JPG, GIF or PNG. Max size of 800K</p> -->
+                </div>
+              </div>
+            </div>
+            <hr class="my-0">
+            <div class="card-body">
+              <!-- <form id="formAccountSettings" enctype="multipart/form-data" method="POST"> -->
+                {% csrf_token %}
+                
+                <div class="row">
+                  <div class="mb-3 col-md-6">
+                    <label for="firstName" class="form-label">First Name</label>
+                    <!-- <input class="form-control" type="text" id="firstName" name="firstName" value="John" autofocus=""> -->
+                    {{user_form.first_name}}
+                </div>
+                <div class="mb-3 col-md-6">
+                    <label for="firstName" class="form-label">First Name</label>
+                    <!-- <input class="form-control" type="text" id="firstName" name="firstName" value="John" autofocus="">
+                </div>
+                  <div class="mb-3 col-md-6">
+                    <label for="lastName" class="form-label">Last Name</label>
+                    <!-- <input class="form-control" type="text" name="lastName" id="lastName" value="Doe"> -->
+                    {{user_form.last_name}}
+                  </div>
+                  <div class="mb-3 col-md-6">
+                    <label for="email" class="form-label">E-mail</label>
+                    <!-- <input class="form-control" type="text" id="email" name="email" value="john.doe@example.com" placeholder="john.doe@example.com"> -->
+                    {{user_form.email}}
+                </div>
+                  <div class="mb-3 col-md-6">
+                    <label for="organization" class="form-label">شماره ملی</label>
+                    <!-- <input type="text" class="form-control" id="organization" name="organization" value="ThemeSelection"> -->
+                    {{profile_form.nashnalcode}}
+                </div>
+                  <div class="mb-3 col-md-6">
+                    <label class="form-label" for="phoneNumber">شماره مبایل</label>
+                    <div class="input-group input-group-merge">
+                      <!-- <span class="input-group-text">US (+1)</span> -->
+                      <!-- <input type="text" id="phoneNumber" name="phoneNumber" class="form-control" placeholder="202 555 0111"> -->
+                      {{user_form.phone_number}}
+                    </div>
+                  </div>
+                  <div class="mb-3 col-md-6">
+                    <label for="organization" class="form-label">بیوگرافی</label>
+                    <!-- <input type="text" class="form-control" id="organization" name="organization" value="ThemeSelection"> -->
+                    {{profile_form.biografi}}
+                </div>
+                </div>
+                <div class="mt-2">
+                  <button type="submit" class="btn btn-primary me-2">Save changes</button>
+                  <button type="reset" class="btn btn-outline-secondary">Cancel</button>
+                </div>
+              <!-- </form> -->
+            </div>
+            <!-- /Account -->
+          </form>
+          </div>
+    </div>
+{% endblock %}
