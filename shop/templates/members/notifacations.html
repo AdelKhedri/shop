@@ -10,18 +10,18 @@ active
 {% block content %}
 	<div class="cintainer">
 		<div class="card shadow">
-			{% if notifications %}
+			{% if notifacations %}
 			<div class="row mt-3 mx-3">
-				{% for notification in notifications %}
+				{% for notifacation in notifacations %}
 					<div class="col-md-6">
-						<div class="card {{notification.color}} text-white mb-3">
+						<div class="card {{notifacation.color}} text-white mb-3">
 							<!-- <div class="card-header">Header</div> -->
 							<div class="card-body">
 								<!-- <h5 class="card-title text-white">Primary card title</h5> -->
 								<p class="card-text">
-									{{notification.message}}
+									{{notifacation.message}}
 								</p>
-								<span>{{notification.time}}</span>
+								<span>{{notifacation.time}}</span>
 							</div>
 						</div>
 					</div>

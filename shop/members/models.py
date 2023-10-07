@@ -8,20 +8,26 @@ class User(AbstractUser):
     email = models.EmailField(unique=True, null=True, blank=True, max_length=150, verbose_name="ایمیل")
     phone_number = models.IntegerField(unique=True, null=True, blank=True, verbose_name="شماره تلفن")
     is_active = models.BooleanField(default=False, verbose_name="اجازه ورود")
-
+    USERNAME_FIELD = 'phone_number'
     class Meta:
         verbose_name = "کاربر"
         verbose_name_plural = "کاربران"
+    
+    def __str__(self):
+        return str(self.phone_number)
 
 class Profile(models.Model):
-    image = models.ImageField(upload_to="images/profiles/", verbose_name="")
+    image = models.ImageField(upload_to="images/profiles/", blank=True, null=True,verbose_name="عکس پروفایل")
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    coin = models.IntegerField(default=0, verbose_name="")
-    invaited =  models.CharField(max_length=100, verbose_name="", blank=True, null=True)
-    nashnalcode = models.IntegerField(blank=True, null=True, verbose_name="")
+    coin = models.IntegerField(default=0, verbose_name="موجودی(ریال)")
+    invaited =  models.CharField(max_length=100, verbose_name="افراد دعوت شده", blank=True, null=True)
+    nashnalcode = models.IntegerField(blank=True, null=True, verbose_name="کد ملی")
 
     def is_invaited(self):
-        return True if len(self.invaited) > 1 else False
+        if self.invaited is not None:
+            return True if len(self.invaited) > 1 else False
+        else:
+            return False
 
     def _str__(self):
         return self.user.username
@@ -32,20 +38,21 @@ class Profile(models.Model):
         verbose_name_plural = "پروفایل ها"
 
 class Otp(models.Model):
-    number = models.IntegerField()
-    code = models.IntegerField(verbose_name="")
-    expire_time = models.DateTimeField(default=int(time.time())+300, verbose_name="")
+    number = models.IntegerField(verbose_name="شماره موبایل")
+    code = models.IntegerField(verbose_name="کد تایید")
+    expire_time = models.IntegerField(default=int(time.time())+300, verbose_name="زمان انقضا")
 
-    def __str__(self):
-        return self.number
-    
     class Meta:
         verbose_name = "کد تایید شماره"
         verbose_name_plural = "کد های تایید شماره"
 
+    def __str__(self):
+        return str(self.number)
+    
+
 class Notifacation(models.Model):
-    reciver = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="")
-    message = models.TextField(max_length=800, verbose_name="")
+    reciver = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="دریافت کننده")
+    message = models.TextField(max_length=800, verbose_name="متن اعلان")
     color_list = (("bg-danger", "danger"),
                   ("bg-warning", "warning"),
                   ("bg-success", "success"),
@@ -53,14 +60,14 @@ class Notifacation(models.Model):
                   ("bg-secondary", "seccondry"),
                   ("bg-primary", "primary")
                   )
-    color = models.CharField(choices=color_list, default="info", max_length=12, verbose_name="" )
+    color = models.CharField(choices=color_list, default="info", max_length=12, verbose_name="رنگ" )
 
     class Meta:
         verbose_name = "نوتیفیکیشن"
         verbose_name_plural = "نوتیفیکیشن ها"
-
-
-
+    
+    def __str__(self):
+        return str(self.reciver.phone_number)
 
 
 

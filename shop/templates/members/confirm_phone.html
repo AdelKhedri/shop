@@ -16,14 +16,15 @@
             <div class="card shadow py-3">
                 <div class="card-img-top bg-success text-center py-3 text-white">فروشگاه فلان</div>
                 <form action="" method="post">
+                    {% csrf_token %}
                     <div class="row justify-content-center">
                         <div class="col-10">
                             <label for="verifay_code" class="form-label">کد تایید</label>
-                            <input type="number" name="" class="form-control" id="verifay_code">
+                            <input type="number" name="verifay_code" class="form-control" id="verifay_code">
                         </div>
                         <div class="col-10">
                             <label for="phone_number" class="form-label">شماره تلفن</label>
-                            <input type="number" name="" class="form-control" value="09929941452" id="phone_number" disabled>
+                            <input type="number" name="" class="form-control" value="0{{phone_number}}" id="phone_number" disabled>
                         </div>
                         <div class="col-10 pt-2">
                             <button type="submit" id="submit" class="btn btn-success me-2">تایید شماره موبایل</button>

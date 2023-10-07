@@ -17,14 +17,22 @@
                 <div class="card-img-top bg-success text-center py-3 text-white">فروشگاه فلان</div>
                 <form action="" method="post">
                     <div class="row justify-content-center">
-                        
+                        {% csrf_token %}
                         <div class="col-10">
                             <label for="phone_number" class="form-label">شماره تلفن</label>
-                            <input type="number" name="" class="form-control" id="phone_number">
+                            {{form.phone_number}}
+                            {% if form.errors %}
+                                <p class="text-danger">{{form.errors}}</p>
+                            {% endif %}
+                            <!-- <input type="number" name="" class="form-control" id="phone_number"> -->
                         </div>
                         <div class="col-lg-5 col-10">
                             <label for="password1" class="form-label">پسورد</label>
-                            <input type="password" name="" class="form-control" id="password1">
+                            {{form.password}}
+                            {% if form.errors.password %}
+                                <p class="text-danger">{{form.errors}}</p>
+                            {% endif %}
+                            <!-- <input type="password" name="" class="form-control" id="password1"> -->
                         </div>
                         <div class="col-10 pt-2">
                             <button type="submit" id="submit" class="btn btn-success me-2">ورود</button>
