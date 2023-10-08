@@ -24,6 +24,8 @@ class RegisterUser(View):
             email = form.cleaned_data['email']
             password = form.cleaned_data['password1']
             phone_number = form.cleaned_data['phone_number']
+            if phone_number == 11:
+                phone_number = phone_number[1:]
             user = User.objects.create(username=username, email=email, phone_number=phone_number)
             user.set_password(password)
             user.save()
