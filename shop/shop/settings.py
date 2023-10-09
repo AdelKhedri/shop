@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure--q)+qj7xucx*4^w80vl1$6%o0#54e8n1p&rgyf1ce02s(yc5@r
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1']
 
 
 # Application definition
@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'members.apps.MembersConfig',
+    'payment.apps.PaymentConfig'
 ]
 
 MIDDLEWARE = [

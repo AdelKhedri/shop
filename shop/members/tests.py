@@ -69,12 +69,12 @@ class TestNotifacationModel(TestCase):
 
 class TestMemberPages(TestCase):
     def test_view_url_home(self):
-        res = self.client.get('/home/')
+        res = self.client.get('/profile/home/')
         self.assertEqual(res.status_code, 200)
         self.assertTemplateUsed(res, 'home/base.html')
     
     def test_view_url_sinup(self):
-        res = self.client.get('/sinup/')
+        res = self.client.get('/profile/sinup/')
         self.assertEqual(res.status_code, 200)
         self.assertTemplateUsed(res, 'members/sinup.html')
     
@@ -94,7 +94,7 @@ class TestMemberPages(TestCase):
 
 
     def test_view_url_confirm_phone(self):
-        res = self.client.get('/sinup/confirm_phone/')
+        res = self.client.get('/profile/sinup/confirm_phone/')
         self.assertEqual(res.status_code, 200)
         self.assertTemplateUsed(res, 'members/confirm_phone.html')
     
@@ -106,7 +106,7 @@ class TestMemberPages(TestCase):
             'password1' : '12345678',
             'password2' : '12345678',
         }
-        res_post_1 = self.client.post('/sinup/', data1)
+        res_post_1 = self.client.post('/profile/sinup/', data1)
         data2 = {
             'phone_number': self.client.session['phone_number'],
             'verifay_code':145269,
@@ -119,7 +119,7 @@ class TestMemberPages(TestCase):
         # self.client.get('/sinup/confirm_phone/')
         
     def test_view_url_sinin(self):
-        res = self.client.get('/sinin/')
+        res = self.client.get('/profile/sinin/')
         self.assertEqual(res.status_code, 200)
         self.assertTemplateUsed(res, 'members/sinin.html')
     
@@ -128,7 +128,7 @@ class TestMemberPages(TestCase):
             'phone_number': 9999999999,
             'password': '12345678',
         }
-        res = self.client.post('/sinin/', data)
+        res = self.client.post('/profile/sinin/', data)
         self.assertEqual(res.status_code, 200)
     
     # def test_view_url_profile(self):

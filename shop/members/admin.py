@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import User, Profile, Otp, Notifacation
+from .models import User, Profile, Otp, Notifacation, Support
 
 class UserRegister(admin.ModelAdmin):
     list_display = ('phone_number',)
@@ -20,6 +20,7 @@ class NotifacationRegister(admin.ModelAdmin):
 admin.site.register(User, UserRegister)
 admin.site.register(Profile, ProfileRegister)
 admin.site.register(Otp)
+admin.site.register(Support)
 admin.site.register(Notifacation, NotifacationRegister)
 
 # Register your models here.

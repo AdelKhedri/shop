@@ -70,9 +70,19 @@ class Notifacation(models.Model):
         return str(self.reciver.phone_number)
 
 
+class Support(models.Model):
+    sender = models.ForeignKey(User, on_delete=models.CASCADE, related_name="sender",verbose_name="ارسال کننده")
+    reciver = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True, related_name="reciver", verbose_name="دریافت کننده")
+    message = models.TextField(max_length=500, verbose_name="متن پیام")
+    email = models.CharField(blank=True, null=True, max_length=150, verbose_name="ایمیل")
+    send_time = models.DateTimeField(auto_now_add=True, verbose_name="زمان ارسال")
 
-
-
+    class Meta:
+        ordering = ['send_time']
+        verbose_name = "کامند پشتیبانی"
+        verbose_name_plural = "کامند های پشتیبانی"
+    def __str__(self):
+        return self.sender.username
 
 
 

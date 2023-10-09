@@ -91,22 +91,3 @@ class UserUpdateForm(forms.ModelForm):
             'username': forms.TextInput(attrs={'class': 'form-control'}),
             'phone_number': forms.NumberInput(attrs={'class': 'form-control'}),
         }
-
-    # def __init__(self, *args, **kwargs):
-    #     self.request = kwargs['request']
-    #     return super().__init__(*args, **kwargs)
-    
-    def clean(self):
-        cleaned_data = super().clean()
-        username = cleaned_data.get('username')
-        email = cleaned_data.get('email')
-        phone_number = cleaned_data.get("phone_number")
-
-        if User.objects.filter(username = username).exists():
-            raise ValidationError('این یوزرنیکم توسط فرد دیگیر انتخاب شده است.')
-        elif User.objects.filter(email=email).exists():
-            raise ValidationError('این ایمیل توسط کاربر دیگری استفاده شده است.')
-        elif User.objects.filter(phone_number=phone_number).exists():
-            raise ValidationError('این شماره موبایل توسط فرد دیگری استقاده شده است.')
-        else:
-            return cleaned_data

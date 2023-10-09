@@ -66,11 +66,11 @@ active
     </form>
   </div>
   <div class="card my-3 shadow">
-    {% if msg_user == "update profile success" %}
+    {% if msg_user == "update user success" %}
       <h5 class="text-dange bg-success">کاربر با موفقیت تغییر کرد.</h5>
-      {% elif msg_user == "update profile filed" %}
+    {% elif msg_user == "update user filed" %}
       <h5 class="text-success bg-danger">خطا: کاربر تغییر نکرد.</h5>
-      {% endif %}
+    {% endif %}
     <div class="card-body">
       <form action="" method="post">
         {% csrf_token %}
@@ -79,10 +79,16 @@ active
             <label for="phone_number" class="form-label">یوزرنیم</label>
             <!-- <input type="number" name="" class="form-control" id="phone_number"> -->
             {{form_user.username}}
+            {% if msg_user == "username error" %}
+              <p class="text-danger">خطا: یوزرنیم تکراری است</p>
+            {% endif %}
           </div>
           <div class="col-lg-5 col-10">
             <label for="phone_number" class="form-label">شماره تلفن</label>
             {{form_user.phone_number}}
+            {% if msg_user == "phone_number error" %}
+              <p class="text-danger">خطا: شماره تلفن تکراری است</p>
+            {% endif %}
             <!-- <input type="number" name="" class="form-control" id="phone_number"> -->
           </div>
           <div class="col-lg-5 col-10">
@@ -99,8 +105,12 @@ active
           <div class="col-8">
             <label for="phone_number" class="form-label">ایمیل</label>
             {{form_user.email}}
+            {% if msg_user == "email error" %}
+              <p class="text-danger">خطا: ایمیل تکراری است</p>
+            {% endif %}
             <!-- <input type="number" name="" class="form-control" id="phone_number"> -->
           </div>
+          {{form.request}}
           <div class="col-lg-3"></div>
         </div>
         <div class="row">
