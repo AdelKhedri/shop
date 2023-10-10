@@ -12,7 +12,7 @@ class CartRegister(admin.ModelAdmin):
     search_fields = ("customer","product",)
 
 class TransactionRegister(admin.ModelAdmin):
-    list_display = ("transaction_type", "card", "amount", "teransaction_time", "is_payed",)
+    list_display = ("transaction_type", "card", "amount", "transaction_time", "is_payed",)
     list_filter= ("is_payed",)
     search_fields = ("ref_id",)
 
