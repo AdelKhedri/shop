@@ -1,7 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import render, HttpResponseRedirect
 from django.views import View
 from .forms import CardForm, TransactionForm
-from .models import Card, Transaction
+from .models import Card, Transaction, Cart
+from ShopApp.models import Product
 
 # Create your views here.
 
@@ -62,17 +63,56 @@ class RequestPaymentView(View):
         form = TransactionForm(request.POST)
         context = {
             'form_transaction': TransactionForm(),
-            'card': self.cards,
+            'cards': self.cards,
             'transaction_list': self.transaction_list,
         }
         if form.is_valid():
-            transaction_type = form.cleaned_data['transaction_type']
-            card = form.cleaned_data['card']
             amount = form.cleaned_data['amount']
+            transaction_type = form.cleaned_data['transaction_type']
+            if amount > request.user.profile.coin and transaction_type == "withdraw":
+                context.update({'msg':'low coin'})
+                return render(request, self.template_name, context)
+            card = self.cards.get(id=request.POST.get('card'))
             description = form.cleaned_data['description']
             Transaction.objects.create(transaction_type=transaction_type, card=card, amount=amount, description=description, user=request.user)
             context.update({'msg': 'success'})
         else:
             context.update({'msg': 'failed'})
             
+        return render(request, self.template_name, context)
+
+
+class AddRemoveToCart(View):
+    template_name = "payment/cart_manager.html"
+
+    def setup(self, request, *args, **kwargs):
+        self.carts = Cart.objects.filter(customer=request.user)
+        return super().setup(request, *args, **kwargs)
+    
+    def get(self, request):
+        context = {
+            'carts': self.carts,
+        }
+        acction = request.GET.get('a')
+        id_product = request.GET.get('p')
+        id_cart = request.GET.get('c')
+        if acction == 'del':
+            try:
+                Cart.objects.get(customer=request.user, id=id_cart).delete()
+            except:
+                pass
+            context.update({'msg': 'del succes'})
+        elif acction == 'add':
+            try:
+                product = Product.objects.get(id=id_product)
+                Cart.objects.create(customer=request.user, product=product)
+            except:
+                pass
+            context.update({"msg": 'add success'})
+        else:
+            pass
+
+        redirect_page = request.GET.get('re')
+        if redirect_page:
+            return HttpResponseRedirect(redirect_to=redirect_page)
         return render(request, self.template_name, context)
