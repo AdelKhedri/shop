@@ -1,0 +1,97 @@
+{% extends 'home/base.html' %}
+{% load static %}
+{% block title %}درخواست برداشت و پرداخت{% endblock %}
+{% block open2 %}
+open
+{% endblock %}
+{% block open2-active2 %}
+active
+{% endblock %}
+{% block content %}
+<div class="cintainer">
+	<!-- <div class=""> -->
+	<div class="row my-2">
+		<div class="card">
+			<form action="" method="post">
+				{% csrf_token %}
+				<div class="row p-3">
+					<div class="col-md-6 py-2">
+						<div class="input-group">
+							{{form_transaction.transaction_type}}
+							<!-- <input type="number" class="form-control" placeholder="شماره کارت"> -->
+							<span class="input-group-text" id="basic-addon13">برداشت/واریز</span>
+						</div>
+					</div>
+					<div class="col-md-6 py-2">
+						<div class="input-group">
+							{{form_transaction.amount}}
+							<!-- <input type="number" class="form-control" placeholder="شماره شبا"> -->
+							<span class="input-group-text" id="basic-addon13">مقدار به ریال</span>
+						</div>
+					</div>
+					<div class="col-10 col-sm-12 py-2">
+						<h5>کارت</h4>
+						<Select class="form-control" name="" id="card">
+							{% for card in cards %}
+							<option value="{{cards.id}}">{{card.card_number}}</option>
+							{% endfor %}
+						</Select>
+					</div>
+					<div class="col-10 col-sm-12 py-2">
+						<h5>توضیحات</h4>
+						{{form_transaction.description}}
+					</div>
+				</div>
+				<button type="submit" class="btn btn-danger my-2 mb-3">ثبت</button>
+			</form>
+		</div>
+	</div>
+	<div class="row">
+		<div class="card">
+			<h5 class="card-header">لیست تراکنش ها</h5>
+			<div class="table-responsive text-nowrap">
+				<table class="table">
+					<thead>
+						<tr>
+							<th>شماره کارت</th>
+							<td>وضعیت پرداخت</td>
+							<th>نوع تراکنش</th>
+							<th>مقدار</th>
+							<th>زمان</th>
+							<th>بیشتر</th>
+						</tr>
+					</thead>
+					{% for transaction in transaction_list %}
+						<tbody class="table-border-bottom-0">
+							<tr>
+								<td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>{{transaction.card.card_number}}</strong>
+								</td>
+								<td>
+									{% if transaction.is_payed %}
+									<span class="badge bg-label-success me-1">پرداخت شد</span>
+									{% else %}
+									<span class="badge bg-label-danger me-1">در انتظار پرداخت</span>
+									{% endif %}
+								</td>
+								<td>
+									
+								</td>
+								<td>
+									<p>{{transaction.transaction_type.display}}</p>
+								</td>
+								<td>
+									<p>{{transaction.amount}}</p>
+								</td>
+								<td>
+									<p>{{transaction.teransaction_time}}</p>
+								</td>
+							</tr>
+						</tbody>
+					{% endfor %}
+				</table>
+			</div>
+		</div>
+	</div>
+	<!-- </div> -->
+</div>
+{% endblock %}

@@ -1,10 +1,10 @@
 {% extends 'home/base.html' %}
 {% load static %}
 {% block title %}مشخصات بانکی{% endblock %}
-{% block active2 %}
+{% block open2 %}
 open
 {% endblock %}
-{% block active6 %}
+{% block open2-active1 %}
 active
 {% endblock %}
 {% block content %}
@@ -24,7 +24,7 @@ active
 					</div>
 					<div class="col-md-6">
 						<div class="input-group">
-							{{form.shaba}}
+							{{form.shaba_number}}
 							<!-- <input type="number" class="form-control" placeholder="شماره شبا"> -->
 							<span class="input-group-text" id="basic-addon13">شماره شبا</span>
 						</div>
@@ -42,7 +42,7 @@ active
 					<thead>
 						<tr>
 							<th>شماره کارت</th>
-							<th>وضعیت</th>
+							<th>شماره شبا</th>
 							<th>بیشتر</th>
 						</tr>
 					</thead>
@@ -52,18 +52,14 @@ active
 								<td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>{{card.card_number}}</strong>
 								</td>
 								<td>
-									{% if card.active %}
-									<span class="badge bg-label-success me-1">قعال</span>
-									{% else %}
-									<span class="badge bg-label-danger me-1">غیرفعال</span>
-									{% endif %}
+									<p>{{card.shaba_number}}</p>
 								</td>
 								<td>
 									<div class="dropdown">
 										<button type="button" class="btn p-0 dropdown-toggle hide-arrow"
 											data-bs-toggle="dropdown"><i class="bx bx-dots-vertical-rounded"></i></button>
 										<div class="dropdown-menu">
-											<a class="dropdown-item" href="javascript:void(0);"><i class="bx bx-trash me-1"></i> حذف</a>
+											<a class="dropdown-item" href="?card_id={{card.id}}"><i class="bx bx-trash me-1"></i> حذف</a>
 										</div>
 									</div>
 								</td>
