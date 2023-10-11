@@ -5,7 +5,7 @@ from .models import Category, Product, Shop, Social
 
 class ShopRegister(admin.ModelAdmin):
     list_display = ('name', 'username', 'manager', 'is_active',)
-    list_filter = ('is_active','social_address_count',)
+    list_filter = ('is_active',)
     search_fields = ('name', 'username', 'manager', 'is_active',)
 
 class CategoryRegister(admin.ModelAdmin):

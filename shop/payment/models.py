@@ -38,8 +38,8 @@ class Transaction(models.Model):
 
 
 class Cart(models.Model):
-    customer = models.ForeignKey(User, on_delete=models.PROTECT, verbose_name="خریدار")
-    product = models.ForeignKey(Product, on_delete=models.PROTECT, verbose_name="محصول")
+    customer = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="خریدار")
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name="محصول")
     count = models.IntegerField(default=1, verbose_name="تعداد")
 
     class Meta:
