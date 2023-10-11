@@ -5,5 +5,4 @@ urlpatterns = [
     path('cards/', views.CardManager.as_view(), name="card manager"),
     path('request-payment/', views.RequestPaymentView.as_view(), name="request payment"),
     path('cart', views.AddRemoveToCart.as_view(), name='add remove cardt'),
-    
 ]

@@ -116,3 +116,6 @@ class AddRemoveToCart(View):
         if redirect_page:
             return HttpResponseRedirect(redirect_to=redirect_page)
         return render(request, self.template_name, context)
+
+def alllink(request):
+    return render(request, 'home/all.html', {})

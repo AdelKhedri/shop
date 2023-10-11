@@ -7,12 +7,11 @@ class Shop(models.Model):
     username = models.CharField(max_length=150, unique=True, verbose_name="ایدی")
     description = models.CharField(max_length=500, null=True, blank=True, verbose_name="درباره")
     manager = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="مدیر")
-    small_image = models.ImageField(upload_to='images/shops/',null=True, blank=True, verbose_name="عکس")
-    banner_image = models.ImageField(upload_to='images/shops/',null=True, blank=True, verbose_name="بنر")
+    small_image = models.ImageField(upload_to='images/shops/', default='images/shops/default-image-small.png' ,null=True, blank=True, verbose_name="عکس")
+    banner_image = models.ImageField(upload_to='images/shops/', default='images/shops/default-image-banner.png' ,null=True, blank=True, verbose_name="بنر")
     is_active = models.BooleanField(default=False, verbose_name="فعال")
     phone_number = models.IntegerField(null=True, blank=True, verbose_name="شماره تلفن")
-    social_address_count = models.IntegerField(default=0, verbose_name="تعداد ادرس شبکه های اجتماعی")
-    
+
     class Meta:
         verbose_name = "فروشگاه"
         verbose_name_plural = "فروشگاها"

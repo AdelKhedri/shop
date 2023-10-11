@@ -208,14 +208,33 @@
                     </li>
 
                     <li class="menu-header small text-uppercase">
-                        <span id="dark_mode_text" class="menu-header-text">ابزار های سایت</span>
+                        <span id="dark_mode_text" class="menu-header-text">مدیریت و ساخت فروشگاه</span>
                     </li>
-
-                    <li class="menu-item {% block active8 %}{% endblock %}">
-                        <a href="/dashboard/shortlink/" class="menu-link">
-                            <i class="menu-icon tf-icons bx bx-home-circle"></i>
-                            <div id="dark_mode_text" data-i18n="Analytics">کوتاه کننده لینک</div>
+                    
+                    <li class="menu-item {% block open3 %}{% endblock %}">
+                        <a href="javascript:void(0);" class="menu-link menu-toggle">
+                            <i class="menu-icon tf-icons bx bx-layout"></i>
+                            <div id="dark_mode_text" data-i18n="Layouts">مدیریت فروشگاهها</div>
                         </a>
+
+                        <ul class="menu-sub">
+
+                            <li class="menu-item {% block open3-active1 %}{% endblock %}">
+                                <a href="/shops/add/" class="menu-link">
+                                    <div id="dark_mode_text" data-i18n="Fluid">ساخت و نمایش فروشگاه</div>
+                                </a>
+                            </li>
+                            <li class="menu-item  {% block open3-active2 %}{% endblock %}">
+                                <a href="/payment/request-payment/" class="menu-link">
+                                    <div id="dark_mode_text" data-i18n="Without menu">درخواست برداشت</div>
+                                </a>
+                            </li>
+                            <li class="menu-item {% block open3-active3 %}{% endblock %}">
+                                <a href="/payment/request-payment/" class="menu-link">
+                                    <div id="dark_mode_text" data-i18n="Without navbar">تاریخچه تراکنش ها</div>
+                                </a>
+                            </li>
+                        </ul>
                     </li>
 
                     <li class="menu-item {% block active9 %}{% endblock %}">
