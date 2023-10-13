@@ -1,3 +1,31 @@
+.bd-callout {
+padding: 1.25rem;
+margin-top: 1.25rem;
+margin-bottom: 1.25rem;
+border: 1px solid #e9ecef;
+    border-right-width: 1px;
+    border-right-color: rgb(233, 236, 239);
+border-right-width: .25rem;
+border-radius: .25rem;
+}
+
+.bg-card-info {
+border-right-color: #5bc0de;
+}
+
+.card-warning {
+    color: #ffda6a;;
+    background-color: #846b0f;
+    border-right-color: #ffbf00;
+}
+
+.bd-callout-warning {
+--bd-callout-color: var(--bs-warning-text-emphasis);
+--bd-callout-bg: var(--bs-warning-bg-subtle);
+--bd-callout-border: var(--bs-warning-border-subtle);
+}
+
+/*  */
 .div-bg {
     background: url(../images/background.jpg);
     background-position: center center;

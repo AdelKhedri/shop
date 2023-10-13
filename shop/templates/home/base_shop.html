@@ -138,10 +138,10 @@
                 <ul class="menu-inner py-1">
 
                     <!-- Dashboard -->
-                    <li class="menu-item {% block active1 %}{% endblock %}">
-                        <a href="index-2.html" class="menu-link">
+                    <li class="menu-item {% block active0 %}{% endblock %}">
+                        <a href="/shops/managment/{{shop_username}}" class="menu-link">
                             <i class="menu-icon tf-icons bx bx-home-circle"></i>
-                            <div id="dark_mode_text" data-i18n="Analytics">داشبورد</div>
+                            <div id="dark_mode_text" data-i18n="Without menu">داشبورد</div>
                         </a>
                     </li>
 
@@ -149,14 +149,14 @@
                     <li class="menu-item {% block open1 %}{% endblock %}">
                         <a href="javascript:void(0);" class="menu-link menu-toggle">
                             <i class="menu-icon tf-icons bx bx-layout"></i>
-                            <div id="dark_mode_text" data-i18n="Layouts">پروفایل</div>
+                            <div id="dark_mode_text" data-i18n="Layouts">مدیریت محصولات و لیست ها</div>
                         </a>
 
                         <ul class="menu-sub">
 
                             <li class="menu-item  {% block open1-active1 %}{% endblock %}">
-                                <a href="/profile/" class="menu-link">
-                                    <div id="dark_mode_text" data-i18n="Without menu">ویرایش مشخصات</div>
+                                <a href="/shops/managment/{{shop_username}}/products/" class="menu-link">
+                                    <div id="dark_mode_text" data-i18n="Without menu">مدیریت محصولات</div>
                                 </a>
                             </li>
                             <li class="menu-item {% block open1-active2 %}{% endblock %}">

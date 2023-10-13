@@ -1,0 +1,38 @@
+{% extends 'home/base.html' %}
+
+{% load static %}
+{% block title %}مدیریت فروشگاهها{% endblock %}
+{% block open3 %}
+open
+{% endblock %}
+{% block open3-active2 %}
+active
+{% endblock %}
+{% block content %}
+<div class="cintainer">
+	<div class="row">
+		<div class="row row-cols-1 row-cols-lg-4 row-cols-md-3 row-cols-sm-2 g-4">
+			{% for shop in shop_list %}
+			<div class="col">
+				<div class="card h-100">
+					<img src="{{shop.small_image.url}}" class="card-img-top" alt="...">
+					<div class="card-body">
+						<h5 class="card-title">{{shop.name}}</h5>
+						<p class="card-text">{{shop.description | truncatechars:70}}</p>
+						<a href="/shops/delete/{{shop.username}}" class="btn btn-danger m-1">جذف</a>
+						<a href="/shops/edite/{{shop.username}}/" class="btn btn-warning m-1">ویرایش</a>
+						<a href="/shops/managment/{{shop.username}}/" class="btn btn-primary m-1">مدیریت فروشگاها</a>
+					</div>
+
+					<div class="card-footer">
+						<small class="text-muted">{{shop.username}}</small>
+					</div>
+				</div>
+			</div>
+			{% endfor %}
+		</div>
+	</div>
+
+	<!-- </div> -->
+</div>
+{% endblock %}

@@ -1,0 +1,56 @@
+{% extends 'home/base_shop.html' %}
+
+{% load static %}
+{% block title %}مدیریت فروشگاهها{% endblock %}
+{% block active0 %}
+active
+{% endblock %}
+{% block content %}
+<div class="cintainer">
+	<div class="row">
+		<div class="container px-3">
+			<div class="card">
+				<div class="row">
+					<div class="col-lg-3 col-md-4 col-sm-10">
+						<div class="bd-callout bg-card-warning card-warning">نام فروشگاه: </div>
+					</div>
+					<div class="col-lg-3 col-md-4 col-sm-10">
+						<div class="bd-callout bg-card-warning card-warning ">ایدی فروشگاه: </div>
+					</div>
+					<div class="col-lg-3 col-md-4 col-sm-10">
+						<div class="bd-callout bg-card-warning card-warning">وضعیت: </div>
+					</div>
+					<div class="col-lg-3 col-md-4 col-sm-10">
+						<div class="bd-callout bg-card-warning card-warning">مدیر: </div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row row-cols-1 row-cols-lg-4 row-cols-md-3 row-cols-sm-2 g-4">
+			<div class="card border-primary mb-3 mx-3" style="max-width: 18rem;">
+				<div class="card-header">تعداد فروش</div>
+				<div class="card-body text-primary">
+				  <h5 class="card-title">این هفته</h5>
+				  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+				</div>
+			  </div>
+			  <div class="card border-primary mb-3 mx-3" style="max-width: 18rem;">
+				<div class="card-header">مبلغ فروش</div>
+				<div class="card-body text-primary">
+				  <h5 class="card-title">این هفته</h5>
+				  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+				</div>
+			  </div>
+			  <div class="card border-primary mb-3 mx-3" style="max-width: 18rem;">
+				<div class="card-header">کل کالاها</div>
+				<div class="card-body text-primary">
+				  <h5 class="card-title">تعداد 2223</h5>
+				  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+				</div>
+			  </div>
+		</div>
+	</div>
+
+	<!-- </div> -->
+</div>
+{% endblock %}

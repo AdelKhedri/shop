@@ -1,7 +1,8 @@
-from django.shortcuts import render, redirect
-from django.views import View
-from .models import Shop
-from .forms import (ShopAddForm, ShopEditeForm)
+from django.shortcuts import render, redirect, HttpResponseRedirect
+from django.views.generic import View, ListView
+from .models import Shop, Product, Category, ProductImage
+from .forms import (ShopAddForm, ShopEditeForm,)
+
 # Create your views here.
 
 
@@ -73,3 +74,87 @@ class ShopDeleteView(View):
     def get(self, request, username):
         shop = Shop.objects.get(username=username, manager=request.user).delete()
         return redirect('add shop')
+
+
+class ShopManagerView(ListView):
+    template_name = 'shopapp/shops_manager.html'
+    paginate_by = 12
+    context_object_name = 'shop_list'
+
+    def get_queryset(self):
+        query = Shop.objects.filter(manager=self.request.user)
+        return query
+    
+
+class ShopMnagementView(View):
+    template_name = 'shopapp/shop_dashboard.html'
+
+    def setup(self, request, username, *args, **kwargs):
+        self.shop = Shop.objects.get(username=username, manager=request.user)
+        self.context = {
+            'shop': self.shop,
+            'shop_username': self.shop.username,
+        }
+        return super().setup(request, username, *args, **kwargs)
+    
+    def get(self, request, username):
+        return render(request, self.template_name, self.context)
+
+
+class ShopAddListProductView(View):
+    template_name = 'shopapp/shop_product.html'
+
+    def setup(self, request, username, *args, **kwargs):
+        # self.form_class = AddProductForm()
+        self.products = Product.objects.filter(shop__username=username, shop__manager=request.user)
+        self.context = {
+            # 'form_add_product': self.form_class,
+            'products_list': self.products,
+            'shop_username': username,
+        }
+        return super().setup(request, username,*args,**kwargs)
+    
+    def get(self, request, username):
+        return render(request, self.template_name, self.context)
+    
+    def post(self, request, username):
+        # form = AddProductForm(request.POST)
+        print(request.body)
+        # if form.is_valid():
+        name = request.POST['name']
+        max_sel = request.POST['max_sel']
+        price = request.POST['price']
+        # shop = form.cleaned_data['shop']
+        category = request.POST['category']
+        description = request.POST['description']
+        if category:
+            product = Product.objects.create(name=name, max_sel=max_sel, price=price, shop=Shop.objects.get(username=username), category=Category.objects.get(name=category), description=description)
+        else:
+            product = Product.objects.create(name=name, max_sel=max_sel, price=price, shop=Shop.objects.get(username=username), description=description)
+        self.context.update({'msg': 'success'})
+        list_images = []
+        number = 1
+        while True:
+            if f'image_{number}' in request.body:
+                list_images.append(f'image_{number}')
+            else:
+                break
+        print(list_images)
+        images = 0
+        for image in list_images:
+            ProductImage.objects.create(product=product, image=request.POST[image])
+            images += 1
+        self.context.update({'img_count': images})
+        # else:
+        #     print(22222)
+        #     self.context.update({'msg': 'filed'})
+        return render(request, self.template_name, self.context)
+
+
+class DeleteProduct(View):
+    def get(self, request, username, pk):
+        if Shop.objects.filter(username=username, manager=request.user).exists():
+            Product.objects.get(pk=pk).delete()
+            return HttpResponseRedirect(redirect_to=f'/shops/managment/{username}/products/')
+        else:
+            return render(request, 'home/403.html', {})
