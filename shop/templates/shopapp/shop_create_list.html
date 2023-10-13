@@ -11,63 +11,63 @@ active
 {% block content %}
 <div class="cintainer">
 	<!-- <div class=""> -->
-		<div class="row my-2">
-			<div class="card">
-				<form action="" method="post" enctype="multipart/form-data">
-					{% csrf_token %}
-					<div class="row p-3">
-						{% if msg == "success" %}
-						<p class="bg-warning text-danger rounded rounded-2">ساخت فروشگاه موفقیت امیز بود.</p>
-						{% elif msg == "failed" %}
-						<p class="bg-warning text-danger rounded rounded-2">ساخت فروشگاه ناموفق بود.</p>
-						{% endif %}
-						<div class="col-md-6 py-2">
-							<div class="input-group">
-								{{form_shop.name}}
-								<!-- <input type="number" class="form-control" placeholder="شماره کارت"> -->
-								<span class="input-group-text" id="basic-addon13">نام</span>
-							</div>
-						</div>
-						<div class="col-md-6 py-2">
-							<div class="input-group">
-								{{form_shop.username}}
-								{% if msg == "username" %}
-								<p class="bg-warning">یوزرنیم استفاده شده</p>
-								{% endif %}
-								<!-- <input type="number" class="form-control" placeholder="شماره شبا"> -->
-								<span class="input-group-text" id="basic-addon13">یوزرنیم(ادرس)</span>
-							</div>
-						</div>
-						<div class="col-md-6 py-2">
-							<div class="input-group">
-								{{form_shop.phone_number}}
-								<!-- <input type="number" class="form-control" placeholder="شماره کارت"> -->
-								<span class="input-group-text" id="basic-addon13">شماره تلفن</span>
-							</div>
-						</div>
-						<div class="col-md-6 py-2">
-							<div class="input-group">
-								{{form_shop.small_image}}
-								<!-- <input type="number" class="form-control" placeholder="شماره کارت"> -->
-								<span class="input-group-text" id="basic-addon13">عکس پروفایل</span>
-							</div>
-						</div>
-						<div class="col-md-6 py-2">
-							<div class="input-group">
-								{{form_shop.banner_image}}
-								<!-- <input type="number" class="form-control" placeholder="شماره کارت"> -->
-								<span class="input-group-text" id="basic-addon13">عکس بنر</span>
-							</div>
-						</div>
-						<div class="col-10 col-sm-12 py-2">
-							<h5>توضیحات</h4>
-								{{form_shop.description}}
+	<div class="row my-2">
+		<div class="card">
+			<form action="" method="post" enctype="multipart/form-data">
+				{% csrf_token %}
+				<div class="row p-3">
+					{% if msg == "success" %}
+					<p class="bg-warning text-danger rounded rounded-2">ساخت فروشگاه موفقیت امیز بود.</p>
+					{% elif msg == "failed" %}
+					<p class="bg-warning text-danger rounded rounded-2">ساخت فروشگاه ناموفق بود.</p>
+					{% endif %}
+					<div class="col-md-6 py-2">
+						<div class="input-group">
+							{{form_shop.name}}
+							<!-- <input type="number" class="form-control" placeholder="شماره کارت"> -->
+							<span class="input-group-text" id="basic-addon13">نام</span>
 						</div>
 					</div>
-					<button type="submit" class="btn btn-danger my-2 mb-3">ثبت</button>
-				</form>
-			</div>
+					<div class="col-md-6 py-2">
+						<div class="input-group">
+							{{form_shop.username}}
+							{% if msg == "username" %}
+							<p class="bg-warning">یوزرنیم استفاده شده</p>
+							{% endif %}
+							<!-- <input type="number" class="form-control" placeholder="شماره شبا"> -->
+							<span class="input-group-text" id="basic-addon13">یوزرنیم(ادرس)</span>
+						</div>
+					</div>
+					<div class="col-md-6 py-2">
+						<div class="input-group">
+							{{form_shop.phone_number}}
+							<!-- <input type="number" class="form-control" placeholder="شماره کارت"> -->
+							<span class="input-group-text" id="basic-addon13">شماره تلفن</span>
+						</div>
+					</div>
+					<div class="col-md-6 py-2">
+						<div class="input-group">
+							{{form_shop.small_image}}
+							<!-- <input type="number" class="form-control" placeholder="شماره کارت"> -->
+							<span class="input-group-text" id="basic-addon13">عکس پروفایل</span>
+						</div>
+					</div>
+					<div class="col-md-6 py-2">
+						<div class="input-group">
+							{{form_shop.banner_image}}
+							<!-- <input type="number" class="form-control" placeholder="شماره کارت"> -->
+							<span class="input-group-text" id="basic-addon13">عکس بنر</span>
+						</div>
+					</div>
+					<div class="col-10 col-sm-12 py-2">
+						<h5>توضیحات</h4>
+							{{form_shop.description}}
+					</div>
+				</div>
+				<button type="submit" class="btn btn-danger my-2 mb-3">ثبت</button>
+			</form>
 		</div>
+	</div>
 	<div class="row">
 		<div class="card">
 			<h5 class="card-header">لیست فروشگاه ها</h5>
@@ -102,8 +102,10 @@ active
 									<button type="button" class="btn p-0 dropdown-toggle hide-arrow"
 										data-bs-toggle="dropdown"><i class="bx bx-dots-vertical-rounded"></i></button>
 									<div class="dropdown-menu">
-										<a class="dropdown-item" href="/shops/edite/{{shop.username}}/"><i class=" me-1"></i>ویرایش</a>
-										<a class="dropdown-item" href="/shops/delete/{{shop.username}}/"><i class=" me-1"></i>حذف</a>
+										<a class="dropdown-item" href="/shops/edite/{{shop.username}}/"><i
+												class=" me-1"></i>ویرایش</a>
+										<a class="dropdown-item" href="/shops/delete/{{shop.username}}/"><i
+												class=" me-1"></i>حذف</a>
 									</div>
 								</div>
 							</td>

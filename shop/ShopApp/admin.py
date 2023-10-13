@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import Category, Product, Shop, Social
+from .models import Category, Product, Shop, Social, ProductImage
 # Register your models here.
 
 class ShopRegister(admin.ModelAdmin):
@@ -23,3 +23,4 @@ admin.site.register(Shop, ShopRegister)
 admin.site.register(Category, CategoryRegister)
 admin.site.register(Product, ProductRegister)
 admin.site.register(Social, SocialRegister)
+admin.site.register(ProductImage)

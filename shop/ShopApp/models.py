@@ -81,3 +81,15 @@ class Product(models.Model):
     
     def __str__(self):
         return self.name
+
+
+class ProductImage(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name="محصول")
+    image = models.ImageField(upload_to='images/products/', verbose_name="عکس محصول")
+
+    class Meta:
+        verbose_name = "عکس محصول"
+        verbose_name_plural = "عکس محصولات"
+
+    def __str__(self):
+        return self.product.name
