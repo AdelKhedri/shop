@@ -1,0 +1,67 @@
+{% extends 'home/base_shop.html' %}
+
+{% load static %}
+{% block title %}درخواست برداشت و پرداخت{% endblock %}
+{% block open1 %}
+open
+{% endblock %}
+{% block open1-active2 %}
+active
+{% endblock %}
+{% block content %}
+<div class="cintainer">
+	<div class="row">
+		{% if msg == 'success' %}
+			<div class="card bg-success">
+				ویرایش موفقیت امیز بود.
+			</div>
+		{% elif msg == 'filed' %}
+		<div class="card bg-warring">
+			ویرایش با خطا مواجح شد.
+		</div>
+		{% endif %}
+	</div>
+	<div class="row">
+        <div class="card">
+            <div class="col-lg-10">
+                <div class="row">
+                    <form action="" method="post" class="row g-3" >
+					{% csrf_token %}
+                        <div class="col-md-6">
+                            <label for="inputEmail4" class="form-label">نام</label>
+							{{form.name}}
+                            
+                        </div>
+                        <div class="col-md-6">
+                            <label for="inputPassword4" class="form-label">نمایش لیست در فروشگاه</label>
+							{{form.for_sell}}
+                            
+                        </div>
+                        <div class="col-6">
+                            <label for="inputAddress" class="form-label">ترتیب ازبالابه پایین</label>
+							{{form.number_ordering}}
+                            
+                        </div>
+                        <div class="col-md-6">
+                            <label for="inputState" class="form-label">محصولات این فروشگاه</label>
+                            <select multiple id="inputState" id="products" name="products" class="form-select">
+								{% for product in products_list %}
+									{% if product in category.products.all %}
+                                	<option selected value="{{product.id}}">{{product}}</option>
+									{% else %}
+									<option value="{{product.id}}">{{product}}</option>
+									{% endif %}
+								{% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="col-12 mb-2">
+                            <button type="submit" class="btn btn-primary">ثبت محصول</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

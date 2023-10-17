@@ -12,7 +12,7 @@ class CategoryRegister(admin.ModelAdmin):
     list_display = ('name', 'shop', 'for_sell',)
 
 class ProductRegister(admin.ModelAdmin):
-    list_display = ('name', 'price', 'shop', 'category',)
+    list_display = ('name', 'price', 'shop',)
     list_filter = ('shop',)
     search_fields = ('name', 'shop', 'description',)
 

@@ -9,6 +9,7 @@ class User(AbstractUser):
     phone_number = models.IntegerField(unique=True, null=True, blank=True, verbose_name="شماره تلفن")
     is_active = models.BooleanField(default=False, verbose_name="اجازه ورود")
     USERNAME_FIELD = 'phone_number'
+    REQUIRED_FIELDS = ['email', 'username']
     class Meta:
         verbose_name = "کاربر"
         verbose_name_plural = "کاربران"
@@ -17,7 +18,7 @@ class User(AbstractUser):
         return str(self.phone_number)
 
 class Profile(models.Model):
-    image = models.ImageField(upload_to="images/profiles/", blank=True, null=True,verbose_name="عکس پروفایل")
+    image = models.ImageField(upload_to="images/profiles/", default='images/profiles/default-image-profile.png', blank=True, null=True,verbose_name="عکس پروفایل")
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     coin = models.IntegerField(default=0, verbose_name="موجودی(ریال)")
     invaited =  models.CharField(max_length=100, verbose_name="افراد دعوت شده", blank=True, null=True)

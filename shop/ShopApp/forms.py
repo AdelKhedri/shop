@@ -1,6 +1,6 @@
 from django import forms
 from django.core.exceptions import ValidationError
-from .models import Shop
+from .models import Shop, Category
 
 
 attr = {'class':'form-control'}
@@ -38,3 +38,16 @@ class ShopEditeForm(forms.ModelForm):
 #     # shop = forms.IntegerField(widget=forms.NumberInput(attrs=attr))
 #     category = forms.IntegerField(required=False, widget=forms.NumberInput(attrs=attr))
 #     description = forms.CharField(max_length=400, required=False, widget=forms.Textarea(attrs=attr))
+
+
+class CreateCategorysForm(forms.Form):
+    name = forms.CharField(widget=forms.TextInput(attrs=attr))
+    for_sell = forms.BooleanField(required=False, widget=forms.CheckboxInput(attrs={'class': 'form-check-input'}))
+    number_ordering = forms.IntegerField(required=False, widget=forms.NumberInput(attrs=attr))
+    # products = forms.MultipleChoiceField(widget=forms.SelectMultiple(attrs=attr))
+
+
+class EditeCategoryForm(forms.Form):
+    name = forms.CharField(widget=forms.TextInput(attrs=attr))
+    for_sell = forms.BooleanField(required=False, widget=forms.CheckboxInput(attrs={'class':'form-check-input'}))
+    number_ordering = forms.IntegerField(widget=forms.NumberInput(attrs=attr))
