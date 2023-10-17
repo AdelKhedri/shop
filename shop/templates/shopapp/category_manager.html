@@ -1,0 +1,100 @@
+{% extends 'home/base_shop.html' %}
+
+{% load static %}
+{% block title %}درخواست برداشت و پرداخت{% endblock %}
+{% block open1 %}
+open
+{% endblock %}
+{% block open1-active2 %}
+active
+{% endblock %}
+{% block content %}
+<div class="cintainer">
+	<div class="row">
+        <div class="card">
+            <div class="col-lg-10">
+                <div class="row">
+                    <form action="" method="post" class="row g-3" >
+					{% csrf_token %}
+                        <div class="col-md-6">
+                            <label for="inputEmail4" class="form-label">نام</label>
+							{{form.name}}
+                            
+                        </div>
+                        <div class="col-md-6">
+                            <label for="inputPassword4" class="form-label">نمایش لیست در فروشگاه</label>
+							{{form.for_sell}}
+                            
+                        </div>
+                        <div class="col-6">
+                            <label for="inputAddress" class="form-label">ترتیب ازبالابه پایین</label>
+							{{form.number_ordering}}
+                            
+                        </div>
+                        <div class="col-md-6">
+                            <label for="inputState" class="form-label">محصولات این فروشگاه</label>
+                            <select multiple id="inputState" id="products" name="products" class="form-select">
+								{% for product in products_list %}
+                                <option value="{{product.id}}">{{product}}</option>
+								{% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="col-12 mb-2">
+                            <button type="submit" class="btn btn-primary">ثبت محصول</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row py-3">
+		<div class="card">
+			<h5 class="card-header">لیست دسته بندی ها</h5>
+			<div class="table-responsive text-nowrap">
+				<table class="table">
+					<thead>
+						<tr>
+							<th>نام</th>
+							<th>شماره دسته بندی</th>
+							<td>نوع دستته بندی</td>
+							<th>بیشتر</th>
+						</tr>
+					</thead>
+					{% for category in categorys %}
+					<tbody class="table-border-bottom-0">
+						<tr>
+							<td><i class="fab fa-angular fa-lg text-danger me-3"></i>
+								<strong>{{category.name}}</strong>
+							</td>
+							<td>
+								<p>{{category.number_ordering}}</p>
+							</td>
+							<td>
+								{% if category.for_sell %}
+								<span class="badge bg-label-success me-1">عمومی</span>
+								{% else %}
+								<span class="badge bg-label-danger me-1">شخصی</span>
+								{% endif %}
+							</td>
+							<td>
+								<div class="dropdown">
+									<button type="button" class="btn p-0 dropdown-toggle hide-arrow"
+										data-bs-toggle="dropdown"><i class="bx bx-dots-vertical-rounded"></i></button>
+									<div class="dropdown-menu">
+										<a class="dropdown-item" href="/shops/managment/{{shop_username}}/categorys/edite/{{category.id}}/"><i
+												class=" me-1"></i>ویرایش</a>
+										<a class="dropdown-item" href="/shops/managment/{{shop_username}}/categorys/delete/{{category.id}}"><i
+												class=" me-1"></i>حذف</a>
+									</div>
+								</div>
+							</td>
+						</tr>
+					</tbody>
+					{% endfor %}
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

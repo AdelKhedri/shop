@@ -1,5 +1,6 @@
 from django.db import models
 from members.models import User
+import time
 # Create your models here.
 
 class Shop(models.Model):
@@ -53,18 +54,6 @@ class Social(models.Model):
     def __str__(self):
         return f"{self.name} of {self.shop}"
 
-class Category(models.Model):
-    name = models.CharField(max_length=150, verbose_name="نام")
-    shop = models.ForeignKey(Shop, on_delete=models.CASCADE, verbose_name="فروشگاه")
-    for_sell = models.BooleanField(default=False, verbose_name="برای نمایش در صفحه اول فروشگاه")
-    number_ordering = models.IntegerField(verbose_name="شماره ردیف",null=True, blank=True)
-    
-    class Meta:
-        verbose_name = "دسته بندی"
-        verbose_name_plural = "دسته بندی ها"
-    
-    def __str__(self):
-        return self.name
 
 
 class Product(models.Model):
@@ -72,7 +61,6 @@ class Product(models.Model):
     max_sel = models.IntegerField(null=True, blank=True, verbose_name="حداکثر فروش(تعداد فروش)")
     price = models.IntegerField(default=0, verbose_name="قیمت")
     shop = models.ForeignKey(Shop, on_delete=models.CASCADE, verbose_name="فروشگاه")
-    category = models.ForeignKey(Category,null=True, blank=True, on_delete=models.CASCADE, verbose_name="دسته بندی")
     description = models.CharField(max_length=400,null=True, blank=True, verbose_name="درباره")
     class Meta:
         verbose_name = "محضول"
@@ -83,6 +71,21 @@ class Product(models.Model):
         return self.name
 
 
+class Category(models.Model):
+    name = models.CharField(max_length=150, verbose_name="نام")
+    shop = models.ForeignKey(Shop, on_delete=models.CASCADE, verbose_name="فروشگاه")
+    for_sell = models.BooleanField(default=False, verbose_name="برای نمایش در صفحه اول فروشگاه")
+    number_ordering = models.IntegerField(verbose_name="شماره ردیف",null=True, blank=True)
+    products = models.ManyToManyField(Product, verbose_name="محصولات")
+    
+    class Meta:
+        verbose_name = "دسته بندی"
+        verbose_name_plural = "دسته بندی ها"
+    
+    def __str__(self):
+        return self.name
+    
+
 class ProductImage(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name="محصول")
     image = models.ImageField(upload_to='images/products/', verbose_name="عکس محصول")
@@ -90,6 +93,20 @@ class ProductImage(models.Model):
     class Meta:
         verbose_name = "عکس محصول"
         verbose_name_plural = "عکس محصولات"
+
+    def __str__(self):
+        return self.product.name
+
+
+class BuyProduct(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name="محصول")
+    price = models.IntegerField()
+    shop = models.ForeignKey(Shop, on_delete=models.CASCADE, verbose_name="فروشگاه")
+    time = models.IntegerField(default=int(time.time()), verbose_name="زمان")
+
+    class Meta:
+        verbose_name = "محصول خریداری شده"
+        verbose_name_plural = "محصولات خریداری شده"
 
     def __str__(self):
         return self.product.name

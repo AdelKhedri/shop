@@ -7,5 +7,10 @@ urlpatterns = [
     path('manager', views.ShopManagerView.as_view(), name="shop manager"),
     path('managment/<str:username>/', views.ShopMnagementView.as_view(), name="management"),
     path('managment/<str:username>/products/', views.ShopAddListProductView.as_view(), name="add product"),
-    path('managment/<str:username>/delete/<int:pk>/', views.DeleteProduct.as_view(), name='delete product'),
+    path('managment/<str:username>/delete/<int:pk>/', views.DeleteProductView.as_view(), name='delete product'),
+    path('managment/<str:username>/details/<int:pk>', views.DetailsProductView.as_view(), name='details product'),
+    path('managment/<str:username>/categorys/', views.CategoryManagerView.as_view(), name="categorys manager"),
+    path('managment/<str:username>/categorys/delete/<int:pk>', views.DeleteCategoryView.as_view(), name="delete category"),
+    path('managment/<str:username>/categorys/edite/<int:pk>/', views.EditeCategoryView.as_view(), name="edite category"),
+
 ]
