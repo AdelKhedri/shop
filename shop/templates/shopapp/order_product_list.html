@@ -1,0 +1,51 @@
+{% extends 'home/base_shop.html' %}
+
+{% load static %}
+{% block title %}درخواست برداشت و پرداخت{% endblock %}
+
+{% block open1 %}
+open
+{% endblock %}
+{% block open1-active3 %}
+active
+{% endblock %}
+
+{% block content %}
+<div class="cintainer">
+    <div class="row py-3">
+		<div class="card">
+			<h5 class="card-header">لیست فروش ها</h5>
+			<div class="table-responsive text-nowrap">
+				<table class="table">
+					<thead>
+						<tr>
+							<th>نام</th>
+							<th>قیمت</th>
+							<td>فروشگاه</td>
+							<th>زمان</th>
+						</tr>
+					</thead>
+					{% for order in orders_list %}
+					<tbody class="table-border-bottom-0">
+						<tr>
+							<td><i class="fab fa-angular fa-lg text-danger me-3"></i>
+								<strong>{{order.product}}</strong>
+							</td>
+							<td>
+								<p>{{order.price}}</p>
+							</td>
+							<td>
+								{{order.shop}}
+							</td>
+							<td>
+								{{order.time}}
+							</td>
+						</tr>
+					</tbody>
+					{% endfor %}
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+{% endblock %}

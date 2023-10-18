@@ -1,4 +1,4 @@
-{% extends 'home/base.html' %}
+{% extends 'home/base_shop.html' %}
 {% load static %}
 {% block title %}درخواست برداشت و پرداخت{% endblock %}
 {% block open2 %}
@@ -10,6 +10,31 @@ active
 {% block content %}
 <div class="cintainer">
 	<!-- <div class=""> -->
+		<div class="row py-2">
+				{% if msg == 'success' %}
+					<div class="card bg-success">
+						ویرایش موفقیت امیز بود.
+					</div>
+				{% elif msg == 'filed' %}
+				<div class="card bg-warring">
+					ویرایش با خطا مواجح شد.
+				</div>
+				{% endif %}
+				{% if msg == 'shop lowe coin' %}
+					<div class="card bg-success">
+						موجودی فروشگاه انتخابی کم است
+					</div>
+				{% elif msg == 'shop not active' %}
+				<div class="card bg-warring">
+					فروشگاه انتخابی شما غیرفعال است
+				</div>
+				{% elif msg == 'shop not found' %}
+				<div class="card bg-warring">
+					فروشگاه انتخابی پیدا نشد.
+				</div>
+				{% endif %}
+				
+		</div>
 	<div class="row my-2">
 		<div class="card">
 			<form action="" method="post">
@@ -32,12 +57,21 @@ active
 						<p class="bg-warning text-danger rounded rounded-2">مقدار وارد شده از موجودی شما کمتر است.</p>
 						{% endif %}
 					</div>
-					<div class="col-10 col-sm-12 py-2">
+					<div class="col-md-6 col-sm-12 py-2">
 						<h5>کارت</h4>
 						<Select class="form-control" name="card" id="card">
 							<option value="" selected>--انتخاب کنید--</option>
 							{% for card in cards %}
 							<option value="{{card.id}}">{{card.card_number}}</option>
+							{% endfor %}
+						</Select>
+					</div>
+					<div class="col-md-6 col-sm-12 py-2">
+						<h5>کارت</h4>
+						<Select class="form-control" name="shop_username" id="shop_username">
+							<option value="" selected>--انتخاب کنید--</option>
+							{% for shop in shops_list %}
+							<option value="{{shop.username}}">{{shop.name}}: {{shop.username}}</option>
 							{% endfor %}
 						</Select>
 					</div>

@@ -59,6 +59,7 @@
     </script>
     <!-- beautify ignore:end -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    {% block links %}{% endblock %}
 
 </head>
 
@@ -165,13 +166,13 @@
                                 </a>
                             </li>
                             <li class="menu-item {% block open1-active3 %}{% endblock %}">
-                                <a href="/profile/notifacations" class="menu-link">
-                                    <div id="dark_mode_text" data-i18n="Container">اعلانات و هشدارها</div>
+                                <a href="/shops/managment/{{shop_username}}/orderproducts" class="menu-link">
+                                    <div id="dark_mode_text" data-i18n="Container">لیست فروش ها</div>
                                 </a>
                             </li>
                             <li class="menu-item {% block open1-active4 %}{% endblock %}">
-                                <a href="/profile/adds/" class="menu-link">
-                                    <div id="dark_mode_text" data-i18n="Blank">تبلیغات در سایت</div>
+                                <a href="/shops/managment/{{shop_username}}/info-sells" class="menu-link">
+                                    <div id="dark_mode_text" data-i18n="Blank">جزیات فروش ها</div>
                                 </a>
                             </li>
                         </ul>
@@ -195,7 +196,7 @@
                                 </a>
                             </li>
                             <li class="menu-item  {% block open2-active2 %}{% endblock %}">
-                                <a href="/payment/request-payment/" class="menu-link">
+                                <a href="/shops/managment/{{shop_username}}/request-payment/" class="menu-link">
                                     <div id="dark_mode_text" data-i18n="Without menu">درخواست برداشت</div>
                                 </a>
                             </li>

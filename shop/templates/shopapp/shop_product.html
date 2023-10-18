@@ -22,7 +22,7 @@ active
     {% endif %}
     {% if img_count %}
     <div class="alert alert-info" role="alert">
-        {{img_count}}
+        برای این محصول {{img_count}} اضافه شد
     </div>
     {% endif %}
     <div class="row">
@@ -33,29 +33,30 @@ active
                         {% csrf_token %}
                         <div class="col-md-6">
                             <label for="inputEmail4" class="form-label">نام</label>
-                            <input type="text" required="required" class="form-control" id="inputEmail4">
+                            <input type="text" required="required" class="form-control" name="name" id="name">
                             
                         </div>
                         <div class="col-md-6">
                             <label for="inputPassword4" class="form-label">حد اکثر فروش</label>
-                            <input type="number" required="required" class="form-control" id="inputPassword4">
+                            <input type="number" required="required" class="form-control" name="max_sel" id="max_sel">
                             
                         </div>
                         <div class="col-6">
                             <label for="inputAddress" class="form-label">قیمت</label>
-                            <input type="number" required="required" class="form-control" id="inputAddress">
+                            <input type="number" required="required" class="form-control" name="price" id="price">
                             
                         </div>
                         <div class="col-md-6">
                             <label for="inputState" class="form-label">دسته بندی</label>
-                            <select id="inputState" class="form-select">
-                                <option selected>Choose...</option>
-                                <option>...</option>
+                            <select multiple name="category" id="category" class="form-select">
+                                {% for category in categorys_list %}
+                                <option value="{{category.id}}">{{category.name}}</option>
+                                {% endfor %}
                             </select>
                         </div>
                         <div class="col-md-12 mb-2">
                             <label for="inputCity" class="form-label">جزیات</label>
-                            <input type="text" class="form-control" id="inputCity">
+                            <input type="text" class="form-control" name="description" id="description">
                             
                         </div>
 
@@ -69,11 +70,11 @@ active
                                 $('#add_image').click(function () {
                                     count += 1;
                                     $(this).before(`
-                                    <div class="row" id="image_${count}">
+                                    <div class="row">
                                         <div class="row">
                                             <div class="col-md-3 col-sm-4 mb-3">
                                                 <p>عکس</p>
-                                                <input type="file" class="form-control" id="inputGroupFile03" aria-describedby="inputGroupFileAddon03" aria-label="Upload">
+                                                <input type="file" class="form-control" id="image_${count}" name="image_${count}" aria-describedby="inputGroupFileAddon03" aria-label="Upload">
                                             </div>
                                         </div>
                                     </div>
@@ -99,7 +100,6 @@ active
 						<tr>
 							<th>نام</th>
 							<th>حداکثر فروش</th>
-							<td>وضعیت</td>
                             <td>قیمت</td>
 							<th>بیشتر</th>
 						</tr>
@@ -112,13 +112,6 @@ active
 							</td>
 							<td>
 								<p>{{product.max_sel}}</p>
-							</td>
-							<td>
-								{% if product.category %}
-								<span class="badge bg-label-success me-1">{{product.category.name}}</span>
-								{% else %}
-								<span class="badge bg-label-danger me-1">بدون دسته بندی</span>
-								{% endif %}
 							</td>
 							<td>
 								<p>{{product.price}}</p>

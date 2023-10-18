@@ -12,5 +12,7 @@ urlpatterns = [
     path('managment/<str:username>/categorys/', views.CategoryManagerView.as_view(), name="categorys manager"),
     path('managment/<str:username>/categorys/delete/<int:pk>', views.DeleteCategoryView.as_view(), name="delete category"),
     path('managment/<str:username>/categorys/edite/<int:pk>/', views.EditeCategoryView.as_view(), name="edite category"),
-
+    path('managment/<str:username>/orderproducts/', views.OrderListView.as_view(), name='orders product'),
+    path('managment/<str:username>/info-sells', views.InfoSellView.as_view(), name='info sells'),
+    path('managment/<str:username>/request-payment/', views.RequestPaymentView.as_view(), name="request payment"),
 ]
