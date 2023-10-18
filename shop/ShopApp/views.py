@@ -1,8 +1,11 @@
 from django.shortcuts import render, redirect, HttpResponseRedirect
 from django.views.generic import View, ListView
-from .models import Shop, Product, Category, ProductImage
+from .models import Shop, Product, Category, ProductImage, BuyProduct
+from payment.models import Transaction, Card
+from payment.forms import TransactionForm
 from .forms import (ShopAddForm, ShopEditeForm, CreateCategorysForm, EditeCategoryForm)
-
+import datetime
+from django.db.models import Count, Max, Sum
 # Create your views here.
 
 
@@ -106,10 +109,12 @@ class ShopAddListProductView(View):
 
     def setup(self, request, username, *args, **kwargs):
         # self.form_class = AddProductForm()
-        self.products = Product.objects.filter(shop__username=username, shop__manager=request.user)
+        products = Product.objects.filter(shop__username=username, shop__manager=request.user)
+        categorys_list = Category.objects.filter(shop__username=username, shop__manager=request.user)
         self.context = {
             # 'form_add_product': self.form_class,
-            'products_list': self.products,
+            'categorys_list': categorys_list,
+            'products_list': products,
             'shop_username': username,
         }
         return super().setup(request, username,*args,**kwargs)
@@ -119,35 +124,32 @@ class ShopAddListProductView(View):
     
     def post(self, request, username):
         # form = AddProductForm(request.POST)
-        print(request.body)
         # if form.is_valid():
-        name = request.POST['name']
-        max_sel = request.POST['max_sel']
-        price = request.POST['price']
-        # shop = form.cleaned_data['shop']
-        category = request.POST['category']
-        description = request.POST['description']
-        if category:
-            product = Product.objects.create(name=name, max_sel=max_sel, price=price, shop=Shop.objects.get(username=username), category=Category.objects.get(name=category), description=description)
-        else:
-            product = Product.objects.create(name=name, max_sel=max_sel, price=price, shop=Shop.objects.get(username=username), description=description)
-        self.context.update({'msg': 'success'})
+        name = request.POST.get('name')
+        max_sel = request.POST.get('max_sel')
+        price = request.POST.get('price')
+        categorys_list = request.POST.getlist('category')
+        description = request.POST.get('description')
+        product = Product.objects.create(name=name, max_sel=max_sel, price=price, shop=Shop.objects.get(username=username), description=description)
+        if categorys_list:
+            categorys_list_obj=Category.objects.filter(id__in=categorys_list, shop__username=username)
+            for i in categorys_list_obj:
+                i.products.add(product)
+        self.context.update({'msg': 'success',})
         list_images = []
+        files = request.FILES.getlist('image_1')
         number = 1
         while True:
-            if f'image_{number}' in request.body:
+            if request.FILES.getlist(f'image_{number}'):
                 list_images.append(f'image_{number}')
+                number+=1
             else:
                 break
-        print(list_images)
         images = 0
         for image in list_images:
-            ProductImage.objects.create(product=product, image=request.POST[image])
+            ProductImage.objects.create(product=product, image=request.FILES[image])
             images += 1
         self.context.update({'img_count': images})
-        # else:
-        #     print(22222)
-        #     self.context.update({'msg': 'filed'})
         return render(request, self.template_name, self.context)
 
 
@@ -163,11 +165,26 @@ class DeleteProductView(View):
 class DetailsProductView(View):
     def get(self, request, username, pk):
         product = Product.objects.get(shop__username=username, id=pk)
-        images = ProductImage.objects.filter(product=product)
+        images = ProductImage.objects.filter(product__id=pk)
+        categorys = Category.objects.filter(shop__username=username, products=product)
+        print(categorys)
+
+        i = 1
+        today = datetime.datetime.now()
         context = {
             'product': product,
+            'category_lists': categorys,
             'product_images': images, 
+            'shop_username': username,
         }
+        while i <= 7:
+            yesterday = today-datetime.timedelta(days=1)
+            product_info = BuyProduct.objects.filter(product=product, shop__username=username, shop__manager=request.user, time__range=(yesterday, today)).values('price').aggregate(sum_price=Sum('price'), count=Count('price'))
+            # print(product_info)
+            context.update({f'info_{i}_day': product_info, f'info_{i}_day_time': today.date})
+            today=yesterday
+            i+=1
+        i=1
         return render(request, 'shopapp/shop_detail_product.html', context)
 
 
@@ -196,12 +213,11 @@ class CategoryManagerView(View):
             name = form.cleaned_data['name']
             for_sell = form.cleaned_data['for_sell']
             number_ordering = form.cleaned_data['number_ordering']
-            products_str = request.POST['products']
-            products_id = [int(i) for i in products_str]
-            products = Product.objects.filter(id__in=[1, 2, 3], shop__username=username)
+            products_list = request.POST.getlist('products')
+            products_list_obj = Product.objects.filter(id__in=products_list, shop__username=username)
             # print(products_id) warring on get list of all selected values
             c = Category.objects.create(name=name, shop=Shop.objects.get(username=username), for_sell=for_sell, number_ordering=number_ordering)
-            c.products.set(products)
+            c.products.set(products_list_obj)
             self.context.update({'msg': 'success'})
         else:
             self.context.update({'msg': 'failed'})
@@ -238,7 +254,7 @@ class EditeCategoryView(View):
             name = form.cleaned_data['name']
             for_sell = form.cleaned_data['for_sell']
             number_ordering = form.cleaned_data['number_ordering']
-            products_list = request.POST.get('products')
+            products_list = request.POST.getlist('products')
             products_list_obj = Product.objects.filter(id__in=products_list)
             category = Category.objects.get(id=pk, shop__username=username, shop__manager=request.user)
             category.name=name
@@ -253,3 +269,73 @@ class EditeCategoryView(View):
             self.context.update({'msg':'filed'})
         return render(request, self.template_name, self.context)
 
+
+
+class OrderListView(View):
+    def get(self, request, username):
+        orderlist = BuyProduct.objects.filter(shop__username=username, shop__manager=request.user)
+        context = {
+            'orders_list': orderlist,
+            'shop_username': username,
+        }
+        return render(request, 'shopapp/order_product_list.html', context)
+
+
+class InfoSellView(View):
+    def get(self, request, username):
+        i=1
+        context = {'shop_username':username}
+        today = datetime.datetime.now()
+        while i <= 7:
+            yesterday = today-datetime.timedelta(days=1)
+            info_days = BuyProduct.objects.filter(shop__username=username, shop__manager=request.user, time__range=(yesterday,today, ) ).values('price',).aggregate(count=Count('price'), sum_price=Sum('price'))
+            today=yesterday
+            context.update({f'info_{i}_day': info_days, f'info_{i}_day_time': today.date})
+            i+=1
+        i=1
+        return render(request, 'shopapp/info_sells.html', context)
+
+
+class RequestPaymentView(View):
+    template_name = 'payment/request_payment.html'
+
+    def setup(self, request, username, *args, **kwargs):
+        self.transaction_list = Transaction.objects.filter(user=request.user, shop__username=username, shop__is_active=True)
+        self.cards = Card.objects.filter(user=request.user)
+        self.shop_list = Shop.objects.filter(manager=request.user, is_active=True)
+        self.context = {
+            'form_transaction': TransactionForm(),
+            'cards': self.cards,
+            'shops_list': self.shop_list,
+            'shop_username': username,
+            'transaction_list': self.transaction_list,
+        }
+        return super().setup(request, *args, **kwargs)
+
+    def get(self, request, username):
+        return render(request, self.template_name, self.context)
+    
+    def post(self, request, username):
+        form = TransactionForm(request.POST)
+        self.context.update({'form_transaction': TransactionForm()})
+        if form.is_valid():
+            amount = form.cleaned_data['amount']
+            transaction_type = form.cleaned_data['transaction_type']
+            shop_username = request.POST['shop_username']
+            shop = Shop.objects.get(manager=request.user, username=shop_username)
+            if shop:
+                if shop.is_active:
+                    if amount > shop.coin and transaction_type == "withdraw":
+                        self.context.update({'msg':'low coin', 'shop lowe coin': username})
+                    else:
+                        card = self.cards.get(id=request.POST.get('card'))
+                        description = form.cleaned_data['description']
+                        Transaction.objects.create(transaction_type=transaction_type, card=card, amount=amount, description=description, user=request.user, shop=shop)
+                        self.context.update({'msg': 'success'})
+                else:
+                    self.context.update({'msg': 'shop not active'})
+            else:
+                self.context.update({'msg': 'shop not found'})
+        else:
+            self.context.update({'msg': 'failed'})
+        return render(request, self.template_name, self.context)

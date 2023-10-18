@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import Category, Product, Shop, Social, ProductImage
+from .models import Category, Product, Shop, Social, ProductImage, BuyProduct
 # Register your models here.
 
 class ShopRegister(admin.ModelAdmin):
@@ -19,8 +19,13 @@ class ProductRegister(admin.ModelAdmin):
 class SocialRegister(admin.ModelAdmin):
     list_display = ('name', 'address', 'shop',)
 
+class BuyProductRegister(admin.ModelAdmin):
+    list_display = ('product', 'price', 'shop',)
+    search_fields = ('product', 'shop')
+
 admin.site.register(Shop, ShopRegister)
 admin.site.register(Category, CategoryRegister)
 admin.site.register(Product, ProductRegister)
 admin.site.register(Social, SocialRegister)
 admin.site.register(ProductImage)
+admin.site.register(BuyProduct, BuyProductRegister)

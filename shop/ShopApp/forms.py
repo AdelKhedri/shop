@@ -35,7 +35,6 @@ class ShopEditeForm(forms.ModelForm):
 #     name = forms.CharField(max_length=150, widget=forms.TextInput(attrs=attr))
 #     max_sel = forms.IntegerField(widget=forms.NumberInput(attrs=attr))
 #     price = forms.IntegerField(widget=forms.NumberInput(attrs=attr))
-#     # shop = forms.IntegerField(widget=forms.NumberInput(attrs=attr))
 #     category = forms.IntegerField(required=False, widget=forms.NumberInput(attrs=attr))
 #     description = forms.CharField(max_length=400, required=False, widget=forms.Textarea(attrs=attr))
 

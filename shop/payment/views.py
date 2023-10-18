@@ -3,7 +3,7 @@ from django.views import View
 from .forms import CardForm, TransactionForm
 from .models import Card, Transaction, Cart
 from ShopApp.models import Product
-
+from ShopApp.models import Shop
 # Create your views here.
 
 class CardManager(View):
@@ -46,12 +46,12 @@ class CardManager(View):
 class RequestPaymentView(View):
     template_name = 'payment/request_payment.html'
 
-    def setup(self, request, *args, **kwargs):
+    def setup(self, request, username, *args, **kwargs):
         self.transaction_list = Transaction.objects.filter(user=request.user)
         self.cards = Card.objects.filter(user=request.user)
         return super().setup(request, *args, **kwargs)
 
-    def get(self, request):
+    def get(self, request, username):
         context = {
             'form_transaction': TransactionForm(),
             'cards': self.cards,
@@ -59,7 +59,7 @@ class RequestPaymentView(View):
         }
         return render(request, self.template_name, context)
     
-    def post(self, request):
+    def post(self, request, username):
         form = TransactionForm(request.POST)
         context = {
             'form_transaction': TransactionForm(),
@@ -69,16 +69,23 @@ class RequestPaymentView(View):
         if form.is_valid():
             amount = form.cleaned_data['amount']
             transaction_type = form.cleaned_data['transaction_type']
-            if amount > request.user.profile.coin and transaction_type == "withdraw":
-                context.update({'msg':'low coin'})
-                return render(request, self.template_name, context)
-            card = self.cards.get(id=request.POST.get('card'))
-            description = form.cleaned_data['description']
-            Transaction.objects.create(transaction_type=transaction_type, card=card, amount=amount, description=description, user=request.user)
-            context.update({'msg': 'success'})
+            shop_username = request.POST['shop_username']
+            shop = Shop.objects.get(manager=request.user, username=shop_username)
+            if shop:
+                if shop.is_active:
+                    if amount > shop.coin and transaction_type == "withdraw":
+                        context.update({'msg':'low coin', 'shop_lowe_coin': username})
+                    else:
+                        card = self.cards.get(id=request.POST.get('card'))
+                        description = form.cleaned_data['description']
+                        Transaction.objects.create(transaction_type=transaction_type, card=card, amount=amount, description=description, user=request.user, shop=shop)
+                        context.update({'msg': 'success'})
+                else:
+                    context.update({'msg': 'shop not active'})
+            else:
+                context.update({'msg': 'shop not active'})
         else:
             context.update({'msg': 'failed'})
-            
         return render(request, self.template_name, context)
 
 

@@ -12,6 +12,7 @@ class Shop(models.Model):
     banner_image = models.ImageField(upload_to='images/shops/', default='images/shops/default-image-banner.png' ,null=True, blank=True, verbose_name="بنر")
     is_active = models.BooleanField(default=False, verbose_name="فعال")
     phone_number = models.IntegerField(null=True, blank=True, verbose_name="شماره تلفن")
+    coin = models.IntegerField(default=0, verbose_name="موجودی")
 
     class Meta:
         verbose_name = "فروشگاه"
@@ -102,7 +103,10 @@ class BuyProduct(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name="محصول")
     price = models.IntegerField()
     shop = models.ForeignKey(Shop, on_delete=models.CASCADE, verbose_name="فروشگاه")
-    time = models.IntegerField(default=int(time.time()), verbose_name="زمان")
+    time = models.DateTimeField(auto_now_add=True, verbose_name="زمان")
+
+    def get_time(self):
+        return time.ctime(self.time)
 
     class Meta:
         verbose_name = "محصول خریداری شده"

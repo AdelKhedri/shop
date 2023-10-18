@@ -1,6 +1,6 @@
 from django.db import models
 from members.models import User
-from ShopApp.models import Product
+from ShopApp.models import Product, Shop
 
 # Create your models here.
 
@@ -27,6 +27,7 @@ class Transaction(models.Model):
     ref_id = models.IntegerField(null=True, blank=True ,verbose_name="ای دی رف")
     description = models.CharField(null=True, blank=True ,max_length=300, verbose_name="جزییات")
     user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="کاربر")
+    shop = models.ForeignKey(Shop, on_delete=models.CASCADE, verbose_name="فروشگاه")
 
     class Meta:
         verbose_name = "تراکنش"

@@ -1,0 +1,79 @@
+{% extends 'home/base_shop.html' %}
+
+{% load static %}
+{% block title %}درخواست برداشت و پرداخت{% endblock %}
+
+{% block links %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+{% endblock %}
+
+{% block open1 %}
+open
+{% endblock %}
+{% block open1-active4 %}
+active
+{% endblock %}
+
+{% block content %}
+<div class="cintainer">
+	<div class="row py-3">
+		<div class="card">
+
+			<div class="row">
+				<div class="col-md-6 cil-sm-12">
+					<h5 class="">لیست فروش این هفته</h5>
+					<canvas id="myChart"></canvas>
+				</div>
+				<div class="col-md-6 cil-sm-12">
+					<h5 class="">تعداد محضولات این هفته</h5>
+					<canvas id="myChart2"></canvas>
+				</div>
+			</div>
+			<script>
+				const ctx2 = document.getElementById('myChart2');
+
+				new Chart(ctx2, {
+					type: 'bar',
+					data: {
+						labels: ['{{info_1_day_time}}', '{{info_2_day_time}}', '{{info_3_day_time}}', '{{info_4_day_time}}', '{{info_5_day_time}}', '{{info_6_day_time}}', '{{info_7_day_time}}', ],
+						datasets: [{
+							label: 'کالا ',
+							data: ['{{info_1_day.count}}', '{{info_2_day.count}}', '{{info_3_day.count}}', '{{info_4_day.count}}', '{{info_5_day.count}}', '{{info_6_day.count}}', '{{info_7_day.count}}', ],
+							borderWidth: 1
+						}]
+					},
+					options: {
+						scales: {
+							y: {
+								beginAtZero: true
+							}
+						}
+					}
+				});
+			</script>
+			<script>
+				const ctx = document.getElementById('myChart');
+
+				new Chart(ctx, {
+					type: 'bar',
+					data: {
+						labels: ['{{info_1_day_time}}', '{{info_2_day_time}}', '{{info_3_day_time}}', '{{info_4_day_time}}', '{{info_5_day_time}}', '{{info_6_day_time}}', '{{info_7_day_time}}'],
+						datasets: [{
+							label: 'درامد ',
+							data: ['{{info_1_day.sum_price}}', '{{info_2_day.sum_price}}', '{{info_3_day.sum_price}}', '{{info_4_day.sum_price}}', '{{info_5_day.sum_price}}', '{{info_6_day.sum_price}}', '{{info_7_day.sum_price}}',],
+							borderWidth: 1
+						}]
+					},
+					options: {
+						scales: {
+							y: {
+								beginAtZero: true
+							}
+						}
+					}
+				});
+			</script>
+		</div>
+	</div>
+</div>
+{% endblock %}
