@@ -124,5 +124,15 @@ class AddRemoveToCart(View):
             return HttpResponseRedirect(redirect_to=redirect_page)
         return render(request, self.template_name, context)
 
+
+class TransactionHistory(View):
+    def get(self, request, username, *args, **kwargs):
+        transaction_history = Transaction.objects.filter(shop__username=username, shop__manager=request.user)
+        context = {
+            'transactions_history': transaction_history,
+            'shop_username': username,
+        }
+        return render(request, 'payment/history_payment.html',context)
+
 def alllink(request):
     return render(request, 'home/all.html', {})

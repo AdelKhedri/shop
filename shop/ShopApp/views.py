@@ -3,7 +3,7 @@ from django.views.generic import View, ListView
 from .models import Shop, Product, Category, ProductImage, BuyProduct
 from payment.models import Transaction, Card
 from payment.forms import TransactionForm
-from .forms import (ShopAddForm, ShopEditeForm, CreateCategorysForm, EditeCategoryForm)
+from .forms import (ShopAddForm, ShopEditeForm, CreateCategorysForm, EditeCategoryForm, UpdateProductForm)
 import datetime
 from django.db.models import Count, Max, Sum
 # Create your views here.
@@ -187,6 +187,67 @@ class DetailsProductView(View):
         i=1
         return render(request, 'shopapp/shop_detail_product.html', context)
 
+
+class UpdateProductView(View):
+    template_name = 'shopapp/shop_product_update.html'
+    def setup(self, request, username, pk, *args, **kwargs):
+        self.product = Product.objects.get(id=pk, shop__manager=request.user, shop__username=username)
+        categorys_list = Category.objects.filter(shop__username=username, shop__manager=request.user)
+        form_class = UpdateProductForm(instance=self.product)
+        self.product_images_list = ProductImage.objects.filter(product=self.product)
+        self.context = {
+            'categorys_list': categorys_list,
+            'form_product': form_class,
+            'product': self.product,
+            'products_image': self.product_images_list,
+            'shop_username': username,
+        }
+        return super().setup(request, username, pk, *args, **kwargs)
+    
+    def get(self, request, username, pk):
+        return render(request, self.template_name, self.context)
+    
+    def post(self, request, username, pk):
+        form = UpdateProductForm(request.POST, instance=self.product)
+        if form.is_valid():
+            form.save()
+            self.context.update({'form_product': UpdateProductForm(request.POST), 'msg': 'success'})
+
+            category_client_list = request.POST.getlist('category')
+            category_add = [int(i) for i in category_client_list]
+            categorys_product = Category.objects.filter(products__id=self.product.id)
+            category_remove = [] #remove the product from this categorys list
+
+            for cate_db in categorys_product:
+                if cate_db.id not in category_add: # if a category do not selected
+                    category_remove.append(cate_db.id)
+                else: # if the category is already selected
+                    category_add.remove(cate_db.id)
+            
+            for i in category_add:
+                category = Category.objects.get(shop__username=username, shop__manager=request.user, id=i)
+                category.products.add(self.product)
+            for i in category_remove:
+                category = Category.objects.get(shop__username=username, shop__manager=request.user, id=i)
+                category.products.remove(self.product)
+            
+            # images_add = []
+            # images_remove = []
+            # number = 1
+            # while True:
+            #     if request.FILES.getlist(f'image_{number}'):
+            #         images_add.append(request.FILES.getlist(f'image_{number}'))
+            #     else:
+            #         break
+
+            # for image in self.product_images_list:
+            #     x1 = str(image.image).rfind('/')
+            #     name = str(image.image)[x1+1:]
+            #     if name in images_add:
+            #         images_add.remove(name)
+            #     else:
+            #         images_remove.append(name)
+        return render(request, self.template_name, self.context)
 
 class CategoryManagerView(View):
     template_name = "shopapp/category_manager.html"

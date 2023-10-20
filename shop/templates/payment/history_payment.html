@@ -1,0 +1,145 @@
+{% extends 'home/base_shop.html' %}
+{% load static %}
+{% block title %}درخواست برداشت و پرداخت{% endblock %}
+{% block open2 %}
+open
+{% endblock %}
+{% block open2-active3 %}
+active
+{% endblock %}
+{% block content %}
+<div class="cintainer">
+	<div class="row">
+		<div class="card">
+			<h5 class="card-header">لیست تراکنش ها</h5>
+			<div class="table-responsive text-nowrap">
+				<table class="table">
+					<thead>
+						<tr>
+							<th>شماره کارت</th>
+							<td>وضعیت پرداخت</td>
+							<th>نوع تراکنش</th>
+							<th>مقدار</th>
+							<th>زمان</th>
+							<th>بیشتر</th>
+						</tr>
+					</thead>
+					{% for transaction in transactions_history %}
+						<tbody class="table-border-bottom-0">
+							<tr>
+								<td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong>{{transaction.card.card_number}}</strong>
+								</td>
+								<td>
+									{% if transaction.is_payed %}
+									<span class="badge bg-label-success me-1">{{transaction.get_transaction_type_display}} شد</span>
+									{% else %}
+									<span class="badge bg-label-danger me-1">در انتظار {{transaction.get_transaction_type_display}}</span>
+									{% endif %}
+								</td>
+								<td>
+									{% if transaction.get_transaction_type_display == 'پرداخت' %}
+									<span class="badge bg-label-success me-1">پرداخت</span>
+									{% else %}
+									<span class="badge bg-label-danger me-1">{{transaction.get_transaction_type_display}}</span>
+									{% endif %}
+								</td>
+								<td>
+									<p>{{transaction.amount}}</p>
+								</td>
+								<td>
+									<p>{{transaction.transaction_time}}</p>
+								</td>
+								<td>
+									<div class="dropdown">
+										<button type="button" class="btn p-0 dropdown-toggle hide-arrow"
+											data-bs-toggle="dropdown"><i class="bx bx-dots-vertical-rounded"></i></button>
+										<div class="dropdown-menu">
+											<!-- <a class="dropdown-item" data-bs-toggle="collapse" href="#toti{{transaction.id}}" role="button" aria-expanded="false" aria-controls="multiCollapseExample1"><i class=" me-1"></i>جزیات بیشتر</a> -->
+											<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#mod{{transaction.id}}">جزیات بیشتر</button>
+										</div>
+									</div>
+								</td>
+							</tr>
+						</tbody>
+						<!-- modals -->
+						<div class="modal fade" id="mod{{transaction.id}}" tabindex="-1" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+							<div class="modal-dialog modal-dialog-scrollable modal-xl modal-fullscreen">
+							  <div class="modal-content">
+								<div class="modal-header">
+								  <h5 class="modal-title" id="exampleModalScrollableTitle">Modal title</h5>
+								  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+								</div>
+								<div class="modal-body">
+									<div class="card">
+										<div class="col-5">
+											<p>وضعیت پرداخت</p>
+										{% if transaction.is_payed %}
+											پرداخت شده
+										{% else %}
+											پرداخت نشده
+										{% endif %}
+										</div>
+										<div class="col-5">
+											<p>RefID</p>
+											{% if transaction.ref_id == "None" %}
+											هنوز پرداخت نشده
+											{% else %}
+											{{transaction.ref_id}}
+											{% endif %}
+										</div>
+										<div class="col-lg-5">
+											<p>توضیحات</p>
+											<p>
+												{{transaction.description}}
+											</p>
+										</div>
+									</div>
+								  <!-- <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br> -->
+								  <!-- <p>This content should appear at the bottom after you scroll.</p> -->
+								</div>
+								<div class="modal-footer">
+								  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+								</div>
+							  </div>
+							</div>
+						  </div>
+						<!-- <div class="modal fade" id="mod{{transaction.id}}" tabindex="-1" aria-labelledby="mod{{transaction.id}}" aria-hidden="true">
+							<div class="modal-dialog">
+							  <div class="modal-content">
+								<div class="modal-header">
+								  <h5 class="modal-title" id="mod{{transaction.id}}"></h5>
+								  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+								</div>
+								<div class="modal-body">
+									<div class="card">
+										<div class="col-5">
+											<p>وضعیت پرداخت</p>
+											{{transaction.is_payed}}
+										</div>
+										<div class="col-5">
+											<p>RefID</p>
+											{{transaction.ref_id}}
+										</div>
+										<div>
+											<p>توضیحات</p>
+											<p>
+												{{transaction.description}}
+											</p>
+										</div>
+									</div>
+								</div>
+								<div class="modal-footer">
+								  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+								</div>
+							  </div>
+							</div>
+						  </div> -->
+					{% endfor %}
+				</table>
+			</div>
+		</div>
+	</div>
+	
+	<!-- </div> -->
+</div>
+{% endblock %}
