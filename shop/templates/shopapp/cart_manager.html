@@ -1,0 +1,64 @@
+{% extends 'home/base_shop.html' %}
+
+{% load static %}
+{% block title %}درخواست برداشت و پرداخت{% endblock %}
+{% block open1 %}
+open
+{% endblock %}
+{% block open1-active2 %}
+active
+{% endblock %}
+{% block content %}
+<div class="cintainer">
+	<div class="row">
+        <div class="card">
+            <div class="col-lg-10">
+                <div class="row">
+					{% for cart in carts_list %}
+					<div class="row py-2 my-3 px-2 mx-3 card bg-warning mb-2">
+						<div class="row">
+							<div class="col-3">
+								{{cart.product.name}}
+							</div>
+							<div class="col-3">
+								{{cart.product.price}}
+							</div>
+							<div class="col-4">
+								<form class="d-flex" action="/shops/cartmanager/" method="post">
+									{% csrf_token %}
+									<input type="number" name="product_count" id="" value="{{cart.count}}">
+									<input type="hidden" name="product" value="{{cart.product.id}}">
+									<button class="btn btn-success">ثبت تغییرات</button>
+								</form>
+							</div>
+							<div class="col-2">
+								<form action="/shops/cart/delete/" method="post">
+									{% csrf_token %}
+									<input type="hidden" name="product" value="{{cart.product.id}}">
+									<button class="btn btn-danger">حذف</button>
+								</form>
+							</div>
+						</div>
+					</div>
+					{% endfor %}
+					<div class="col-12 mb-2">
+						<p>قیمت کل = </p>
+					</div>
+					<div class="col-12 mb-2">
+						<a class="btn btn-primary">خرید</a>
+					</div>
+                </div>
+				{% if by == 'success' %}
+				<div class="alert alert-success">
+					خرید موفقیت امیز بود.
+				</div>
+				{% elif by == 'filed' %}
+				<div class="alert alert-danger">
+					خرید با خطامواجح شد.
+				</div>
+				{% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

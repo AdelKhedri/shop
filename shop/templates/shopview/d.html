@@ -1,0 +1,392 @@
+{% load static %}
+
+    <!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{shop.name}}</title>
+    
+    <link href="//bigsale-01.myshopify.com/cdn/shop/t/12/assets/bootstrap.min.css?v=102406047534611070071485145159" rel="stylesheet" type="text/css" media="all" />
+    <link href="//bigsale-01.myshopify.com/cdn/shop/t/12/assets/owl.theme.css?v=158521589831068413361485145178" rel="stylesheet" type="text/css" media="all" />
+    <link href="//bigsale-01.myshopify.com/cdn/shop/t/12/assets/styles.css?v=177834684747678534961514256403" rel="stylesheet" type="text/css" media="all" />
+    <link href="//bigsale-01.myshopify.com/cdn/shop/t/12/assets/styles-setting.css?v=138664945100741919801656105869" rel="stylesheet" type="text/css" media="all" />
+    <link href="//bigsale-01.myshopify.com/cdn/shop/t/12/assets/font-icon.css?v=146283532281197707211485145166" rel="stylesheet" type="text/css" media="all" />
+    <link href="//bigsale-01.myshopify.com/cdn/shop/t/12/assets/retina-responsive.css?v=116718286613729519791485145179" rel="stylesheet" type="text/css" media="all" />
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
+    <script src="//bigsale-01.myshopify.com/cdn/shop/t/12/assets/owl.carousel.js?v=183818619570861549441485145178" type="text/javascript"></script>
+</head>
+
+<body dir="rtl">
+    <div>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">Navbar</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01"
+                    aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarColor01">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="#">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Features</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Pricing</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">About</a>
+                        </li>
+                    </ul>
+                    <form class="d-flex">
+                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                        <button class="btn btn-outline-light" type="submit">Search</button>
+                    </form>
+                </div>
+            </div>
+        </nav>
+    </div>
+    <!-- end navbar -->
+    
+    <h1>نمیدونم این چه خطایی وقتی یه  کاروسل اضافه میکنم ایتم هاش نمایش داده نمیشن سفید مثل همین پایینی</h1>
+    <h1>از owl و bootstrap استفاده کرم اما تغییری نکرد</h1>
+    <div class="container-fluid">
+
+        <div class="row py-3">
+            <div class="card">
+                <div class="row">
+                    <div class="col-lg-2 col-md-3 col-sm-4">
+                        <p>shop.name</p>
+                        <img src="{% static 'assets/img/avatars/1.png' %}" alt="">
+                    </div>
+                    <div class="col-lg-2 col-md-3 col-sm-4">
+                        <p>shop.description</p>
+                    </div>
+                    <div class="col-lg-2 col-md-3 col-sm-4">
+                        <p>shop.phone_number</p>
+                        <p>shop socials</p>
+                    </div>
+                    <div class="col-lg2 col-md-3 col-sm-4">
+                        all_sell
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        
+        {% static 'assets/img/avatars/1.png' %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <div id="shopify-section-1475766547020" class="shopify-section index-section">
+            <div class="product-main-home product-deal" style="margin:50px 0px 50px 0px">
+                <div class="container">
+                    <div class="home-product-deal">
+                        <div class="module-title">
+                            <h2>
+                                <i class="fa fa-bolt" aria-hidden="true"></i>
+                                HOT DEALS
+                            </h2>
+                            <div class="timeline">
+                                <i class="fa fa-clock-o" aria-hidden="true"></i>
+                                <div id="cntdwn" class="timeline-block"></div>
+                                <script>
+                                    jQuery(document).ready(function ($) {
+                                        $("#cntdwn").lofCountDown({
+                                            TargetDate: "2018/12/31 10:30:00",
+    
+                                            DisplayFormat: "<div class='day'><span class='no'>%%D%%</span><span class='text'>days</span></div><div class='hours'><span class='no'>%%H%%</span><span class='text'>hours</span></div><div class='min'><span class='no'>%%M%%</span><span class='text'>min</span></div><div class='second'><span class='no'>%%S%%</span><span class='text'>sec</span></div>",
+                                            FinishMessage: "Expired"
+                                        });
+                                    })
+                                </script>
+                                <script
+                                    src="//bigsale-01.myshopify.com/cdn/shop/t/12/assets/jquery.countdown.js?v=140922442266232811471485145173"
+                                    type="text/javascript"></script>
+                            </div>
+                        </div>
+                        <div class="box-content">
+                            <div id="1475766547020" class="product-height">
+                                <!-- item product -->
+                                <div class="item-poduct">
+                                    <div class="grid-3  grid-item product-item product-hover product-review"
+                                        id="product-8747959625">
+                                        <div class="product-image ">
+                                            <a href="/products/fero-moda-belted-drape-coat" class="grid-image">
+                                                <img class="feature-images"
+                                                    src="//bigsale-01.myshopify.com/cdn/shop/products/15_2b5fdb61-a93c-4e98-ad1c-286ccfc6a5d0_large.jpg?v=1485144698"
+                                                    alt="Fero Moda Belted Drape Coat">
+                                                <span class="product-hover" data-idproduct="8747959625">
+                                                    <img class="img-responsive" alt="Fero Moda Belted Drape Coat"
+                                                        src="//bigsale-01.myshopify.com/cdn/shop/products/16_1897950f-8143-43a5-8715-1843829d8b17_large.jpg?v=1485144698">
+                                                </span>
+                                            </a>
+                                        </div>
+                                        <div class="product-content">
+                                            <h3><a class="product-title" href="/products/fero-moda-belted-drape-coat">Fero Moda Belted Drape Coat</a></h3>
+                                            <div class="price-box">
+                                                <p class="regular-product">
+                                                    <span><span class=money>$200.00</span></span>
+                                                </p>
+                                            </div>
+                                            <span class="shopify-product-reviews-badge" data-id="8747959625"></span>
+                                            <div class="add-to-link">
+                                                <div class="add-to-cart">
+                                                    <form action="/cart/add" method="post" class="variants"
+                                                        id="product-actions-8747959625" enctype="multipart/form-data"
+                                                        style="padding:0px;">
+                                                        <input type="hidden" name="id" value="29670586569" />
+                                                        <span><input class="btn add-to-cart-btn" title="Add to Cart"
+                                                                type="submit" value="Add to Cart" /></span>
+                                                    </form>
+                                                </div>
+                                                <a class="wishlist btn" href="/account/login" data-toggle="tooltip"
+                                                    data-placement="top" title="Add to wishlist"><span><i
+                                                            class="fa fa-heart" aria-hidden="true"></i></span></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- end item -->
+                                <!-- item product -->
+                                <!-- end item -->
+                                <!-- end item -->
+                                <!-- item product -->
+                                <div class="item-poduct">
+                                    <div class="grid-3  grid-item product-item product-hover product-review"
+                                        id="product-8747959625">
+                                        <div class="product-image ">
+                                            <a href="/products/fero-moda-belted-drape-coat" class="grid-image">
+                                                <img class="feature-images"
+                                                    src="//bigsale-01.myshopify.com/cdn/shop/products/15_2b5fdb61-a93c-4e98-ad1c-286ccfc6a5d0_large.jpg?v=1485144698"
+                                                    alt="Fero Moda Belted Drape Coat">
+                                                <span class="product-hover" data-idproduct="8747959625">
+                                                    <img class="img-responsive" alt="Fero Moda Belted Drape Coat"
+                                                        src="//bigsale-01.myshopify.com/cdn/shop/products/16_1897950f-8143-43a5-8715-1843829d8b17_large.jpg?v=1485144698">
+                                                </span>
+                                            </a>
+                                        </div>
+                                        <div class="product-content">
+                                            <h3><a class="product-title" href="/products/fero-moda-belted-drape-coat">Fero Moda Belted Drape Coat</a></h3>
+                                            <div class="price-box">
+                                                <p class="regular-product">
+                                                    <span><span class=money>$200.00</span></span>
+                                                </p>
+                                            </div>
+                                            <span class="shopify-product-reviews-badge" data-id="8747959625"></span>
+                                            <div class="add-to-link">
+                                                <div class="add-to-cart">
+                                                    <form action="/cart/add" method="post" class="variants"
+                                                        id="product-actions-8747959625" enctype="multipart/form-data"
+                                                        style="padding:0px;">
+                                                        <input type="hidden" name="id" value="29670586569" />
+                                                        <span><input class="btn add-to-cart-btn" title="Add to Cart"
+                                                                type="submit" value="Add to Cart" /></span>
+                                                    </form>
+                                                </div>
+                                                <a class="wishlist btn" href="/account/login" data-toggle="tooltip"
+                                                    data-placement="top" title="Add to wishlist"><span><i
+                                                            class="fa fa-heart" aria-hidden="true"></i></span></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="item-poduct">
+                                    <div class="grid-3  grid-item product-item product-hover product-review"
+                                        id="product-8747959625">
+                                        <div class="product-image ">
+                                            <a href="/products/fero-moda-belted-drape-coat" class="grid-image">
+                                                <img class="feature-images"
+                                                    src="//bigsale-01.myshopify.com/cdn/shop/products/15_2b5fdb61-a93c-4e98-ad1c-286ccfc6a5d0_large.jpg?v=1485144698"
+                                                    alt="Fero Moda Belted Drape Coat">
+                                                <span class="product-hover" data-idproduct="8747959625">
+                                                    <img class="img-responsive" alt="Fero Moda Belted Drape Coat"
+                                                        src="//bigsale-01.myshopify.com/cdn/shop/products/16_1897950f-8143-43a5-8715-1843829d8b17_large.jpg?v=1485144698">
+                                                </span>
+                                            </a>
+                                        </div>
+                                        <div class="product-content">
+                                            <h3><a class="product-title" href="/products/fero-moda-belted-drape-coat">Fero Moda Belted Drape Coat</a></h3>
+                                            <div class="price-box">
+                                                <p class="regular-product">
+                                                    <span><span class=money>$200.00</span></span>
+                                                </p>
+                                            </div>
+                                            <span class="shopify-product-reviews-badge" data-id="8747959625"></span>
+                                            <div class="add-to-link">
+                                                <div class="add-to-cart">
+                                                    <form action="/cart/add" method="post" class="variants"
+                                                        id="product-actions-8747959625" enctype="multipart/form-data"
+                                                        style="padding:0px;">
+                                                        <input type="hidden" name="id" value="29670586569" />
+                                                        <span><input class="btn add-to-cart-btn" title="Add to Cart"
+                                                                type="submit" value="Add to Cart" /></span>
+                                                    </form>
+                                                </div>
+                                                <a class="wishlist btn" href="/account/login" data-toggle="tooltip"
+                                                    data-placement="top" title="Add to wishlist"><span><i
+                                                            class="fa fa-heart" aria-hidden="true"></i></span></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="item-poduct">
+                                    <div class="grid-3  grid-item product-item product-hover product-review"
+                                        id="product-8747959625">
+                                        <div class="product-image ">
+                                            <a href="/products/fero-moda-belted-drape-coat" class="grid-image">
+                                                <img class="feature-images"
+                                                    src="//bigsale-01.myshopify.com/cdn/shop/products/15_2b5fdb61-a93c-4e98-ad1c-286ccfc6a5d0_large.jpg?v=1485144698"
+                                                    alt="Fero Moda Belted Drape Coat">
+                                                <span class="product-hover" data-idproduct="8747959625">
+                                                    <img class="img-responsive" alt="Fero Moda Belted Drape Coat"
+                                                        src="//bigsale-01.myshopify.com/cdn/shop/products/16_1897950f-8143-43a5-8715-1843829d8b17_large.jpg?v=1485144698">
+                                                </span>
+                                            </a>
+                                        </div>
+                                        <div class="product-content">
+                                            <h3><a class="product-title" href="/products/fero-moda-belted-drape-coat">Fero Moda Belted Drape Coat</a></h3>
+                                            <div class="price-box">
+                                                <p class="regular-product">
+                                                    <span><span class=money>$200.00</span></span>
+                                                </p>
+                                            </div>
+                                            <span class="shopify-product-reviews-badge" data-id="8747959625"></span>
+                                            <div class="add-to-link">
+                                                <div class="add-to-cart">
+                                                    <form action="/cart/add" method="post" class="variants"
+                                                        id="product-actions-8747959625" enctype="multipart/form-data"
+                                                        style="padding:0px;">
+                                                        <input type="hidden" name="id" value="29670586569" />
+                                                        <span><input class="btn add-to-cart-btn" title="Add to Cart"
+                                                                type="submit" value="Add to Cart" /></span>
+                                                    </form>
+                                                </div>
+                                                <a class="wishlist btn" href="/account/login" data-toggle="tooltip"
+                                                    data-placement="top" title="Add to wishlist"><span><i
+                                                            class="fa fa-heart" aria-hidden="true"></i></span></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="item-poduct">
+                                    <div class="grid-3  grid-item product-item product-hover product-review"
+                                        id="product-8747959625">
+                                        <div class="product-image ">
+                                            <a href="/products/fero-moda-belted-drape-coat" class="grid-image">
+                                                <img class="feature-images"
+                                                    src="//bigsale-01.myshopify.com/cdn/shop/products/15_2b5fdb61-a93c-4e98-ad1c-286ccfc6a5d0_large.jpg?v=1485144698"
+                                                    alt="Fero Moda Belted Drape Coat">
+                                                <span class="product-hover" data-idproduct="8747959625">
+                                                    <img class="img-responsive" alt="Fero Moda Belted Drape Coat"
+                                                        src="//bigsale-01.myshopify.com/cdn/shop/products/16_1897950f-8143-43a5-8715-1843829d8b17_large.jpg?v=1485144698">
+                                                </span>
+                                            </a>
+                                        </div>
+                                        <div class="product-content">
+                                            <h3><a class="product-title" href="/products/fero-moda-belted-drape-coat">Fero Moda Belted Drape Coat</a></h3>
+                                            <div class="price-box">
+                                                <p class="regular-product">
+                                                    <span><span class=money>$200.00</span></span>
+                                                </p>
+                                            </div>
+                                            <span class="shopify-product-reviews-badge" data-id="8747959625"></span>
+                                            <div class="add-to-link">
+                                                <div class="add-to-cart">
+                                                    <form action="/cart/add" method="post" class="variants"
+                                                        id="product-actions-8747959625" enctype="multipart/form-data"
+                                                        style="padding:0px;">
+                                                        <input type="hidden" name="id" value="29670586569" />
+                                                        <span><input class="btn add-to-cart-btn" title="Add to Cart"
+                                                                type="submit" value="Add to Cart" /></span>
+                                                    </form>
+                                                </div>
+                                                <a class="wishlist btn" href="/account/login" data-toggle="tooltip"
+                                                    data-placement="top" title="Add to wishlist"><span><i
+                                                            class="fa fa-heart" aria-hidden="true"></i></span></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <script>
+                                jQuery(document).ready(function () {
+    
+                                    jQuery("#1475766547020").owlCarousel({
+                                        itemsCustom: [
+                                            [300, 2],
+                                            [360, 2],
+                                            [480, 2],
+                                            [600, 2],
+                                            [800, 3],
+                                            [1000, 3],
+                                            [1200, 5],
+                                            [1400, 5],
+                                            [1600, 5]
+                                        ],
+                                        stopOnHover: false,
+                                        autoPlay: true,
+    
+                                        lazyLoad: true,
+                                        lazyFollow: true,
+                                        lazyEffect: "fade",
+                                        pagination: false,
+    
+                                        // Navigation
+                                        navigation: true,
+                                        navigationText: ['<i class="fa fa-angle-left" aria-hidden="true"></i>', '<i class="fa fa-angle-right" aria-hidden="true"></i>'],
+                                        rewindNav: true,
+                                        scrollPerPage: false,
+    
+                                    });
+    
+                                })
+    
+                            </script>
+    
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            $('#mySelector').css({
+                color: 'Red',
+                overflow: 'auto',
+                'overflow-x': 'scroll'
+            });
+        </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+        integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+        integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
+        crossorigin="anonymous"></script>
+
+    </body>
+
+    </html>

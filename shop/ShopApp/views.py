@@ -1,11 +1,14 @@
 from django.shortcuts import render, redirect, HttpResponseRedirect
+from django.http import JsonResponse
+from django.core import serializers
 from django.views.generic import View, ListView
 from .models import Shop, Product, Category, ProductImage, BuyProduct
-from payment.models import Transaction, Card
+from payment.models import Transaction, Card, Cart
 from payment.forms import TransactionForm
 from .forms import (ShopAddForm, ShopEditeForm, CreateCategorysForm, EditeCategoryForm, UpdateProductForm)
 import datetime
 from django.db.models import Count, Max, Sum
+import json
 # Create your views here.
 
 
@@ -400,3 +403,91 @@ class RequestPaymentView(View):
         else:
             self.context.update({'msg': 'failed'})
         return render(request, self.template_name, self.context)
+
+
+class ShopView(View):
+    def get(self, request, username):
+        shop = Shop.objects.get(username=username)
+        all_sell = BuyProduct.objects.filter(shop__username=username).count()
+        categorys = Category.objects.filter(shop__username=username)
+        context = {
+            'shop': shop,
+            'all_sell': all_sell,
+            'categorys_list': categorys,
+        }
+        return render(request, 'shopview/shop_info.html', context)
+
+
+class ShopCategorysView(View):
+    def get(self, request, username):
+
+        categorys = list(Category.objects.filter(shop__username=username, for_sell=True).values())
+        context = {
+            'categorys_list': categorys,
+        }
+        return JsonResponse(context, safe=False,)
+
+
+class ShopProductsView(View):
+    def get(self, request, username):
+
+        products = list(Product.objects.filter(shop__username=username).values())
+        context = {
+            'products_list': products,
+        }
+        return JsonResponse(context, safe=False,)
+
+
+class CartManagerView(View):
+    template_name = 'shopapp/cart_manager.html'
+
+    def get(self, request):
+        carts = Cart.objects.filter(customer=request.user)
+        context = {
+            'carts_list': carts,
+        }
+        return render(request, self.template_name, context)
+    
+    def post(self, request):
+        product_id = request.POST.get('product')
+        count = request.POST.get('product_count')
+        if product_id is not None:
+            product = Product.objects.get(id=product_id)
+            context = {'msg': 'created'}
+            try:
+                cart = Cart.objects.get(customer=request.user, product__id=product_id)
+                cart.count = count
+                cart.save()
+                context.update({'msg' : 'updated'})
+            except:
+                cart = Cart.objects.create(customer=request.user, product=product, count=count)
+            
+            cart_serialized = serializers.serialize('json', [cart])
+            product_serialized = serializers.serialize('json', [product])
+            context.update({
+                'product': product_serialized,
+                'cart': cart_serialized})
+            
+            return JsonResponse(json.dumps(context),safe=False)
+        else:
+            return JsonResponse({'msg': 'product must a integer'}, safe=False)
+
+
+
+class DeleteCart(View):
+    def post(self, request):
+        product_id = request.POST.get('product')
+        print(product_id)
+        if product_id is not None:
+            context = {'msg': 'created'}
+            cart = Cart.objects.get(customer=request.user, product__id=product_id)
+            print(cart)
+            cart.delete()
+            context.update({'msg' : 'deleted'})
+            return JsonResponse(context)
+        return JsonResponse({'msg': 'product must be a integer'})
+            
+
+class ShopView2(View):
+    def get(self, request, username):
+        return render(request, 'shopview/d.html', {})

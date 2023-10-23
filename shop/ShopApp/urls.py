@@ -19,4 +19,10 @@ urlpatterns = [
     path('managment/<str:username>/request-payment/', views.RequestPaymentView.as_view(), name="request payment"),
     path('managment/<str:username>/products/edite/<int:pk>/', views.UpdateProductView.as_view(), name="update category"),
     path('managment/<str:username>/payment-history', TransactionHistory.as_view(), name="transaction history"),
+    path('<str:username>', views.ShopView.as_view(), name="shop view"),
+    path('<str:username>/2', views.ShopView2.as_view(), name="shop view"),
+    path('<str:username>/products', views.ShopProductsView.as_view(), name="shop view"),
+    path('<str:username>/categorys', views.ShopCategorysView.as_view(), name="shop view"),
+    path('cartmanager/', views.CartManagerView.as_view(), name="shop view"),
+    path('cart/delete/', views.DeleteCart.as_view(), name="delete cart"),
 ]
