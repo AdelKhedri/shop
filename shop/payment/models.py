@@ -49,3 +49,17 @@ class Cart(models.Model):
     
     def __str__(self):
         return self.customer.username
+
+
+
+class Likes(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name='محصول')
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='کاربر')
+    
+    class Meta:
+        verbose_name = 'پسندیده'
+        verbose_name_plural = 'پسندیده ها'
+        ordering = ['product__name']
+
+    def __str__(self):
+        return self.product.name

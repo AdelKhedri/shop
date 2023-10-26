@@ -3,7 +3,7 @@ from django.http import JsonResponse
 from django.core import serializers
 from django.views.generic import View, ListView
 from .models import Shop, Product, Category, ProductImage, BuyProduct
-from payment.models import Transaction, Card, Cart
+from payment.models import Transaction, Card, Cart, Likes
 from payment.forms import TransactionForm
 from .forms import (ShopAddForm, ShopEditeForm, CreateCategorysForm, EditeCategoryForm, UpdateProductForm)
 import datetime
@@ -410,10 +410,18 @@ class ShopView(View):
         shop = Shop.objects.get(username=username)
         all_sell = BuyProduct.objects.filter(shop__username=username).count()
         categorys = Category.objects.filter(shop__username=username)
+        likes = Likes.objects.filter(user=request.user).values('product__id')
+        likes_list = [item['product__id'] for item in likes]
+        products = Product.objects.filter(shop__username=username)
+        products_ids = [p.id for p in products]
+        imgs_product = ProductImage.objects.filter(product__in=products_ids)
+        
         context = {
             'shop': shop,
             'all_sell': all_sell,
             'categorys_list': categorys,
+            'likes_list': likes_list,
+            'imgs_list': imgs_product
         }
         return render(request, 'shopview/shop_info.html', context)
 
@@ -486,7 +494,36 @@ class DeleteCart(View):
             context.update({'msg' : 'deleted'})
             return JsonResponse(context)
         return JsonResponse({'msg': 'product must be a integer'})
-            
+
+
+class LikeView(View):
+    template_name = 'shopapp/like.html'
+    
+    def get(self, request):
+        likes = Likes.objects.filter(user=request.user)
+        p_ids = [i.product.id for i in likes]
+        imgs_product = ProductImage.objects.filter(product__in=p_ids)
+        print(imgs_product)
+        context = {
+            'likes_list': likes,
+            'imgs_list': imgs_product,
+        }
+        return render(request, self.template_name, context)
+    
+    def post(self, request):
+        product_id = request.POST.get('product_like')
+        if product_id is not None:
+            try:
+                product = Product.objects.get(id=product_id)
+                try:
+                    Likes.objects.get(user=request.user, product__id=product_id).delete()
+                    return JsonResponse({'msg': 'deleted'})
+                except:
+                    Likes.objects.create(product=product, user=request.user)
+                    return JsonResponse({'msg': 'success'})
+            except:
+                return JsonResponse({'msg': 'product not found'})
+
 
 class ShopView2(View):
     def get(self, request, username):
