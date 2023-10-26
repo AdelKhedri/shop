@@ -11,7 +11,7 @@ class Shop(models.Model):
     small_image = models.ImageField(upload_to='images/shops/', default='images/shops/default-image-small.png' ,null=True, blank=True, verbose_name="عکس")
     banner_image = models.ImageField(upload_to='images/shops/', default='images/shops/default-image-banner.png' ,null=True, blank=True, verbose_name="بنر")
     is_active = models.BooleanField(default=False, verbose_name="فعال")
-    phone_number = models.IntegerField(null=True, blank=True, verbose_name="شماره تلفن")
+    phone_number = models.BigIntegerField(null=True, blank=True, verbose_name="شماره تلفن")
     coin = models.IntegerField(default=0, verbose_name="موجودی")
 
     class Meta:

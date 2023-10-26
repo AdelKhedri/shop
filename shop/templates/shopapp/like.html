@@ -1,0 +1,101 @@
+{% extends 'home/base.html' %}
+
+{% load static %}
+{% block title %}درخواست برداشت و پرداخت{% endblock %}
+{% block open1 %}
+open
+{% endblock %}
+{% block open1-active2 %}
+active
+{% endblock %}
+{% block content %}
+<div class="cintainer">
+	<div class="row">
+        <div class="card">
+            <div class="col-lg-10">
+                <div class="row p-2">
+					{% for like in likes_list %}
+						<div class="col-lg-3 col-md-4 col-sm-6">
+							<div class="card">
+								<div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+									<div id="imgs_p" class="imgs_p{{forloop.counter}} carousel-inner">
+										{% for img in imgs_list %}
+											{% if img.product.id == like.product.id %}
+												<div class="img_p{{forloop.parentloop.counter}} carousel-item">
+													<img src="{{img.image.url}}" class="d-block w-100" alt="img">
+												</div>
+											
+											{% endif %}
+									{% endfor %}
+									<script>
+										$(document).ready(function (){
+											var first_image = $('.imgs_p{{forloop.counter}} .img_p{{forloop.counter}}:first-child')
+											console.log(first_image)
+											first_image.addClass('active')
+										})
+									</script>
+									</div>
+									<button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+									  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+									  <span class="visually-hidden">Previous</span>
+									</button>
+									<button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+									  <span class="carousel-control-next-icon" aria-hidden="true"></span>
+									  <span class="visually-hidden">Next</span>
+									</button>
+								  </div>
+								<div class="card-body">
+									<div class="row">
+										<div class="col-8">
+											<p>{{like.product.name}}</p>
+										</div>
+										<div class="col-4">
+											<p>{{like.product.price}}</p>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-8">
+											<form action="/shops/cartmanager/" method="post">
+												<input type="hidden" name="product" value="{{like.product.id}}">
+												<input type="hidden" name="product_count" value="1">
+												{% csrf_token %}
+												<button class="btn btn-primary">افزودن به سبد خرید</button>
+											</form>
+											<!-- <a href="" class="btn btn-primary">افزودن به سبد خرید</a> -->
+										</div>
+										<div class="col-4">
+											<form action="/shops/u/like/" method="post">
+												{% csrf_token %}
+												<input type="hidden" name="product_like" value="{{like.product.id}}">
+												<button class="btn btn-primary">دیسلایک</button>
+											</form>
+										</div>
+									</div>
+								</div>
+								<div class="card-footer">
+									<small class="text-muted">آخرین دونه</small>
+								</div>
+							</div>
+						</div>
+					{% endfor %}
+					<div class="col-12 mb-2">
+						<p>قیمت کل = </p>
+					</div>
+					<div class="col-12 mb-2">
+						<a class="btn btn-primary">خرید</a>
+					</div>
+                </div>
+				{% if by == 'success' %}
+				<div class="alert alert-success">
+					خرید موفقیت امیز بود.
+				</div>
+				{% elif by == 'filed' %}
+				<div class="alert alert-danger">
+					خرید با خطامواجح شد.
+				</div>
+				{% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

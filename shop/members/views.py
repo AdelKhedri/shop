@@ -1,3 +1,4 @@
+import datetime
 from typing import Any
 from django.db.models.query import QuerySet
 from django.shortcuts import render, HttpResponseRedirect
@@ -6,6 +7,8 @@ from .forms import RegisterForm, SininForm, ChangePasswordForm, ProfileUpdateFor
 from .models import User, Otp, Notifacation, Profile, Support
 from django.contrib.auth import authenticate, login, logout
 from django.db.models import Q
+from .apis import sendcode
+import random
 
 # Create your views here.
 
@@ -33,7 +36,11 @@ class RegisterUser(View):
             user.set_password(password)
             user.save()
             Profile.objects.create(user=user)
-            otpp = Otp.objects.create(number=int(phone_number), code=145269)
+            code = random.randint(123456, 989876)
+            # frist parameter of sendcode is API of cavenegar. get it from this url: https://panel.kavenegar.com/client/Tour/GetStarted
+            # sender parameter of sendcode get it from this url: https://panel.kavenegar.com/client/Lines
+            sendcode('', {'sender': '10008663', 'receptor': phone_number, 'message': f'کد ثبت نام :\n {code}'})
+            otpp = Otp.objects.create(number=int(phone_number), code=code)
             otpp.save()
             request.session['phone_number'] = phone_number
             return HttpResponseRedirect(redirect_to='/profile/sinup/confirm_phone/')
@@ -56,13 +63,13 @@ class RegisterPhone(View):
     def post(self, request):
         verifay_code = request.POST.get('verifay_code')
 
-        if Otp.objects.filter(code=int(verifay_code), number=int(self.phone_number)).exists():
+        if Otp.objects.filter(code=int(verifay_code), number=int(self.phone_number), expire_time__lte=datetime.datetime.now()).exists():
             user = User.objects.get(phone_number=self.phone_number)
             user.is_active = True
             user.save()
             return HttpResponseRedirect(redirect_to="/home/")
         else:
-            return render(request, self.template_name, {})
+            return render(request, self.template_name, {'msg': 'code not mached.'})
 
 
 class SininUser(View):
@@ -81,7 +88,7 @@ class SininUser(View):
             phone_number = form.cleaned_data['phone_number']
             password = form.cleaned_data['password']
             if len(str(phone_number)) == 11:
-                phone_number = phone_number[1:10]
+                phone_number = phone_number[1:]
             user = authenticate(request, username=phone_number, password=password)
 
             if user is not None:

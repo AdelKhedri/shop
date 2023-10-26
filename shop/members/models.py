@@ -1,3 +1,4 @@
+import datetime
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 import time
@@ -6,10 +7,10 @@ import time
 
 class User(AbstractUser):
     email = models.EmailField(unique=True, null=True, blank=True, max_length=150, verbose_name="ایمیل")
-    phone_number = models.IntegerField(unique=True, null=True, blank=True, verbose_name="شماره تلفن")
+    phone_number = models.BigIntegerField(unique=True, null=True, blank=True, verbose_name="شماره تلفن")
     is_active = models.BooleanField(default=False, verbose_name="اجازه ورود")
     USERNAME_FIELD = 'phone_number'
-    REQUIRED_FIELDS = ['email', 'username']
+    REQUIRED_FIELDS = ['email', 'username', 'is_active']
     class Meta:
         verbose_name = "کاربر"
         verbose_name_plural = "کاربران"
@@ -39,9 +40,9 @@ class Profile(models.Model):
         verbose_name_plural = "پروفایل ها"
 
 class Otp(models.Model):
-    number = models.IntegerField(verbose_name="شماره موبایل")
+    number = models.BigIntegerField(verbose_name="شماره موبایل")
     code = models.IntegerField(verbose_name="کد تایید")
-    expire_time = models.IntegerField(default=int(time.time())+300, verbose_name="زمان انقضا")
+    expire_time = models.DateTimeField(default=datetime.datetime.now() +datetime.timedelta(seconds=300), verbose_name="زمان انقضا")
 
     class Meta:
         verbose_name = "کد تایید شماره"

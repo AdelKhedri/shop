@@ -105,40 +105,73 @@
                     <div class="row gx-1 gy-2 py-2" style="height: 500px; width: 100%; overflow-x: scroll;">
                         <!-- item -->
                         {% for product in category.products.all %}
-                        <div class="col-lg-2 col-md-3 col-sm-4">
-                            <div class="card">
-                                <img src="{% static 'assets/img/avatars/1.png' %}" alt="img" srcset=""
-                                    class="card-img-top">
-                                <div class="card-body">
-                                    <div class="row">
-                                        <div class="col-8">
-                                            <p>{{product.name}}</p>
-                                        </div>
-                                        <div class="col-4">
-                                            <p>{{product.price}}</p>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-8">
-                                            <form action="/shops/cartmanager/" method="post">
-                                                <!-- <input type="hidden" name="product" value="{{product.id}}"> -->
-                                                <input type="hidden" name="product" value="{{product.id}}">
-                                                <input type="hidden" name="product_count" value="1">
-                                                {% csrf_token %}
-                                                <button class="btn btn-primary">افزودن به سبد خرید</button>
-                                            </form>
-                                            <!-- <a href="" class="btn btn-primary">افزودن به سبد خرید</a> -->
-                                        </div>
-                                        <div class="col-4">
-                                            <button class="btn btn-primary">پسندیدن</button>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="card-footer">
-                                    <small class="text-muted">آخرین دونه</small>
-                                </div>
-                            </div>
-                        </div>
+                        <div class="col-lg-3 col-md-4 col-sm-6">
+							<div class="card">
+								<div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+									<div id="imgs_p" class="imgs_p{{forloop.counter}} carousel-inner">
+										{% for img in imgs_list %}
+											{% if img.product.id == like.product.id %}
+												<div class="img_p{{forloop.parentloop.counter}} carousel-item">
+													<img src="{{img.image.url}}" class="d-block w-100" alt="img">
+												</div>
+											
+											{% endif %}
+									{% endfor %}
+									<script>
+										$(document).ready(function (){
+											var first_image = $('.imgs_p{{forloop.counter}} .img_p{{forloop.counter}}:first-child')
+											console.log(first_image)
+											first_image.addClass('active')
+										})
+									</script>
+									</div>
+									<button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+									  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+									  <span class="visually-hidden">Previous</span>
+									</button>
+									<button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+									  <span class="carousel-control-next-icon" aria-hidden="true"></span>
+									  <span class="visually-hidden">Next</span>
+									</button>
+								  </div>
+								<div class="card-body">
+									<div class="row">
+										<div class="col-8">
+											<p>{{product.name}}</p>
+										</div>
+										<div class="col-4">
+											<p>{{product.price}}</p>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-8">
+											<form action="/shops/cartmanager/" method="post">
+												<input type="hidden" name="product" value="{{like.product.id}}">
+												<input type="hidden" name="product_count" value="1">
+												{% csrf_token %}
+												<button class="btn btn-primary">افزودن به سبد خرید</button>
+											</form>
+											<!-- <a href="" class="btn btn-primary">افزودن به سبد خرید</a> -->
+										</div>
+										<div class="col-4">
+											<form action="/shops/u/like/" method="post">
+												{% csrf_token %}
+                                                <input type="hidden" name="product_like" value="{{product.id}}">
+                                                {% if product.id in likes_list %}
+                                                <button class="btn btn-danger">دیسلایک</button>
+                                                {% else %}
+                                                <button class="btn btn-primary">لایک</button>
+                                                {% endif %}
+											</form>
+										</div>
+									</div>
+								</div>
+								<div class="card-footer">
+									<small class="text-muted">آخرین دونه</small>
+								</div>
+							</div>
+						</div>
+                        <!--  -->
                         {% endfor %}
                     </div>
                 </div>
