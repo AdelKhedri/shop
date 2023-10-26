@@ -7,7 +7,7 @@ from .forms import RegisterForm, SininForm, ChangePasswordForm, ProfileUpdateFor
 from .models import User, Otp, Notifacation, Profile, Support
 from django.contrib.auth import authenticate, login, logout
 from django.db.models import Q
-from .apis import sendcode
+# from .apis import sendcode
 import random
 
 # Create your views here.
@@ -39,7 +39,7 @@ class RegisterUser(View):
             code = random.randint(123456, 989876)
             # frist parameter of sendcode is API of cavenegar. get it from this url: https://panel.kavenegar.com/client/Tour/GetStarted
             # sender parameter of sendcode get it from this url: https://panel.kavenegar.com/client/Lines
-            sendcode('', {'sender': '10008663', 'receptor': phone_number, 'message': f'کد ثبت نام :\n {code}'})
+            # sendcode('', {'sender': '10008663', 'receptor': phone_number, 'message': f'کد ثبت نام :\n {code}'})
             otpp = Otp.objects.create(number=int(phone_number), code=code)
             otpp.save()
             request.session['phone_number'] = phone_number
