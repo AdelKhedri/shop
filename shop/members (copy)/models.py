@@ -38,19 +38,12 @@ class Profile(models.Model):
         ordering = ['user', 'coin']
         verbose_name = "پروفایل"
         verbose_name_plural = "پروفایل ها"
-    
-
-class OtpTypeChice(models.TextChoices):
-    sinup = 'sinup', 'sinup'
-    password = 'f_password', 'forget password'
-
 
 class Otp(models.Model):
     number = models.BigIntegerField(verbose_name="شماره موبایل")
     code = models.IntegerField(verbose_name="کد تایید")
     expire_time = models.DateTimeField(default=datetime.datetime.now() +datetime.timedelta(seconds=300), verbose_name="زمان انقضا")
-    otp_type = models.CharField(choices=OtpTypeChice.choices, max_length=10)
-    
+
     class Meta:
         verbose_name = "کد تایید شماره"
         verbose_name_plural = "کد های تایید شماره"

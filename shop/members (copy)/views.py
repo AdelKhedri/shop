@@ -3,15 +3,14 @@ from typing import Any
 from django.db.models.query import QuerySet
 from django.shortcuts import render, HttpResponseRedirect
 from django.views.generic import View, ListView
-from .forms import RegisterForm, SininForm, ChangePasswordForm, ProfileUpdateForm, UserUpdateForm, ForgetPasswordForm, ConfirmForgetPasswordForm
+from .forms import RegisterForm, SininForm, ChangePasswordForm, ProfileUpdateForm, UserUpdateForm
 from .models import User, Otp, Notifacation, Profile, Support
 from django.contrib.auth import authenticate, login, logout
 from django.db.models import Q
 from django.contrib.auth.mixins import LoginRequiredMixin
 from mylib.apis import sendcode
 import random
-import datetime
-from django.db.models import F
+1
 # Create your views here.
 
 def t(request):
@@ -25,31 +24,28 @@ class RegisterUser(View):
 
     def post(self, request):
         form = RegisterForm(request.POST)
-        context = {'form': form}
-
         if form.is_valid():
             username = form.cleaned_data['username']
             email = form.cleaned_data['email']
             password = form.cleaned_data['password1']
-            password2 = form.cleaned_data['password2']
-            if password == password2:
-                phone_number = form.cleaned_data['phone_number']
-                user = User.objects.create(username=username, email=email, phone_number=phone_number)
-                user.set_password(password)
-                user.save()
-                Profile.objects.create(user=user)
-                code = random.randint(123456, 989876)
-                print(code)
-                # frist parameter of sendcode is API of cavenegar. get it from this url: https://panel.kavenegar.com/client/Tour/GetStarted
-                # sender parameter of sendcode get it from this url: https://panel.kavenegar.com/client/Lines
-                #sendcode('', {'sender': '10008663', 'receptor': phone_number, 'message': f'کد ثبت نام :\n {code}'})
-                otpp = Otp.objects.create(number=int(phone_number), code=code, otp_type = "sinup")
-                otpp.save()
-                request.session['phone_number'] = phone_number
-                return HttpResponseRedirect(redirect_to='/profile/sinup/confirm_phone/')
-            else:
-                context.update({'msg': 'password not match'})
-        return render(request, self.template_name, context)
+            phone_number = form.cleaned_data['phone_number']
+
+            if phone_number == 11:
+                phone_number = phone_number[1:]
+            
+            user = User.objects.create(username=username, email=email, phone_number=phone_number)
+            user.set_password(password)
+            user.save()
+            Profile.objects.create(user=user)
+            code = random.randint(123456, 989876)
+            # frist parameter of sendcode is API of cavenegar. get it from this url: https://panel.kavenegar.com/client/Tour/GetStarted
+            # sender parameter of sendcode get it from this url: https://panel.kavenegar.com/client/Lines
+            #sendcode('', {'sender': '10008663', 'receptor': phone_number, 'message': f'کد ثبت نام :\n {code}'})
+            otpp = Otp.objects.create(number=int(phone_number), code=code)
+            otpp.save()
+            request.session['phone_number'] = phone_number
+            return HttpResponseRedirect(redirect_to='/profile/sinup/confirm_phone/')
+        return render(request, self.template_name, {'form': form})
 
 
 class RegisterPhone(View):
@@ -67,8 +63,8 @@ class RegisterPhone(View):
     
     def post(self, request):
         verifay_code = request.POST.get('verifay_code')
-        
-        if Otp.objects.filter(code=int(verifay_code), number=int(self.phone_number), expire_time__lte=datetime.datetime.now(), otp_type='sinup').exists():
+
+        if Otp.objects.filter(code=int(verifay_code), number=int(self.phone_number), expire_time__lte=datetime.datetime.now()).exists():
             user = User.objects.get(phone_number=self.phone_number)
             user.is_active = True
             user.save()
@@ -88,71 +84,22 @@ class SininUser(View):
     
     def post(self ,request):
         form = SininForm(request.POST)
-        context = {'form': form}
 
         if form.is_valid():
             phone_number = form.cleaned_data['phone_number']
             password = form.cleaned_data['password']
-            user = authenticate(request, phone_number=phone_number, password=password)
+            if len(str(phone_number)) == 11:
+                phone_number = phone_number[1:]
+            user = authenticate(request, username=phone_number, password=password)
+
             if user is not None:
                 login(request, user)
-                if request.GET.get('next'):
-                    return HttpResponseRedirect(request.GET.get('next'))
-                return HttpResponseRedirect('/profile/')
-            else:
-                context.update({'msg': 'password failed'})
-        return render(request, self.template_name, context)
-
-
-class ForgetPasswordView(View):
-    template_name = "members/forget_password.html"
-
-    def get(self, request):
-        form = ForgetPasswordForm()
-        return render(request, self.template_name, {'form': form})
-
-
-    def post(self, request):
-        form = ForgetPasswordForm(request.POST)
+                return HttpResponseRedirect('/home/')
         context = {'form': form}
-        if form.is_valid():
-            phone_number = form.cleaned_data['phone_number']
-            code = random.randint(121212, 989898)
-            print(code)
-            otp = Otp.objects.create(number=phone_number, otp_type='f_password', code=code)
-            # sendcode('4A35576B377A56736E33326F61774C313261634D372B6C70767930566253626959594A55494C412B597A773D', {'sender': '10008663', 'receptor': phone_number, 'message': f' کد تغییر پسورد:\n {password}'})
-            context.update({'msg': 'success'})
-            return HttpResponseRedirect('confirm/')
         return render(request, self.template_name, context)
 
 
-class ConfirmForgetPasswordView(View):
-    template_name = "members/confirm_forget_password.html"
-
-    def get(self, request):
-        form = ConfirmForgetPasswordForm()
-        return render(request, self.template_name, {'form': form})
-    
-
-    def post(self, request):
-        form = ConfirmForgetPasswordForm(request.POST)
-        context = { 'form' : form}
-        
-        if form.is_valid():
-            code = form.cleaned_data['code']
-            new_password = form.cleaned_data['new_password']
-            phone_number = form.cleaned_data['phone_number']
-            if Otp.objects.filter(number=phone_number, code=code, otp_type='f_password', expire_time__gte=datetime.datetime.now()).exists():
-                user = User.objects.get(phone_number=phone_number)
-                user.set_password(new_password)
-                user.save()
-                return HttpResponseRedirect('/profile/')
-            else:
-                context.update({'msg': 'code filed'})
-        return render(request, self.template_name, context)
-    
-
-class ChangePassword(LoginRequiredMixin, View):
+class ChangePassword(View):
     template_name = 'members/change_password.html'
 
     def get(self, request):
@@ -163,28 +110,22 @@ class ChangePassword(LoginRequiredMixin, View):
         form = ChangePasswordForm(request.POST)
         
         if form.is_valid():
-            context = {
+            old_password = form.cleaned_data.get('old_password')
+            new_password = form.cleaned_data.get('new_password1')
+            user = User.objects.get(username=request.user.username)
+            password_check = authenticate(request, phone_number=user.phone_number, password=old_password)
+
+            if password_check is not None:
+                user.set_password(new_password)
+                user.save()
+                return render(request, self.template_name, {"msg": "success"})
+            else:
+                context = {
                     'form': form,
                     'msg': "old_password",
                 }
-            
-            old_password = form.cleaned_data.get('old_password')
-            new_password = form.cleaned_data.get('new_password1')
-            new_password2 = form.cleaned_data.get('new_password2')
-            if new_password == new_password2:
-                user = request.user
-                password_check = authenticate(request, phone_number=user.phone_number, password=old_password)
-
-                if password_check is not None:
-                    user.set_password(new_password)
-                    user.save()
-                    return render(request, self.template_name, {"msg": "success"})
-                else:
-                    context.update({'msg': "old_password"})
-            else:
-                context.update({'msg': "passwords not match",})
-        return render(request, self.template_name, context)
-
+                return render(request, self.template_name, context)
+        return render(request, self.template_name, {'form': form})
 
 
 class NotifacationView(ListView):

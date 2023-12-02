@@ -21,31 +21,37 @@
                         <div class="col-10">
                             <label for="email" class="form-label">ایمیل</label>
                             {{form.email}}
-                            <!-- <input type="email" name="" class="form-control" id="email"> -->
+                            {% for error in form.email.errors %}
+                                {{ error }}
+                            {% endfor %}
                         </div>
                         <div class="col-10">
                             <label for="email" class="form-label">یوزرنیم</label>
                             {{form.username}}
-                            <!-- <input type="email" name="" class="form-control" id="email"> -->
+                            {% for error in form.username.errors %}
+                                {{ error }}
+                            {% endfor %}
                         </div>
                         <div class="col-10">
                             <label for="phone_number" class="form-label">شماره تلفن</label>
                             {{form.phone_number}}
-                            <!-- <input type="number" name="" class="form-control" id="phone_number"> -->
+                            {% for error in form.phone_number.errors %}
+                                {{error}}
+                            {% endfor %}
                         </div>
                         <div class="col-lg-5 col-10">
                             <label for="password1" class="form-label">پسورد</label>
                             {{form.password1}}
-                            <!-- <input type="password" name="" class="form-control" id="password1"> -->
                         </div>
+                        {% if msg == "password not match" %}
+                        <p>خطا: پسورد ها با هم تفاوت دارند</p>
+                        {% endif %}
                         <div class="col-lg-5 col-10">
                             <label for="password2" class="form-label">تکرار پسورد</label>
                             {{form.password2}}
-                            <!-- <input type="password" name="" class="form-control" id="password2"> -->
                         </div>
                         <div class="col-10 pt-3">
                             <div class="form-check">
-                                <!-- <button type="button" onclick="check_rules()" >accept rules</button> -->
                                 <input class="form-check-input" onclick="check_rules()" type="checkbox" value="" id="accept_rules" checked="">
                                 <label for="accept_rules" class="form-check-label">من <a href="">قوانین</a> سایت را قبول
                                     دارم</label>
