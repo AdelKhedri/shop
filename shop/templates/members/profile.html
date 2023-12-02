@@ -52,9 +52,12 @@ active
             <label for="organization" class="form-label">شماره ملی</label>
             <!-- <input type="text" class="form-control" id="organization" name="organization" value="ThemeSelection"> -->
             {{form_profile.nashnalcode}}
-            {% if form.errors %}
+            {% for error in form_profile.nashnalcode.errors %}
+              {{error}}
+            {% endfor %}
+            <!-- {% if form.errors %}
               {{form.errors}}
-            {% endif %}
+            {% endif %} -->
           </div>
         </div>
         <div class="mt-2">
@@ -86,6 +89,9 @@ active
           <div class="col-lg-5 col-10">
             <label for="phone_number" class="form-label">شماره تلفن</label>
             {{form_user.phone_number}}
+            {% for error in form_user.phone_number.errors %}
+            {{error}}
+            {% endfor %}
             {% if msg_user == "phone_number error" %}
               <p class="text-danger">خطا: شماره تلفن تکراری است</p>
             {% endif %}

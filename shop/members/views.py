@@ -187,7 +187,7 @@ class ChangePassword(LoginRequiredMixin, View):
 
 
 
-class NotifacationView(ListView):
+class NotifacationView(LoginRequiredMixin, ListView):
     template_name = "members/notifacations.html"
     model = Notifacation
     context_object_name = "notifacations"
@@ -198,7 +198,7 @@ class NotifacationView(ListView):
         return query
 
 
-class ProfileUpdate(View):
+class ProfileUpdate(LoginRequiredMixin, View):
     template_name = 'members/profile.html'
 
     def get(self, request):
@@ -241,10 +241,14 @@ class ProfileUpdate(View):
                 user = users.get(id=request.user.id)
                 if phone_number != user.phone_number:
                     user.is_active =False
+                    user.phone_number = phone_number
                     user.save()
                     request.session['phone_number'] = phone_number
-                    # send_code() this method already is not created.
-                    return HttpResponseRedirect(redirect_to="/sinup/confirm_phone/")
+                    code = random.randint(123456, 989876)
+                    print(code)
+                    otpp = Otp.objects.create(number=int(phone_number), code=code, otp_type = "sinup")
+                    # send_code() 
+                    return HttpResponseRedirect(redirect_to="/profile/sinup/confirm_phone/")
                 form_user.save()
                 context.update({'msg_user': 'update user success'})
         else:

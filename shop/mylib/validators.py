@@ -15,3 +15,6 @@ def phone_validator(value):
         raise ValidationError(_("شماره تلفن نادرست است."))
 
 
+def nashnal_code_validator(value):
+    if len(str(value)) != 10:
+        raise ValidationError(_('کد ملی باید ۱۰ رقم باشد.'))

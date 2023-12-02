@@ -6,7 +6,7 @@ from django.db.models.base import Model
 from django.forms.utils import ErrorList
 from .models import User, Profile
 from django.core.exceptions import ValidationError
-from mylib.validators import phone_validator
+from mylib.validators import phone_validator, nashnal_code_validator
 from django.utils.translation import gettext_lazy as _
 
 def phone_number_exist(value):
@@ -69,11 +69,12 @@ class ChangePasswordForm(forms.Form):
 
 
 class ProfileUpdateForm(forms.ModelForm):
+    nashnalcode = forms.IntegerField(widget=forms.NumberInput(attrs={'class': 'form-control'}), validators=[nashnal_code_validator])
     class Meta:
         model = Profile
         fields = ['image', 'nashnalcode']
         widgets = {
-            'nashnalcode': forms.NumberInput(attrs={'class': 'form-control'}),
+            # 'nashnalcode': forms.NumberInput(attrs={'class': 'form-control'}),
             'image': forms.FileInput(attrs={'class': ''})
         }
     
@@ -90,11 +91,12 @@ class UserUpdateForm(forms.ModelForm):
     email = forms.EmailField(required=False ,widget=forms.EmailInput(attrs={'class': 'form-control'}))
     first_name = forms.CharField(required=False ,widget=forms.TextInput(attrs={'class': 'form-control'}))
     last_name = forms.CharField(required=False ,widget=forms.TextInput(attrs={'class': 'form-control'}))
+    phone_number = forms.IntegerField(required=False ,widget=forms.NumberInput(attrs={'class': 'form-control'}), validators=[phone_validator])
 
     class Meta:
         model = User
         fields = ['username', 'email', 'phone_number', "first_name", "last_name"]
         widgets = {
             'username': forms.TextInput(attrs={'class': 'form-control'}),
-            'phone_number': forms.NumberInput(attrs={'class': 'form-control'}),
+            # 'phone_number': forms.NumberInput(attrs={'class': 'form-control'}),
         }
