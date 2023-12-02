@@ -1,6 +1,6 @@
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
-# from members.views import User
+from ShopApp.models import Shop
 
 
 def phone_validator(value):
@@ -18,3 +18,8 @@ def phone_validator(value):
 def nashnal_code_validator(value):
     if len(str(value)) != 10:
         raise ValidationError(_('کد ملی باید ۱۰ رقم باشد.'))
+
+
+def shop_username_validator(value):
+    if Shop.objects.filter(username=value).exists():
+        raise ValidationError(_('فروشگاهی با این نام از قبل وجود دارد'))

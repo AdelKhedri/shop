@@ -1,7 +1,7 @@
 {% extends 'home/base.html' %}
 
 {% load static %}
-{% block title %}درخواست برداشت و پرداخت{% endblock %}
+{% block title %}ساخت فروشگاه{% endblock %}
 {% block open3 %}
 open
 {% endblock %}
@@ -24,41 +24,59 @@ active
 					<div class="col-md-6 py-2">
 						<div class="input-group">
 							{{form_shop.name}}
-							<!-- <input type="number" class="form-control" placeholder="شماره کارت"> -->
 							<span class="input-group-text" id="basic-addon13">نام</span>
 						</div>
 					</div>
 					<div class="col-md-6 py-2">
 						<div class="input-group">
 							{{form_shop.username}}
-							{% if msg == "username" %}
-							<p class="bg-warning">یوزرنیم استفاده شده</p>
-							{% endif %}
-							<!-- <input type="number" class="form-control" placeholder="شماره شبا"> -->
+							{{form_shop.username.errors}}
 							<span class="input-group-text" id="basic-addon13">یوزرنیم(ادرس)</span>
 						</div>
 					</div>
 					<div class="col-md-6 py-2">
 						<div class="input-group">
 							{{form_shop.phone_number}}
-							<!-- <input type="number" class="form-control" placeholder="شماره کارت"> -->
+							{% for error in form_shop.phone_number.errors %}
+								{{error}}
+							{% endfor %}
 							<span class="input-group-text" id="basic-addon13">شماره تلفن</span>
 						</div>
 					</div>
 					<div class="col-md-6 py-2">
-						<div class="input-group">
-							{{form_shop.small_image}}
-							<!-- <input type="number" class="form-control" placeholder="شماره کارت"> -->
-							<span class="input-group-text" id="basic-addon13">عکس پروفایل</span>
+						<div class="d-flex align-items-start align-items-sm-center gap-4">
+						  {% if shop.small_image.url %}
+						  <img src="{{shop.small_image.url}}" alt="user3-avatar" class="d-block rounded" id="uploadedAvatar"
+							width="100" height="100">
+						  {% else %}
+						  <img src="/media/images/shops/default-image-small.png" alt="user-avatar" class="d-block rounded"
+							id="uploadedAvatar" width="100" height="100">
+						  {% endif %}
+						  <div class="button-wrapper">
+							<label for="upload" class="btn btn-primary me-2 mb-4" tabindex="0">
+							  {{form_shop.small_image}}
+							</label>
+						  </div>
 						</div>
-					</div>
-					<div class="col-md-6 py-2">
-						<div class="input-group">
-							{{form_shop.banner_image}}
-							<!-- <input type="number" class="form-control" placeholder="شماره کارت"> -->
-							<span class="input-group-text" id="basic-addon13">عکس بنر</span>
+					  </div>
+					  <div class="col-md-6 py-2">
+						<div class="d-flex align-items-start align-items-sm-center gap-4">
+						  {% if shop.banner_image.url %}
+						  <img src="{{shop.banner_image.url}}" alt="user3-avatar" class="d-block rounded" id="uploadedAvatar"
+							width="100" height="100">
+						  {% else %}
+						  <img src="/media/images/shops/default-image-banner.png" alt="user-avatar" class="d-block rounded"
+							id="uploadedAvatar" width="100" height="100">
+						  {% endif %}
+						  <div class="button-wrapper">
+							<!-- <form action=""  method="post" enctype="multipart/form-data"> -->
+							{% csrf_token %}
+							<label for="upload" class="btn btn-primary me-2 mb-4" tabindex="0">
+							  {{form_shop.banner_image}}
+							</label>
+						  </div>
 						</div>
-					</div>
+					  </div>
 					<div class="col-10 col-sm-12 py-2">
 						<h5>توضیحات</h4>
 							{{form_shop.description}}
