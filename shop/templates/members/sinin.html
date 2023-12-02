@@ -21,18 +21,16 @@
                         <div class="col-10">
                             <label for="phone_number" class="form-label">شماره تلفن</label>
                             {{form.phone_number}}
-                            {% if form.errors %}
-                                <p class="text-danger">{{form.errors}}</p>
-                            {% endif %}
-                            <!-- <input type="number" name="" class="form-control" id="phone_number"> -->
+                            {% for error in form.phone_number.errors %}
+                                {{error}}
+                            {% endfor %}
                         </div>
                         <div class="col-lg-5 col-10">
                             <label for="password1" class="form-label">پسورد</label>
                             {{form.password}}
-                            {% if form.errors.password %}
-                                <p class="text-danger">{{form.errors}}</p>
+                            {% if msg == "password failed" %}
+                                <p>پسورد اشتباه است</p>
                             {% endif %}
-                            <!-- <input type="password" name="" class="form-control" id="password1"> -->
                         </div>
                         <div class="col-10 pt-2">
                             <button type="submit" id="submit" class="btn btn-success me-2">ورود</button>

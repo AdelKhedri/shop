@@ -80,12 +80,13 @@ WSGI_APPLICATION = 'shop.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'django_shop_db',
-        'USER': 'django-user-shop',
-        'PASSWORD': '$my73s3Q1l9',
-        'HOST': 'localhost',
-        'PORT': 3306,
+        # 'ENGINE': 'django.db.backends.mysql',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR/'django_shop_db.sqlite3',
+        # 'USER': 'django-user-shop',
+        # 'PASSWORD': '$my73s3Q1l9',
+        # 'HOST': 'localhost',
+        # 'PORT': 3306,
     }
 }
 
@@ -129,7 +130,7 @@ STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static/'),)
 AUTH_USER_MODEL = 'members.User'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 MEDIA_URL = 'media/'
-
+LOGIN_URL = "/profile/sinin/"
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'

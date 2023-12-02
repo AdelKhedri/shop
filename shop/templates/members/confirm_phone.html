@@ -21,6 +21,9 @@
                         <div class="col-10">
                             <label for="verifay_code" class="form-label">کد تایید</label>
                             <input type="number" name="verifay_code" class="form-control" id="verifay_code">
+                            {% if msg %}
+                                <h5>code not mached.</h5>
+                            {% endif %}
                         </div>
                         <div class="col-10">
                             <label for="phone_number" class="form-label">شماره تلفن</label>
