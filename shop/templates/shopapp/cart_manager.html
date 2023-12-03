@@ -42,10 +42,10 @@ active
 					</div>
 					{% endfor %}
 					<div class="col-12 mb-2">
-						<p>قیمت کل = </p>
+						<p>قیمت کل = {{sum_price.sum}}</p>
 					</div>
 					<div class="col-12 mb-2">
-						<a class="btn btn-primary">خرید</a>
+						<a target="_blank" href="confirm/" class="btn btn-primary">خرید</a>
 					</div>
                 </div>
 				{% if by == 'success' %}

@@ -13,7 +13,7 @@ class Shop(models.Model):
     is_active = models.BooleanField(default=False, verbose_name="فعال")
     phone_number = models.BigIntegerField(null=True, blank=True, verbose_name="شماره تلفن")
     coin = models.IntegerField(default=0, verbose_name="موجودی")
-
+    
     class Meta:
         verbose_name = "فروشگاه"
         verbose_name_plural = "فروشگاها"
@@ -70,6 +70,11 @@ class Product(models.Model):
         verbose_name_plural = "محصولات"
         ordering = ['name']
     
+    
+    def get_left_over_count(self) -> int:
+        return self.max_sel - self.now_selled
+
+
     def __str__(self):
         return self.name
 
@@ -103,18 +108,19 @@ class ProductImage(models.Model):
 
 class BuyProduct(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name="محصول")
-    price = models.IntegerField()
+    count = models.IntegerField(default=1, verbose_name='تعداد')
+    # price = models.IntegerField()
     is_payed = models.BooleanField(default=False, verbose_name='انجام شده')
-    shop = models.ForeignKey(Shop, on_delete=models.CASCADE, verbose_name="فروشگاه")
-    costomer = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='خریدار')
-    time = models.DateTimeField(auto_now_add=True, verbose_name="زمان")
+    # shop = models.ForeignKey(Shop, on_delete=models.CASCADE, verbose_name="فروشگاه")
+    customer = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='خریدار')
+    time = models.DateTimeField(auto_now=True, verbose_name="زمان")
 
     def get_time(self):
         return time.ctime(self.time)
 
     class Meta:
-        verbose_name = "محصول خریداری شده"
-        verbose_name_plural = "محصولات خریداری شده"
+        verbose_name = "سبد خرید"
+        verbose_name_plural = "سبد های خرید"
 
     def __str__(self):
         return self.product.name

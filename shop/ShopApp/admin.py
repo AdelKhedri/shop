@@ -20,8 +20,8 @@ class SocialRegister(admin.ModelAdmin):
     list_display = ('name', 'address', 'shop',)
 
 class BuyProductRegister(admin.ModelAdmin):
-    list_display = ('product', 'price', 'shop',)
-    search_fields = ('product', 'shop')
+    list_display = ('product',)
+    search_fields = ('product', 'shop__username')
 
 admin.site.register(Shop, ShopRegister)
 admin.site.register(Category, CategoryRegister)
