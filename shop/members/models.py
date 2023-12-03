@@ -21,7 +21,7 @@ class User(AbstractUser):
 class Profile(models.Model):
     image = models.ImageField(upload_to="images/profiles/", default='images/profiles/default-image-profile.png', blank=True, null=True,verbose_name="عکس پروفایل")
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    coin = models.IntegerField(default=0, verbose_name="موجودی(ریال)")
+    coin = models.IntegerField(default=120000, verbose_name="موجودی(ریال)")
     invaited =  models.CharField(max_length=100, verbose_name="افراد دعوت شده", blank=True, null=True)
     nashnalcode = models.IntegerField(blank=True, null=True, verbose_name="کد ملی")
 
@@ -48,7 +48,7 @@ class OtpTypeChice(models.TextChoices):
 class Otp(models.Model):
     number = models.BigIntegerField(verbose_name="شماره موبایل")
     code = models.IntegerField(verbose_name="کد تایید")
-    expire_time = models.DateTimeField(default=datetime.datetime.now() +datetime.timedelta(seconds=300), verbose_name="زمان انقضا")
+    expire_time = models.DateTimeField(verbose_name="زمان انقضا")
     otp_type = models.CharField(choices=OtpTypeChice.choices, max_length=10)
     
     class Meta:
