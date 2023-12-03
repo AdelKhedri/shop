@@ -56,7 +56,11 @@
                 <div class="row align-items-center">
                     <div class="col-md-3 col-sm-4">
                         <p>{{shop.name}}</p>
-                        <img src="{% static 'assets/img/avatars/1.png' %}" alt="">
+                        {% if shop.small_image.url %}
+                            <img style="max-height: 200px;max-width: 200px;" src="{{shop.small_image.url}}" alt="">
+                        {% else %}
+                            <img src="{% static 'assets/img/avatars/1.png' %}" alt="">
+                        {% endif %}
                     </div>
                     <div class="col-md-3 col-sm-4">
                         <div>
@@ -145,15 +149,20 @@
 									</div>
 									<div class="row">
 										<div class="col-8">
+                                            {% if request.user.is_authenticated %}
 											<form action="/shops/cartmanager/" method="post">
 												<input type="hidden" name="product" value="{{like.product.id}}">
 												<input type="hidden" name="product_count" value="1">
 												{% csrf_token %}
 												<button class="btn btn-primary">افزودن به سبد خرید</button>
 											</form>
+                                            {% else %}
+                                            <a href="/profile/sinin/" class="btn btn-warning">ورود</a>
+                                            {% endif %}
 											<!-- <a href="" class="btn btn-primary">افزودن به سبد خرید</a> -->
 										</div>
 										<div class="col-4">
+                                            {% if request.user.is_authenticated %}
 											<form action="/shops/u/like/" method="post">
 												{% csrf_token %}
                                                 <input type="hidden" name="product_like" value="{{product.id}}">
@@ -163,11 +172,23 @@
                                                 <button class="btn btn-primary">لایک</button>
                                                 {% endif %}
 											</form>
+                                            {% else %}
+                                            <a href="/profile/sinin/" class="btn btn-warning">ورود</a>
+                                            {% endif %}
 										</div>
 									</div>
 								</div>
 								<div class="card-footer">
+                                    <!-- {% if product.left_over_sel > 1 %}
+									<small class="text-muted">{{product.left_over_sel}}</small>
+                                    {% elif product.left_over_sell == 1 %}
 									<small class="text-muted">آخرین دونه</small>
+                                    {% else %} -->
+                                    <!-- ss'{{product.left_over_sel}}'
+                                    m{{product.max_sel}}
+                                    n{{product.now_selled}} -->
+									<!-- <small class="text-muted">فروش این محصول تمام شده.</small>
+                                    {% endif %} -->
 								</div>
 							</div>
 						</div>
@@ -180,9 +201,21 @@
         </div>
         <div style="display: none;" id="tab-info">
             <h1>info</h1>
+            <p>
+                در این تب اطلاعات توسط لینک زیر بصورت json ارسال میشه
+                فرانت کار اونو دریافت میکنه و اینجا نمایش میده
+                با جاواسکریپت.
+            </p>
+            <a href="http://127.0.0.1:8000/shops/vizard/categorys">نمایش دسته بندی ها</a>
         </div>
         <div style="display: none;" id="tab-products">
             <h1>products</h1>
+            <p>
+                در این تب اطلاعات <strong class="text-danger">محصولات</strong> توسط لینک زیر بصورت json ارسال میشه
+                فرانت کار اونو دریافت میکنه و اینجا نمایش میده
+                با جاواسکریپت.
+            </p>
+            <a href="http://127.0.0.1:8000/shops/vizard/products">نمایش محصولات</a>
         </div>
         <script>
             var tab_category = document.getElementById('tab-categorys');

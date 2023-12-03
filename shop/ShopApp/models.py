@@ -63,6 +63,8 @@ class Product(models.Model):
     price = models.IntegerField(default=0, verbose_name="قیمت")
     shop = models.ForeignKey(Shop, on_delete=models.CASCADE, verbose_name="فروشگاه")
     description = models.CharField(max_length=400,null=True, blank=True, verbose_name="درباره")
+    now_selled = models.IntegerField(default=0, verbose_name="تعداد فروخته شده")
+    
     class Meta:
         verbose_name = "محضول"
         verbose_name_plural = "محصولات"
