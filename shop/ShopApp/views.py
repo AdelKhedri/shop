@@ -9,10 +9,12 @@ from .forms import (ShopAddForm, ShopEditeForm, CreateCategorysForm, EditeCatego
 import datetime
 from django.db.models import Count, Max, Sum
 import json
+
+from django.contrib.auth.mixins import LoginRequiredMixin
 # Create your views here.
 
 
-class SopeCreateView(View):
+class SopeCreateView(LoginRequiredMixin, View):
     tesmplate_name = "shopapp/shop_create_list.html"
 
     def setup(self, request, *args, **kwargs):
@@ -50,7 +52,7 @@ class SopeCreateView(View):
         return render(request, self.tesmplate_name, self.context)
 
 
-class ShopEditeView(View):
+class ShopEditeView(LoginRequiredMixin, View):
     template_name = 'shopapp/shop_create_list.html'
 
     def setup(self, request, username, *args, **kwargs):
@@ -81,13 +83,13 @@ class ShopEditeView(View):
         return render(request, self.template_name, self.context)
 
 
-class ShopDeleteView(View):
+class ShopDeleteView(LoginRequiredMixin, View):
     def get(self, request, username):
         shop = Shop.objects.get(username=username, manager=request.user).delete()
         return redirect('add shop')
 
 
-class ShopManagerView(ListView):
+class ShopManagerView(LoginRequiredMixin, ListView):
     template_name = 'shopapp/shops_manager.html'
     paginate_by = 12
     context_object_name = 'shop_list'
@@ -97,14 +99,15 @@ class ShopManagerView(ListView):
         return query
     
 
-class ShopMnagementView(View):
+class ShopMnagementView(LoginRequiredMixin, View):
     template_name = 'shopapp/shop_dashboard.html'
 
     def setup(self, request, username, *args, **kwargs):
-        self.shop = Shop.objects.get(username=username, manager=request.user)
+        shop = Shop.objects.get(username=username, manager=request.user)
+        # all_sells =  BuyProduct.objects.filter(shop__manager__username=request.user.username,shop__username=username).count()
         self.context = {
-            'shop': self.shop,
-            'shop_username': self.shop.username,
+            'shop': shop,
+            'shop_username': username,
         }
         return super().setup(request, username, *args, **kwargs)
     
@@ -112,7 +115,7 @@ class ShopMnagementView(View):
         return render(request, self.template_name, self.context)
 
 
-class ShopAddListProductView(View):
+class ShopAddListProductView(LoginRequiredMixin, View):
     template_name = 'shopapp/shop_product.html'
 
     def setup(self, request, username, *args, **kwargs):
@@ -144,8 +147,8 @@ class ShopAddListProductView(View):
             for i in categorys_list_obj:
                 i.products.add(product)
         self.context.update({'msg': 'success',})
+
         list_images = []
-        files = request.FILES.getlist('image_1')
         number = 1
         while True:
             if request.FILES.getlist(f'image_{number}'):
@@ -158,19 +161,21 @@ class ShopAddListProductView(View):
             ProductImage.objects.create(product=product, image=request.FILES[image])
             images += 1
         self.context.update({'img_count': images})
+
         return render(request, self.template_name, self.context)
 
 
-class DeleteProductView(View):
+class DeleteProductView(LoginRequiredMixin, View):
     def get(self, request, username, pk):
         if Shop.objects.filter(username=username, manager=request.user).exists():
             Product.objects.get(pk=pk).delete()
+            # BuyProduct.objects.filter(product__id=pk).delete()
             return HttpResponseRedirect(redirect_to=f'/shops/managment/{username}/products/')
         else:
             return render(request, 'home/403.html', {})
 
 
-class DetailsProductView(View):
+class DetailsProductView(LoginRequiredMixin, View):
     def get(self, request, username, pk):
         product = Product.objects.get(shop__username=username, id=pk)
         images = ProductImage.objects.filter(product__id=pk)
@@ -187,7 +192,7 @@ class DetailsProductView(View):
         }
         while i <= 7:
             yesterday = today-datetime.timedelta(days=1)
-            product_info = BuyProduct.objects.filter(product=product, shop__username=username, shop__manager=request.user, time__range=(yesterday, today)).values('price').aggregate(sum_price=Sum('price'), count=Count('price'))
+            product_info = BuyProduct.objects.filter(product=product, shop__username=username, shop__manager=request.user, time__range=(yesterday, today), is_payed=True).values('price').aggregate(sum_price=Sum('price'), count=Count('price'))
             # print(product_info)
             context.update({f'info_{i}_day': product_info, f'info_{i}_day_time': today.date})
             today=yesterday
@@ -196,18 +201,18 @@ class DetailsProductView(View):
         return render(request, 'shopapp/shop_detail_product.html', context)
 
 
-class UpdateProductView(View):
+class UpdateProductView(LoginRequiredMixin, View):
     template_name = 'shopapp/shop_product_update.html'
     def setup(self, request, username, pk, *args, **kwargs):
-        self.product = Product.objects.get(id=pk, shop__manager=request.user, shop__username=username)
+        product = Product.objects.get(id=pk, shop__manager=request.user, shop__username=username)
         categorys_list = Category.objects.filter(shop__username=username, shop__manager=request.user)
         form_class = UpdateProductForm(instance=self.product)
-        self.product_images_list = ProductImage.objects.filter(product=self.product)
+        product_images_list = ProductImage.objects.filter(product=self.product)
         self.context = {
             'categorys_list': categorys_list,
             'form_product': form_class,
-            'product': self.product,
-            'products_image': self.product_images_list,
+            'product': product,
+            'products_image': product_images_list,
             'shop_username': username,
         }
         return super().setup(request, username, pk, *args, **kwargs)
@@ -219,7 +224,10 @@ class UpdateProductView(View):
         form = UpdateProductForm(request.POST, instance=self.product)
         if form.is_valid():
             form.save()
-            self.context.update({'form_product': UpdateProductForm(request.POST), 'msg': 'success'})
+            self.context.update({
+                'form_product': UpdateProductForm(request.POST),
+                'msg': 'success'
+                })
 
             category_client_list = request.POST.getlist('category')
             category_add = [int(i) for i in category_client_list]
@@ -257,24 +265,26 @@ class UpdateProductView(View):
             #         images_remove.append(name)
         return render(request, self.template_name, self.context)
 
-class CategoryManagerView(View):
+class CategoryManagerView(LoginRequiredMixin, View):
     template_name = "shopapp/category_manager.html"
 
     def setup(self, request, username, *args, **kwargs):
-        self.categorys = Category.objects.filter(shop__username=username, shop__manager=request.user)
-        self.products = Product.objects.filter(shop__manager=request.user, shop__username=username)
-        self.form_class = CreateCategorysForm()
+        categorys = Category.objects.filter(shop__username=username, shop__manager=request.user)
+        products = Product.objects.filter(shop__manager=request.user, shop__username=username)
+        form_class = CreateCategorysForm()
         self.context = {
             'shop_username': username,
-            'categorys': self.categorys,
-            'form': self.form_class,
-            'products_list': self.products
+            'categorys': categorys,
+            'form': form_class,
+            'products_list': products,
+            'title': 'مدیریت دسته بندی ها'
         }
         return super().setup(request, username, *args, **kwargs)
     
+    
     def get(self, request, username):
-
         return render(request, self.template_name, self.context)
+
 
     def post(self, request, username):
         form = CreateCategorysForm(request.POST)
@@ -293,24 +303,25 @@ class CategoryManagerView(View):
         return render(request, self.template_name, self.context)
 
 
-class DeleteCategoryView(View):
+class DeleteCategoryView(LoginRequiredMixin, View):
     def get(self, request, username, pk):
         category_query = Category.objects.filter(shop__username=username, shop__manager=request.user, id=pk).delete()
         return redirect('categorys manager',username=username)
 
 
-class EditeCategoryView(View):
-    template_name = 'shopapp/category_edite.html'
+class EditeCategoryView(LoginRequiredMixin, View):
+    template_name = 'shopapp/category_manager.html'
 
     def setup(self, request, username, pk, *args, **kwargs):
         category = Category.objects.get(id=pk, shop__username=username, shop__manager=request.user)
-        form_class = EditeCategoryForm(initial={'name':category.name, 'for_sell': category.for_sell, 'number_ordering': category.number_ordering})
+        form_class = CreateCategorysForm(initial={'name':category.name, 'for_sell': category.for_sell, 'number_ordering': category.number_ordering})
         product_list = Product.objects.filter(shop__username=username, shop__manager=request.user)
         self.context = {
             'category':category,
             'form': form_class,
             'shop_username': username,
             'products_list': product_list,
+            'title': f'ویرایش دسته بندی {category.name}'
         }
         return super().setup(request, username, pk, *args, **kwargs)
     
@@ -318,7 +329,7 @@ class EditeCategoryView(View):
         return render(request, self.template_name, self.context)
     
     def post(self, request, username, pk):
-        form = EditeCategoryForm(request.POST)
+        form = CreateCategorysForm(request.POST)
         if form.is_valid():
             name = form.cleaned_data['name']
             for_sell = form.cleaned_data['for_sell']
@@ -340,9 +351,9 @@ class EditeCategoryView(View):
 
 
 
-class OrderListView(View):
+class OrderListView(LoginRequiredMixin, View):
     def get(self, request, username):
-        orderlist = BuyProduct.objects.filter(shop__username=username, shop__manager=request.user)
+        orderlist = BuyProduct.objects.filter(shop__username=username, shop__manager=request.user, is_payed=True).values('product', 'price', 'time')
         context = {
             'orders_list': orderlist,
             'shop_username': username,
@@ -357,7 +368,7 @@ class InfoSellView(View):
         today = datetime.datetime.now()
         while i <= 7:
             yesterday = today-datetime.timedelta(days=1)
-            info_days = BuyProduct.objects.filter(shop__username=username, shop__manager=request.user, time__range=(yesterday,today, ) ).values('price',).aggregate(count=Count('price'), sum_price=Sum('price'))
+            info_days = BuyProduct.objects.filter(shop__username=username, shop__manager=request.user, time__range=(yesterday,today, ) , is_payed=True).values('price',).aggregate(count=Count('price'), sum_price=Sum('price'))
             today=yesterday
             context.update({f'info_{i}_day': info_days, f'info_{i}_day_time': today.date})
             i+=1

@@ -120,7 +120,7 @@ class ForgetPasswordView(View):
             code = random.randint(121212, 989898)
             print(code)
             otp = Otp.objects.create(number=phone_number, otp_type='f_password', code=code)
-            # sendcode('4A35576B377A56736E33326F61774C313261634D372B6C70767930566253626959594A55494C412B597A773D', {'sender': '10008663', 'receptor': phone_number, 'message': f' کد تغییر پسورد:\n {password}'})
+            # sendcode('', {'sender': '10008663', 'receptor': phone_number, 'message': f' کد تغییر پسورد:\n {password}'})
             context.update({'msg': 'success'})
             return HttpResponseRedirect('confirm/')
         return render(request, self.template_name, context)

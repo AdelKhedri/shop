@@ -12,16 +12,22 @@ active
 			<div class="card">
 				<div class="row">
 					<div class="col-lg-3 col-md-4 col-sm-10">
-						<div class="bd-callout bg-card-warning card-warning">نام فروشگاه: </div>
+						<div class="bd-callout bg-card-warning card-warning">نام فروشگاه: {{shop.name|title}}</div>
 					</div>
 					<div class="col-lg-3 col-md-4 col-sm-10">
-						<div class="bd-callout bg-card-warning card-warning ">ایدی فروشگاه: </div>
+						<div class="bd-callout bg-card-warning card-warning ">ایدی فروشگاه: {{shop.username|title}}</div>
 					</div>
 					<div class="col-lg-3 col-md-4 col-sm-10">
-						<div class="bd-callout bg-card-warning card-warning">وضعیت: </div>
+						<div class="bd-callout bg-card-warning card-warning">وضعیت: 
+							{% if shop.is_active %}
+								فعال
+							{% else %}
+								غیرفعال
+							{% endif %}
+						</div>
 					</div>
 					<div class="col-lg-3 col-md-4 col-sm-10">
-						<div class="bd-callout bg-card-warning card-warning">مدیر: </div>
+						<div class="bd-callout bg-card-warning card-warning">مدیر: {{shop.manager.username}}</div>
 					</div>
 				</div>
 			</div>

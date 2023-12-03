@@ -1,7 +1,7 @@
 {% extends 'home/base_shop.html' %}
 
 {% load static %}
-{% block title %}درخواست برداشت و پرداخت{% endblock %}
+{% block title %}{{title}}{% endblock %}
 {% block open1 %}
 open
 {% endblock %}
@@ -35,7 +35,12 @@ active
                             <label for="inputState" class="form-label">محصولات این فروشگاه</label>
                             <select multiple id="inputState" id="products" name="products" class="form-select">
 								{% for product in products_list %}
-                                <option value="{{product.id}}">{{product}}</option>
+									<option value="{{product.id}}" 
+										{% if product in category.products.all %}
+											selected
+										{% endif %}
+										>{{product}}
+									</option>
 								{% endfor %}
                             </select>
                         </div>

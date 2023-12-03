@@ -102,6 +102,7 @@ class ProductImage(models.Model):
 class BuyProduct(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name="محصول")
     price = models.IntegerField()
+    is_payed = models.BooleanField(default=False, verbose_name='انجام شده')
     shop = models.ForeignKey(Shop, on_delete=models.CASCADE, verbose_name="فروشگاه")
     costomer = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='خریدار')
     time = models.DateTimeField(auto_now_add=True, verbose_name="زمان")
