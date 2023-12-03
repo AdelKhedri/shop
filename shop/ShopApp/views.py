@@ -376,7 +376,7 @@ class InfoSellView(LoginRequiredMixin, View):
         return render(request, 'shopapp/info_sells.html', context)
 
 
-class RequestPaymentView(View):
+class RequestPaymentView(LoginRequiredMixin, View):
     template_name = 'payment/request_payment.html'
 
     def setup(self, request, username, *args, **kwargs):

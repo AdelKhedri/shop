@@ -4,9 +4,10 @@ from .forms import CardForm, TransactionForm
 from .models import Card, Transaction, Cart
 from ShopApp.models import Product
 from ShopApp.models import Shop
+from django.contrib.auth.mixins import LoginRequiredMixin
 # Create your views here.
 
-class CardManager(View):
+class CardManager(LoginRequiredMixin, View):
     template_name = "payment/card_manager.html"
 
     def setup(self, request, *args, **kwargs):
@@ -49,7 +50,7 @@ class CardManager(View):
 
 
 
-class RequestPaymentView(View):
+class RequestPaymentView(LoginRequiredMixin, View):
     template_name = 'payment/request_payment.html'
 
     def setup(self, request, username, *args, **kwargs):
@@ -131,7 +132,7 @@ class AddRemoveToCart(View):
         return render(request, self.template_name, context)
 
 
-class TransactionHistory(View):
+class TransactionHistory(LoginRequiredMixin, View):
     def get(self, request, username, *args, **kwargs):
         transaction_history = Transaction.objects.filter(shop__username=username, shop__manager=request.user)
         context = {
