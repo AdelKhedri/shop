@@ -9,7 +9,7 @@ from .forms import (ShopAddForm, ShopEditeForm, CreateCategorysForm, EditeCatego
 import datetime
 from django.db.models import Count, Max, Sum
 import json
-
+from django.db.models import F, Subquery
 from django.contrib.auth.mixins import LoginRequiredMixin
 # Create your views here.
 
@@ -206,8 +206,8 @@ class UpdateProductView(LoginRequiredMixin, View):
     def setup(self, request, username, pk, *args, **kwargs):
         product = Product.objects.get(id=pk, shop__manager=request.user, shop__username=username)
         categorys_list = Category.objects.filter(shop__username=username, shop__manager=request.user)
-        form_class = UpdateProductForm(instance=self.product)
-        product_images_list = ProductImage.objects.filter(product=self.product)
+        form_class = UpdateProductForm(instance=product)
+        product_images_list = ProductImage.objects.filter(product=product)
         self.context = {
             'categorys_list': categorys_list,
             'form_product': form_class,
@@ -361,7 +361,7 @@ class OrderListView(LoginRequiredMixin, View):
         return render(request, 'shopapp/order_product_list.html', context)
 
 
-class InfoSellView(View):
+class InfoSellView(LoginRequiredMixin, View):
     def get(self, request, username):
         i=1
         context = {'shop_username':username}
@@ -424,21 +424,31 @@ class RequestPaymentView(View):
 class ShopView(View):
     def get(self, request, username):
         shop = Shop.objects.get(username=username)
-        all_sell = BuyProduct.objects.filter(shop__username=username).count()
+        all_sell = BuyProduct.objects.filter(shop__username=username, is_payed=True).count()
         categorys = Category.objects.filter(shop__username=username)
-        likes = Likes.objects.filter(user=request.user).values('product__id')
-        likes_list = [item['product__id'] for item in likes]
+        # cat = Category.objects.filter(shop__username=username).prefetch_related('products').annotate(left_over_sel=F('products__max_sel'))
+        # for a in cat:
+        #     print(a.left_over_sel)
+        #     for b in a.products.all():
+        #         print(b)
         products = Product.objects.filter(shop__username=username)
         products_ids = [p.id for p in products]
         imgs_product = ProductImage.objects.filter(product__in=products_ids)
-        
         context = {
             'shop': shop,
             'all_sell': all_sell,
             'categorys_list': categorys,
-            'likes_list': likes_list,
             'imgs_list': imgs_product
         }
+
+
+        if request.user.is_authenticated:
+            print(request.user)
+            likes = Likes.objects.filter(user=request.user).values('product__id')
+            likes_list = [item['product__id'] for item in likes]
+            context.update({'likes_list': likes_list,})
+        
+        
         return render(request, 'shopview/shop_info.html', context)
 
 
@@ -449,7 +459,7 @@ class ShopCategorysView(View):
         context = {
             'categorys_list': categorys,
         }
-        return JsonResponse(context, safe=False,)
+        return JsonResponse(context, safe=False, json_dumps_params={'ensure_ascii':False})
 
 
 class ShopProductsView(View):
@@ -459,7 +469,7 @@ class ShopProductsView(View):
         context = {
             'products_list': products,
         }
-        return JsonResponse(context, safe=False,)
+        return JsonResponse(context, safe=False, json_dumps_params={'ensure_ascii': False})
 
 
 class CartManagerView(View):
