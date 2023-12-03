@@ -43,7 +43,7 @@ class RegisterUser(View):
                 # frist parameter of sendcode is API of cavenegar. get it from this url: https://panel.kavenegar.com/client/Tour/GetStarted
                 # sender parameter of sendcode get it from this url: https://panel.kavenegar.com/client/Lines
                 #sendcode('', {'sender': '10008663', 'receptor': phone_number, 'message': f'کد ثبت نام :\n {code}'})
-                otpp = Otp.objects.create(number=int(phone_number), code=code, otp_type = "sinup")
+                otpp = Otp.objects.create(number=int(phone_number), code=code, otp_type = "sinup", expire_time=datetime.datetime.now() + datetime.timedelta(seconds=300))
                 otpp.save()
                 request.session['phone_number'] = phone_number
                 return HttpResponseRedirect(redirect_to='/profile/sinup/confirm_phone/')
