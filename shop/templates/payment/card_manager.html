@@ -18,6 +18,9 @@ active
 					<div class="col-md-6">
 						<div class="input-group">
 							{{form.card_number}}
+							{% for error in form.card_number.errors %}
+								{{error}}
+							{% endfor %}
 							<!-- <input type="number" class="form-control" placeholder="شماره کارت"> -->
 							<span class="input-group-text" id="basic-addon13">شماره کارت</span>
 						</div>
@@ -25,6 +28,9 @@ active
 					<div class="col-md-6">
 						<div class="input-group">
 							{{form.shaba_number}}
+							{% for error in form.shaba_number.errors %}
+								{{error}}
+							{% endfor %}
 							<!-- <input type="number" class="form-control" placeholder="شماره شبا"> -->
 							<span class="input-group-text" id="basic-addon13">شماره شبا</span>
 						</div>

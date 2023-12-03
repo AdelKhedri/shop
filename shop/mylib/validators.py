@@ -23,3 +23,22 @@ def nashnal_code_validator(value):
 def shop_username_validator(value):
     if Shop.objects.filter(username=value).exists():
         raise ValidationError(_('فروشگاهی با این نام از قبل وجود دارد'))
+
+
+def card_number_validator(value):
+    if value.isalpha():
+        raise ValidationError(_('شماره کارت نباید حاوی کاراکتر غیر عددی باشد.'))
+    elif value[0] == '0':
+        raise ValidationError(_('شماره کارت نباید با 0 شروع شود'))
+    elif len(value) != 16 :
+        raise ValidationError(_('شماره کارت باید ۱۶ رقم باشد'))
+
+
+def shaba_number_validator(value):
+    value = str(value)
+    if value.isalpha():
+        raise ValidationError(_('شماره شبا نباید حاوی کارکتر غیر عددی باشد.'))
+    elif len(value) != 24:
+        raise ValidationError(_('شماره شبا باید 24 رقم باشد.'))
+
+

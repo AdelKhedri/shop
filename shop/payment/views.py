@@ -34,11 +34,17 @@ class CardManager(View):
             'form': CardForm(),
             'cards': self.cards,
         }
+        
         if form.is_valid():
             card_number = form.cleaned_data['card_number']
             shaba_number = form.cleaned_data['shaba_number']
             Card.objects.create(card_number=card_number, shaba_number= shaba_number, user=request.user)
             context.update({'msg': 'success'})
+        else:
+            context = {
+                "form": form,
+                'msg': 'filed',
+            }
         return render(request, self.template_name, context)
 
 

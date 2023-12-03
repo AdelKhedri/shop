@@ -472,7 +472,7 @@ class ShopProductsView(View):
         return JsonResponse(context, safe=False, json_dumps_params={'ensure_ascii': False})
 
 
-class CartManagerView(View):
+class CartManagerView(LoginRequiredMixin, View):
     template_name = 'shopapp/cart_manager.html'
 
     def get(self, request):
