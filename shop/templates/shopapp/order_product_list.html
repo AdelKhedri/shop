@@ -1,7 +1,7 @@
 {% extends 'home/base_shop.html' %}
 
 {% load static %}
-{% block title %}درخواست برداشت و پرداخت{% endblock %}
+{% block title %}لیست فروش ها{% endblock %}
 
 {% block open1 %}
 open
@@ -21,7 +21,6 @@ active
 						<tr>
 							<th>نام</th>
 							<th>قیمت</th>
-							<td>فروشگاه</td>
 							<th>زمان</th>
 						</tr>
 					</thead>
@@ -33,9 +32,6 @@ active
 							</td>
 							<td>
 								<p>{{order.price}}</p>
-							</td>
-							<td>
-								{{order.shop}}
 							</td>
 							<td>
 								{{order.time}}
