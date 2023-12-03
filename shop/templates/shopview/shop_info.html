@@ -10,6 +10,8 @@
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="{% static 'css/bootstrap.rtl.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
 </head>
 
 <body dir="rtl">
@@ -114,7 +116,7 @@
 								<div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
 									<div id="imgs_p" class="imgs_p{{forloop.counter}} carousel-inner">
 										{% for img in imgs_list %}
-											{% if img.product.id == like.product.id %}
+											{% if img.product.id == product.id %}
 												<div class="img_p{{forloop.parentloop.counter}} carousel-item">
 													<img src="{{img.image.url}}" class="d-block w-100" alt="img">
 												</div>
@@ -151,7 +153,7 @@
 										<div class="col-8">
                                             {% if request.user.is_authenticated %}
 											<form action="/shops/cartmanager/" method="post">
-												<input type="hidden" name="product" value="{{like.product.id}}">
+												<input type="hidden" name="product" value="{{product.id}}">
 												<input type="hidden" name="product_count" value="1">
 												{% csrf_token %}
 												<button class="btn btn-primary">افزودن به سبد خرید</button>

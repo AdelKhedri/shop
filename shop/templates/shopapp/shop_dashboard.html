@@ -36,21 +36,21 @@ active
 			<div class="card border-primary mb-3 mx-3" style="max-width: 18rem;">
 				<div class="card-header">تعداد فروش</div>
 				<div class="card-body text-primary">
-				  <h5 class="card-title">این هفته</h5>
+				  <h5 class="card-title">این هفته : {{ all_seled.sum_product }}</h5>
 				  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
 				</div>
 			  </div>
 			  <div class="card border-primary mb-3 mx-3" style="max-width: 18rem;">
 				<div class="card-header">مبلغ فروش</div>
 				<div class="card-body text-primary">
-				  <h5 class="card-title">این هفته</h5>
+				  <h5 class="card-title">این هفته : {{ all_seled.all_total_price }}</h5>
 				  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
 				</div>
 			  </div>
 			  <div class="card border-primary mb-3 mx-3" style="max-width: 18rem;">
 				<div class="card-header">کل کالاها</div>
 				<div class="card-body text-primary">
-				  <h5 class="card-title">تعداد 2223</h5>
+				  <h5 class="card-title">تعداد : {{ all_seled.count_products }}</h5>
 				  <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
 				</div>
 			  </div>

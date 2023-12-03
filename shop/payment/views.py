@@ -96,40 +96,40 @@ class RequestPaymentView(LoginRequiredMixin, View):
         return render(request, self.template_name, context)
 
 
-class AddRemoveToCart(View):
-    template_name = "payment/cart_manager.html"
+# class AddRemoveToCart(View):
+#     template_name = "payment/cart_manager.html"
 
-    def setup(self, request, *args, **kwargs):
-        self.carts = Cart.objects.filter(customer=request.user)
-        return super().setup(request, *args, **kwargs)
+#     def setup(self, request, *args, **kwargs):
+#         self.carts = Cart.objects.filter(customer=request.user)
+#         return super().setup(request, *args, **kwargs)
     
-    def get(self, request):
-        context = {
-            'carts': self.carts,
-        }
-        acction = request.GET.get('a')
-        id_product = request.GET.get('p')
-        id_cart = request.GET.get('c')
-        if acction == 'del':
-            try:
-                Cart.objects.get(customer=request.user, id=id_cart).delete()
-            except:
-                pass
-            context.update({'msg': 'del succes'})
-        elif acction == 'add':
-            try:
-                product = Product.objects.get(id=id_product)
-                Cart.objects.create(customer=request.user, product=product)
-            except:
-                pass
-            context.update({"msg": 'add success'})
-        else:
-            pass
+#     def get(self, request):
+#         context = {
+#             'carts': self.carts,
+#         }
+#         acction = request.GET.get('a')
+#         id_product = request.GET.get('p')
+#         id_cart = request.GET.get('c')
+#         if acction == 'del':
+#             try:
+#                 Cart.objects.get(customer=request.user, id=id_cart).delete()
+#             except:
+#                 pass
+#             context.update({'msg': 'del succes'})
+#         elif acction == 'add':
+#             try:
+#                 product = Product.objects.get(id=id_product)
+#                 Cart.objects.create(customer=request.user, product=product)
+#             except:
+#                 pass
+#             context.update({"msg": 'add success'})
+#         else:
+#             pass
 
-        redirect_page = request.GET.get('re')
-        if redirect_page:
-            return HttpResponseRedirect(redirect_to=redirect_page)
-        return render(request, self.template_name, context)
+#         redirect_page = request.GET.get('re')
+#         if redirect_page:
+#             return HttpResponseRedirect(redirect_to=redirect_page)
+#         return render(request, self.template_name, context)
 
 
 class TransactionHistory(LoginRequiredMixin, View):

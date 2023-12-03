@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    {% if msg == 'not mony' %}
+        <p>خطا موجودی کم است</p>
+        <p>دلیل: موجودی کافی نیست</p>
+    {% elif msg == 'not enjouy count' %}
+    <p>خرید انجام نشد.</p>
+    <p>دلیل: تعداد درخواستی از کالا ها از تعداد موجود بیشتر است. لطفا انها را کم کنید</p>
+    {% elif msg == 'success' %}
+    <p>خرید انجام شد</p>
+    {% endif %}
+    <form action="?buy=1" method="post">
+        <button type="submit">go</button>
+        {% csrf_token %}
+    </form>
+</body>
+</html>

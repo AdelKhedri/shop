@@ -26,4 +26,5 @@ urlpatterns = [
     path('cartmanager/', views.CartManagerView.as_view(), name="cart manager"),
     path('cart/delete/', views.DeleteCart.as_view(), name="delete cart"),
     path('u/like/', views.LikeView.as_view(), name='like'),
+    path('cartmanager/confirm/', views.ConfirmBuyView.as_view(), name='confirm buy'),
 ]

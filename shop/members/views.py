@@ -257,7 +257,7 @@ class ProfileUpdate(LoginRequiredMixin, View):
 
 
 
-class SupportView(View):
+class SupportView(LoginRequiredMixin, View):
     template_name = 'members/support.html'
 
     def setup(self, request, *args, **kwargs):
