@@ -4,7 +4,7 @@ from django.db.models.query import QuerySet
 from django.shortcuts import render, HttpResponseRedirect
 from django.views.generic import View, ListView
 from .forms import RegisterForm, SininForm, ChangePasswordForm, ProfileUpdateForm, UserUpdateForm, ForgetPasswordForm, ConfirmForgetPasswordForm
-from .models import User, Otp, Notifacation, Profile, Support
+from .models import User, Otp, Notifacation, Profile, Support, BlockIPAddress
 from django.contrib.auth import authenticate, login, logout
 from django.db.models import Q
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -12,10 +12,48 @@ from mylib.apis import sendcode
 import random
 import datetime
 from django.db.models import F
+from mylib.functions import get_ipaddress
 # Create your views here.
 
-def t(request):
+def home(request):
     return render(request, 'home/base.html',{})
+
+
+class FakeAdminPage(View):
+    template_name = 'members/fake_page_admin.html'
+
+    def setup(self, request, *args, **kwargs):
+        self.all_block_ip = BlockIPAddress.objects.all()
+        self.ip_address = get_ipaddress(request)
+        self.context = {
+            'ipaddress': self.ip_address,
+            'all_block_ip': self.all_block_ip
+            }
+        return super().setup(request, args, kwargs)
+    
+
+    def get(self, request):
+        """
+        ایپی کاربر در قالب یک پیام هشدار به ادمین ارسال میشه
+        """
+        # sendcode("", {'sender': '10008663', 'receptor': phone_number, 'message': f'هشدار: یک کاربر با ای پی {ip_address} صفحه ادمین تله را باز کرده.'})
+        return render(request, self.template_name, self.context)
+    
+
+    def post(self, request):
+        if not self.all_block_ip.filter(ipaddress=self.ip_address).exists():
+            BlockIPAddress.objects.create(ipaddress=self.ip_address)
+        return render(request, self.template_name, self.context)
+
+
+class FreeIp(View):
+    def get(self, request):
+        ipaddress = get_ipaddress(request)
+        object_ipaddress = BlockIPAddress.objects.filter(ipaddress=ipaddress)
+        if object_ipaddress.exists():
+            object_ipaddress.delete()
+        return HttpResponseRedirect('/admin')
+
 
 class RegisterUser(View):
     template_name = "members/sinup.html"
@@ -59,12 +97,14 @@ class RegisterPhone(View):
         self.phone_number = request.session.get('phone_number')
         return super().setup(request, *args, **kwargs)
     
+
     def get(self, request):
         context = {
             'phone_number': self.phone_number,
         }
         return render(request, self.template_name, context)
     
+
     def post(self, request):
         verifay_code = request.POST.get('verifay_code')
         
@@ -86,6 +126,7 @@ class SininUser(View):
         }
         return render(request, self.template_name, context)
     
+
     def post(self ,request):
         form = SininForm(request.POST)
         context = {'form': form}
@@ -159,6 +200,7 @@ class ChangePassword(LoginRequiredMixin, View):
         form = ChangePasswordForm()
         return render(request, self.template_name, {"form": form})
 
+
     def post(self, request):
         form = ChangePasswordForm(request.POST)
         
@@ -193,6 +235,7 @@ class NotifacationView(LoginRequiredMixin, ListView):
     context_object_name = "notifacations"
     paginate_by = 8
 
+
     def get_queryset(self):
         query = Notifacation.objects.filter(reciver=self.request.user)
         return query
@@ -209,6 +252,7 @@ class ProfileUpdate(LoginRequiredMixin, View):
             'form_user': form_user,
         }
         return render(request, self.template_name, context)
+
 
     def post(self, request):
         form_profile = ProfileUpdateForm(request.POST, request.FILES, instance=request.user.profile)
@@ -265,8 +309,10 @@ class SupportView(LoginRequiredMixin, View):
         self.context ={"messages": messages}
         return super().setup(request, *args, **kwargs)
     
+
     def get(self, request):
         return render(request, self.template_name, self.context)
+
 
     def post(self, request):
         message = request.POST.get('message')
@@ -276,6 +322,7 @@ class SupportView(LoginRequiredMixin, View):
 
 def custom_404(request, exception):
     return render(request, 'home/404.html', status=404)
+
 
 def logout_view(request):
     logout(request)
