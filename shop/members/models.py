@@ -1,16 +1,48 @@
 import datetime
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.core.exceptions import ValidationError
+from django.utils.translation import gettext_lazy as _
+from django.contrib.auth.models import BaseUserManager
 import time
 
 # Create your models here.
+
+
+class UserManager(BaseUserManager):
+
+    def create_user(self, phone_number, email, username, password=None):
+        if not email:
+            raise ValidationError(_('خطا کاربر باید ایمیل داشته باشد.'))
+        
+        user = self.model(
+            username=username,
+            phone_number=phone_number,
+            email = self.normalize_email(email))
+        print(password)
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
+    
+    def create_superuser(self, phone_number, email, username, password=None):
+        user = self.create_user( phone_number, email, username, password=password)
+        user.is_active = True
+        user.is_superuser = True
+        user.is_staff = True
+        user.save(using=self._db)
+        Profile.objects.create(user=user)
+        return user
+
 
 class User(AbstractUser):
     email = models.EmailField(unique=True, null=True, blank=True, max_length=150, verbose_name="ایمیل")
     phone_number = models.BigIntegerField(unique=True, null=True, blank=True, verbose_name="شماره تلفن")
     is_active = models.BooleanField(default=False, verbose_name="اجازه ورود")
     USERNAME_FIELD = 'phone_number'
-    REQUIRED_FIELDS = ['email', 'username', 'is_active']
+    REQUIRED_FIELDS = ['email', 'username']
+    objects = UserManager()
+
+
     class Meta:
         verbose_name = "کاربر"
         verbose_name_plural = "کاربران"
@@ -94,8 +126,19 @@ class Support(models.Model):
         return self.sender.username
 
 
+class BlockIPAddress(models.Model):
+    """
+    این کاربر ها نمیتوانند پنل ادمین رو ببنند
+    """
+    ipaddress = models.GenericIPAddressField(verbose_name='ایپی')
 
-
+    class Meta:
+        verbose_name = 'ایپی بلاک شده'
+        verbose_name_plural = 'اپی های بلاک شده'
+    def __str__(self):
+        return str(self.ipaddress)
+    
+    
 # class Cart(models.Model):
 #     user = models.ForeignKey(User, on_delete=models.PROTECT, verbose_name="")
 #     product = models.ForeignKey()

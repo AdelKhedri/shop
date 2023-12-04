@@ -1,13 +1,11 @@
 from collections.abc import Mapping
-from typing import Any
 from django import forms
-from django.core.files.base import File
 from django.db.models.base import Model
-from django.forms.utils import ErrorList
 from .models import User, Profile
 from django.core.exceptions import ValidationError
 from mylib.validators import phone_validator, nashnal_code_validator
 from django.utils.translation import gettext_lazy as _
+
 
 def phone_number_exist(value):
     if User.objects.filter(phone_number=value).exists():

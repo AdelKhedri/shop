@@ -1,0 +1,21 @@
+<h1>این صفحه تله برای کاربران کنجکاو طراحی شده</h1>
+<h3>Your IP Address {{ipaddress}}</h3>
+<h3>یک هشدار حاوی ایپی شما برای ادمین ارسال میشود(کدش رو کامنت کردم چیزی ارسال نمیشه)</h3>
+<h3>درصورت زدن دکمه زیر(درخواست پست) آی پی شما به لیست سیاه وارد میشه و نمیتوانید پنل ادمین اصلی رو ببینید</h3>
+<form action="" method="post">
+
+    <label for="phone">شماره تلفن</label>
+    <input type="text" name="phone">
+    <label for="password">رمز</label>
+    <input type="password" name="password" id="">
+    {% csrf_token %}
+    <button type="submit">ورود</button>
+</form>
+<a href="/oq39r71t!7i6i67w@2fbh4&iyi76*23r(8o7834t-)ry521_trh79a+gre67-wef=12ew%5Bw233%5D2ew3%7B23eq;234WFEW2%3E234%3C23Q,/login/?next=/oq39r71t%217i6i67w%402fbh4%26iyi76%2A23r%288o7834t-%29ry521_trh79a%2Bgre67-wef%253D12ew%255Bw233%255D2ew3%257B23eq%253B234WFEW2%253E234%253C23Q%2C/">پنل اصلی امین</a>
+<h2>برای رفع ارور لینک زیر رو باز کنید</h2>
+<a href="/free_ip">ازاد کردن ip</a>
+
+<p>لیست ای پی های مسدود</p>
+{% for ip in all_block_ip %}
+    <p>>{{ip}}</p>
+{% endfor %}
