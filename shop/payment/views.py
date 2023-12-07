@@ -11,7 +11,8 @@ class CardManager(LoginRequiredMixin, View):
     template_name = "payment/card_manager.html"
 
     def setup(self, request, *args, **kwargs):
-        self.cards = Card.objects.filter(user=request.user)
+        if request.user.is_authenticated:
+            self.cards = Card.objects.filter(user=request.user)
         return super().setup(request, *args, **kwargs)
 
     def get(self, request):
@@ -54,8 +55,9 @@ class RequestPaymentView(LoginRequiredMixin, View):
     template_name = 'payment/request_payment.html'
 
     def setup(self, request, username, *args, **kwargs):
-        self.transaction_list = Transaction.objects.filter(user=request.user)
-        self.cards = Card.objects.filter(user=request.user)
+        if request.user.is_authenticated:
+            self.transaction_list = Transaction.objects.filter(user=request.user)
+            self.cards = Card.objects.filter(user=request.user)
         return super().setup(request, *args, **kwargs)
 
     def get(self, request, username):

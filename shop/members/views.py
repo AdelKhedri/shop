@@ -36,6 +36,8 @@ class FakeAdminPage(View):
         """
         ایپی کاربر در قالب یک پیام هشدار به ادمین ارسال میشه
         """
+        # user = User.objects.get(username=request.user.username).get_all_permissions()
+        # print(user)
         # sendcode("", {'sender': '10008663', 'receptor': phone_number, 'message': f'هشدار: یک کاربر با ای پی {ip_address} صفحه ادمین تله را باز کرده.'})
         return render(request, self.template_name, self.context)
     
@@ -305,8 +307,9 @@ class SupportView(LoginRequiredMixin, View):
     template_name = 'members/support.html'
 
     def setup(self, request, *args, **kwargs):
-        messages = Support.objects.filter(Q(reciver=request.user) | Q(sender=request.user))
-        self.context ={"messages": messages}
+        if request.user.is_authenticated:
+            messages = Support.objects.filter(Q(reciver=request.user) | Q(sender=request.user))
+            self.context ={"messages": messages}
         return super().setup(request, *args, **kwargs)
     
 
