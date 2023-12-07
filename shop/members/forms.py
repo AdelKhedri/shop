@@ -1,6 +1,4 @@
-from collections.abc import Mapping
 from django import forms
-from django.db.models.base import Model
 from .models import User, Profile
 from django.core.exceptions import ValidationError
 from mylib.validators import phone_validator, nashnal_code_validator

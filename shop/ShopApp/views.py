@@ -18,11 +18,12 @@ class SopeCreateView(LoginRequiredMixin, View):
     tesmplate_name = "shopapp/shop_create_list.html"
 
     def setup(self, request, *args, **kwargs):
-        self.shop_list = Shop.objects.filter(manager = request.user)
-        self.context = {
-            'shop_list': self.shop_list,
-            'form_shop': ShopAddForm(),
-        }
+        if request.user.is_authenticated:
+            self.shop_list = Shop.objects.filter(manager = request.user)
+            self.context = {
+                'shop_list': self.shop_list,
+                'form_shop': ShopAddForm(),
+            }
         return super().setup(request, *args, **kwargs)
     
     def get(self, request):
@@ -56,14 +57,15 @@ class ShopEditeView(LoginRequiredMixin, View):
     template_name = 'shopapp/shop_create_list.html'
 
     def setup(self, request, username, *args, **kwargs):
-        self.shop_list = Shop.objects.filter(manager = request.user)
-        self.shop = get_object_or_404(Shop, username=username, manager=request.user)
-        form_class = ShopEditeForm(instance=self.shop)
-        self.context = {
-            'shop_list': self.shop_list,
-            'form_shop': form_class,
-            'shop': self.shop
-        }
+        if request.user.is_authenticated:
+            self.shop_list = Shop.objects.filter(manager = request.user)
+            self.shop = get_object_or_404(Shop, username=username, manager=request.user)
+            form_class = ShopEditeForm(instance=self.shop)
+            self.context = {
+                'shop_list': self.shop_list,
+                'form_shop': form_class,
+                'shop': self.shop
+            }
         return super().setup(request, username, *args, **kwargs)
     
 
@@ -103,15 +105,16 @@ class ShopMnagementView(LoginRequiredMixin, View):
     template_name = 'shopapp/shop_dashboard.html'
 
     def setup(self, request, username, *args, **kwargs):
-        shop = get_object_or_404(Shop, username=username, manager=request.user)
-        all_sells =  BuyProduct.objects.filter(product__shop__manager=request.user,product__shop__username=username, is_payed=True).annotate(total_price=F('count') * F('product__price')).aggregate(sum_product=Sum('count'), all_total_price=Sum('total_price'), count_products=Count('product', distinct=True))
-        # all_sells =  BuyProduct.objects.filter(product__shop__manager=request.user,product__shop__username=username, is_payed=True).aggregate(count_seled=Sum('count'), mony_sel=F('count') * F('product__price'), sum_products=Count('product', distinct=True))
-        print(all_sells)
-        self.context = {
-            'shop': shop,
-            'shop_username': username,
-            'all_seled': all_sells,
-        }
+        if request.user.is_authenticated:
+            shop = get_object_or_404(Shop, username=username, manager=request.user)
+            all_sells =  BuyProduct.objects.filter(product__shop__manager=request.user,product__shop__username=username, is_payed=True).annotate(total_price=F('count') * F('product__price')).aggregate(sum_product=Sum('count'), all_total_price=Sum('total_price'), count_products=Count('product', distinct=True))
+            # all_sells =  BuyProduct.objects.filter(product__shop__manager=request.user,product__shop__username=username, is_payed=True).aggregate(count_seled=Sum('count'), mony_sel=F('count') * F('product__price'), sum_products=Count('product', distinct=True))
+            print(all_sells)
+            self.context = {
+                'shop': shop,
+                'shop_username': username,
+                'all_seled': all_sells,
+            }
         return super().setup(request, username, *args, **kwargs)
     
     def get(self, request, username):
@@ -122,15 +125,16 @@ class ShopAddListProductView(LoginRequiredMixin, View):
     template_name = 'shopapp/shop_product.html'
 
     def setup(self, request, username, *args, **kwargs):
-        # self.form_class = AddProductForm()
-        products = Product.objects.filter(shop__username=username, shop__manager=request.user)
-        categorys_list = Category.objects.filter(shop__username=username, shop__manager=request.user)
-        self.context = {
-            # 'form_add_product': self.form_class,
-            'categorys_list': categorys_list,
-            'products_list': products,
-            'shop_username': username,
-        }
+        if request.user.is_authenticated:
+            # self.form_class = AddProductForm()
+            products = Product.objects.filter(shop__username=username, shop__manager=request.user)
+            categorys_list = Category.objects.filter(shop__username=username, shop__manager=request.user)
+            self.context = {
+                # 'form_add_product': self.form_class,
+                'categorys_list': categorys_list,
+                'products_list': products,
+                'shop_username': username,
+            }
         return super().setup(request, username,*args,**kwargs)
     
     def get(self, request, username):
@@ -206,17 +210,18 @@ class DetailsProductView(LoginRequiredMixin, View):
 class UpdateProductView(LoginRequiredMixin, View):
     template_name = 'shopapp/shop_product_update.html'
     def setup(self, request, username, pk, *args, **kwargs):
-        product = get_object_or_404(Product, id=pk, shop__manager=request.user, shop__username=username)
-        categorys_list = Category.objects.filter(shop__username=username, shop__manager=request.user)
-        form_class = UpdateProductForm(instance=product)
-        product_images_list = ProductImage.objects.filter(product=product)
-        self.context = {
-            'categorys_list': categorys_list,
-            'form_product': form_class,
-            'product': product,
-            'products_image': product_images_list,
-            'shop_username': username,
-        }
+        if request.user.is_authenticated:
+            product = get_object_or_404(Product, id=pk, shop__manager=request.user, shop__username=username)
+            categorys_list = Category.objects.filter(shop__username=username, shop__manager=request.user)
+            form_class = UpdateProductForm(instance=product)
+            product_images_list = ProductImage.objects.filter(product=product)
+            self.context = {
+                'categorys_list': categorys_list,
+                'form_product': form_class,
+                'product': product,
+                'products_image': product_images_list,
+                'shop_username': username,
+            }
         return super().setup(request, username, pk, *args, **kwargs)
     
     def get(self, request, username, pk):
@@ -271,16 +276,17 @@ class CategoryManagerView(LoginRequiredMixin, View):
     template_name = "shopapp/category_manager.html"
 
     def setup(self, request, username, *args, **kwargs):
-        categorys = Category.objects.filter(shop__username=username, shop__manager=request.user)
-        products = Product.objects.filter(shop__manager=request.user, shop__username=username)
-        form_class = CreateCategorysForm()
-        self.context = {
-            'shop_username': username,
-            'categorys': categorys,
-            'form': form_class,
-            'products_list': products,
-            'title': 'مدیریت دسته بندی ها'
-        }
+        if request.user.is_authenticated:
+            categorys = Category.objects.filter(shop__username=username, shop__manager=request.user)
+            products = Product.objects.filter(shop__manager=request.user, shop__username=username)
+            form_class = CreateCategorysForm()
+            self.context = {
+                'shop_username': username,
+                'categorys': categorys,
+                'form': form_class,
+                'products_list': products,
+                'title': 'مدیریت دسته بندی ها'
+            }
         return super().setup(request, username, *args, **kwargs)
     
     
@@ -315,16 +321,17 @@ class EditeCategoryView(LoginRequiredMixin, View):
     template_name = 'shopapp/category_manager.html'
 
     def setup(self, request, username, pk, *args, **kwargs):
-        category = get_object_or_404(Category, id=pk, shop__username=username, shop__manager=request.user)
-        form_class = CreateCategorysForm(initial={'name':category.name, 'for_sell': category.for_sell, 'number_ordering': category.number_ordering})
-        product_list = Product.objects.filter(shop__username=username, shop__manager=request.user)
-        self.context = {
-            'category':category,
-            'form': form_class,
-            'shop_username': username,
-            'products_list': product_list,
-            'title': f'ویرایش دسته بندی {category.name}'
-        }
+        if request.user.is_authenticated:
+            category = get_object_or_404(Category, id=pk, shop__username=username, shop__manager=request.user)
+            form_class = CreateCategorysForm(initial={'name':category.name, 'for_sell': category.for_sell, 'number_ordering': category.number_ordering})
+            product_list = Product.objects.filter(shop__username=username, shop__manager=request.user)
+            self.context = {
+                'category':category,
+                'form': form_class,
+                'shop_username': username,
+                'products_list': product_list,
+                'title': f'ویرایش دسته بندی {category.name}'
+            }
         return super().setup(request, username, pk, *args, **kwargs)
     
     def get(self, request, username, pk):
@@ -382,16 +389,17 @@ class RequestPaymentView(LoginRequiredMixin, View):
     template_name = 'payment/request_payment.html'
 
     def setup(self, request, username, *args, **kwargs):
-        transaction_list = Transaction.objects.filter(user=request.user, shop__username=username, shop__is_active=True)
-        self.cards = Card.objects.filter(user=request.user)
-        shop_list = Shop.objects.filter(manager=request.user, is_active=True)
-        self.context = {
-            'form_transaction': TransactionForm(),
-            'cards': self.cards,
-            'shops_list': shop_list,
-            'shop_username': username,
-            'transaction_list': transaction_list,
-        }
+        if request.user.is_authenticated:
+            transaction_list = Transaction.objects.filter(user=request.user, shop__username=username, shop__is_active=True)
+            self.cards = Card.objects.filter(user=request.user)
+            shop_list = Shop.objects.filter(manager=request.user, is_active=True)
+            self.context = {
+                'form_transaction': TransactionForm(),
+                'cards': self.cards,
+                'shops_list': shop_list,
+                'shop_username': username,
+                'transaction_list': transaction_list,
+            }
         return super().setup(request, *args, **kwargs)
 
     def get(self, request, username):
@@ -517,8 +525,9 @@ class ConfirmBuyView(LoginRequiredMixin, View):
     template_name = 'shopapp/confirm_buy.html'
 
     def setup(self, request, *args, **kwargs):
-        self.buy_product = BuyProduct.objects.filter(customer=request.user, is_payed=False)
-        self.sum_price = dict(self.buy_product.aggregate(sum=Sum(F('product__price') * F('count'))))
+        if request.user.is_authenticated:
+            self.buy_product = BuyProduct.objects.filter(customer=request.user, is_payed=False)
+            self.sum_price = dict(self.buy_product.aggregate(sum=Sum(F('product__price') * F('count'))))
         return super().setup(request, *args, **kwargs)
 
 

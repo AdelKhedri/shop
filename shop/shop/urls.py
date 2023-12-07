@@ -5,10 +5,11 @@ from django.conf.urls.static import static
 from django.conf import settings
 from payment import views
 from members.views import home, FakeAdminPage, FreeIp
-from members.admin import MyAdminSite
+# from members.admin import MyAdminSite
 
-admin.site = MyAdminSite()
-admin.autodiscover()
+# admin.site = MyAdminSite()
+# admin.autodiscover()
+# when use CustomAdmin Site for check ip address user to show admin pannel superuser can not see any models in admin pannel
 
 urlpatterns = [
     path('home', home),

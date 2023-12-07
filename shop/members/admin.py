@@ -1,8 +1,8 @@
+from collections.abc import Iterable
 from typing import Any
 from django.contrib import admin
-from django.contrib.auth.admin import UserAdmin
-from django.core.handlers.wsgi import WSGIRequest
-from django.http.response import HttpResponse
+from django.contrib.admin.options import ModelAdmin
+from django.db.models.base import Model
 from .models import User, Profile, Otp, Notifacation, Support, BlockIPAddress
 from mylib.functions import get_ipaddress
 from django.http import HttpResponseRedirect
@@ -27,6 +27,11 @@ class NotifacationRegister(admin.ModelAdmin):
 
 
 class MyAdminSite(admin.AdminSite):
+    def register(self, model, admin_class =None, **options: Any):
+        super().register(model, admin_class, admin_class, **options)
+        self.register(Profile, ProfileRegister)
+    
+
     def login(self, request, extra_context = None):
         ipaddress = get_ipaddress(request)
         if BlockIPAddress.objects.filter(ipaddress=ipaddress).exists():
