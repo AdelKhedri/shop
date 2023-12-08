@@ -2,7 +2,7 @@
 این نمونه کار کامل شده
 ```
 virtualenv env 
-csource env/bin/activate
+source env/bin/activate
 cd shop
 pip install -r requirments.txt
 python manage.py makemigrations
