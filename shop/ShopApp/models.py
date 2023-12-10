@@ -64,6 +64,7 @@ class Product(models.Model):
     shop = models.ForeignKey(Shop, on_delete=models.CASCADE, verbose_name="فروشگاه")
     description = models.CharField(max_length=400,null=True, blank=True, verbose_name="درباره")
     now_selled = models.IntegerField(default=0, verbose_name="تعداد فروخته شده")
+    image = models.ImageField(upload_to='images/products/', default='/images/products/no_image.png', verbose_name="عکس محصول")
     
     class Meta:
         verbose_name = "محضول"
@@ -85,7 +86,7 @@ class Category(models.Model):
     for_sell = models.BooleanField(default=False, verbose_name="برای نمایش در صفحه اول فروشگاه")
     number_ordering = models.IntegerField(verbose_name="شماره ردیف",null=True, blank=True)
     products = models.ManyToManyField(Product, verbose_name="محصولات")
-    
+
     class Meta:
         verbose_name = "دسته بندی"
         verbose_name_plural = "دسته بندی ها"
@@ -94,16 +95,16 @@ class Category(models.Model):
         return self.name
     
 
-class ProductImage(models.Model):
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name="محصول")
-    image = models.ImageField(upload_to='images/products/', verbose_name="عکس محصول")
+# class ProductImage(models.Model):
+#     product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name="محصول")
+#     image = models.ImageField(upload_to='images/products/', verbose_name="عکس محصول")
 
-    class Meta:
-        verbose_name = "عکس محصول"
-        verbose_name_plural = "عکس محصولات"
+#     class Meta:
+#         verbose_name = "عکس محصول"
+#         verbose_name_plural = "عکس محصولات"
 
-    def __str__(self):
-        return self.product.name
+#     def __str__(self):
+#         return self.product.name
 
 
 class BuyProduct(models.Model):

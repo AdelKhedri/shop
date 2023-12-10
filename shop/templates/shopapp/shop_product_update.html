@@ -20,11 +20,6 @@ active
         خطا محصول اضافه نشد.
     </div>
     {% endif %}
-    {% if img_count %}
-    <div class="alert alert-info" role="alert">
-        برای این محصول {{img_count}} اضافه شد
-    </div>
-    {% endif %}
     <div class="row">
         <div class="card">
             <div class="col-lg-10">
@@ -43,6 +38,15 @@ active
                             <!-- <input type="number" required="required" class="form-control" name="max_sel" id="max_sel"> -->
                             
                         </div>
+
+                        <div class="col-md-6">
+                            <img src="{{product.image.url}}" alt="">
+                            <label for="inputPassword4" class="form-label">عکس</label>
+                            {{form_product.image}}
+                            <!-- <input type="number" required="required" class="form-control" name="max_sel" id="max_sel"> -->
+                            
+                        </div>
+
                         <div class="col-6">
                             <label for="inputAddress" class="form-label">قیمت</label>
                             {{form_product.price}}

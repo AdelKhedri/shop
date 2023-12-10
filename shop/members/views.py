@@ -6,17 +6,25 @@ from django.views.generic import View, ListView
 from .forms import RegisterForm, SininForm, ChangePasswordForm, ProfileUpdateForm, UserUpdateForm, ForgetPasswordForm, ConfirmForgetPasswordForm
 from .models import User, Otp, Notifacation, Profile, Support, BlockIPAddress
 from django.contrib.auth import authenticate, login, logout
-from django.db.models import Q
+from django.db.models import Q, Sum, Count
 from django.contrib.auth.mixins import LoginRequiredMixin
 from mylib.apis import sendcode
 import random
 import datetime
+from ShopApp.models import BuyProduct, Product, Shop
 from django.db.models import F
 from mylib.functions import get_ipaddress
 # Create your views here.
 
+
 def home(request):
-    return render(request, 'home/base.html',{})
+    best_shops = Shop.objects.annotate(total_orders=Sum('product__buyproduct__count', filter=Q(product__buyproduct__is_payed=True)), count_product=Count('product')).order_by('-total_orders')[0:6]
+    best_products = Product.objects.annotate(total_orders = Sum('buyproduct__count')).order_by('-total_orders')[0:6]
+    context = {
+        'best_shops': best_shops,
+        'best_products': best_products,
+    }
+    return render(request, 'home/home.html',context)
 
 
 class FakeAdminPage(View):
@@ -266,8 +274,6 @@ class ProfileUpdate(LoginRequiredMixin, View):
         if form_profile.is_valid():
             form_profile.save()
             context.update({'msg_profile': 'update profile success'})
-        # else:
-        #     context.update({'msg_profile': 'update profile filed'})
         if form_user.is_valid():
             username = form_user.cleaned_data['username']
             email = form_user.cleaned_data['email']
@@ -330,3 +336,9 @@ def custom_404(request, exception):
 def logout_view(request):
     logout(request)
     return HttpResponseRedirect('/profile/sinin/')
+
+
+class AllBuyedsView(View):
+    def get(self, request):
+        buyeds = BuyProduct.objects.filter(customer=request.user, is_payed=True)
+        return render(request, 'members/all_buyeds.html', {'buyeds': buyeds})

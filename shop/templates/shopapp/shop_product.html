@@ -20,11 +20,6 @@ active
         خطا محصول اضافه نشد.
     </div>
     {% endif %}
-    {% if img_count %}
-    <div class="alert alert-info" role="alert">
-        برای این محصول {{img_count}} اضافه شد
-    </div>
-    {% endif %}
     <div class="row">
         <div class="card">
             <div class="col-lg-10">
@@ -60,28 +55,11 @@ active
                             
                         </div>
 
-                        <div class="row" id="images">
-                            <div id="add_image" class="btn btn-primary p-2" style="max-width: fit-content;">افزودن عکس
-                            </div>
+                        <div class="col-md-12 mb-2">
+                            <label for="image_1" class="form-label">تصویر</label>
+                            <input type="file" class="form-control" name="image" id="image_1">
+                            
                         </div>
-                        <script>
-                            $(document).ready(function () {
-                                var count = 0;
-                                $('#add_image').click(function () {
-                                    count += 1;
-                                    $(this).before(`
-                                    <div class="row">
-                                        <div class="row">
-                                            <div class="col-md-3 col-sm-4 mb-3">
-                                                <p>عکس</p>
-                                                <input type="file" class="form-control" id="image_${count}" name="image_${count}" aria-describedby="inputGroupFileAddon03" aria-label="Upload">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    `);
-                                })
-                            })
-                        </script>
 
                         <div class="col-12 mb-2">
                             <button type="submit" class="btn btn-primary">ثبت محصول</button>

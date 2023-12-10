@@ -67,14 +67,17 @@ active
 						</Select>
 					</div>
 					<div class="col-md-6 col-sm-12 py-2">
-						<h5>کارت</h4>
+						<!-- <h5>کارت</h4>
 						<Select class="form-control" name="shop_username" id="shop_username">
-							<option value="" selected>--انتخاب کنید--</option>
-							{% for shop in shops_list %}
+							<option value="" selected>--انتخاب کنید--</option> -->
+							<!-- {% for shop in shops_list %}
 							<option value="{{shop.username}}">{{shop.name}}: {{shop.username}}</option>
-							{% endfor %}
-						</Select>
-					</div>
+							{% endfor %} -->
+							{% if msg == 'shop not found or not active' %}
+								<p>فروشگاه وجود ندارد یا فعال نیست</p>
+							{% endif %}
+						<!-- </Select> -->
+					<!-- </div> -->
 					<div class="col-10 col-sm-12 py-2">
 						<h5>توضیحات</h4>
 						{{form_transaction.description}}
