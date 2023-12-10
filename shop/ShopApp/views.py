@@ -3,7 +3,7 @@ from django.http import JsonResponse
 from django.core import serializers
 from django.views.generic import View, ListView
 from members.models import User
-from .models import Shop, Product, Category, ProductImage, BuyProduct
+from .models import Shop, Product, Category, BuyProduct
 from payment.models import Transaction, Card, Cart, Likes
 from payment.forms import TransactionForm
 from .forms import (ShopAddForm, ShopEditeForm, CreateCategorysForm, EditeCategoryForm, UpdateProductForm)
@@ -148,27 +148,13 @@ class ShopAddListProductView(LoginRequiredMixin, View):
         price = request.POST.get('price')
         categorys_list = request.POST.getlist('category')
         description = request.POST.get('description')
-        product = Product.objects.create(name=name, max_sel=max_sel, price=price, shop=Shop.objects.get(username=username), description=description)
+        image = description = request.FILES['image']
+        product = Product.objects.create(name=name, max_sel=max_sel, price=price, shop=Shop.objects.get(username=username), description=description, image=image)
         if categorys_list:
             categorys_list_obj=Category.objects.filter(id__in=categorys_list, shop__username=username)
             for i in categorys_list_obj:
                 i.products.add(product)
         self.context.update({'msg': 'success',})
-
-        list_images = []
-        number = 1
-        while True:
-            if request.FILES.getlist(f'image_{number}'):
-                list_images.append(f'image_{number}')
-                number+=1
-            else:
-                break
-        images = 0
-        for image in list_images:
-            ProductImage.objects.create(product=product, image=request.FILES[image])
-            images += 1
-        self.context.update({'img_count': images})
-
         return render(request, self.template_name, self.context)
 
 
@@ -185,7 +171,6 @@ class DeleteProductView(LoginRequiredMixin, View):
 class DetailsProductView(LoginRequiredMixin, View):
     def get(self, request, username, pk):
         product = get_object_or_404(Product, shop__username=username, id=pk)
-        images = ProductImage.objects.filter(product__id=pk)
         categorys = Category.objects.filter(shop__username=username, products=product)
         print(categorys)
 
@@ -194,7 +179,6 @@ class DetailsProductView(LoginRequiredMixin, View):
         context = {
             'product': product,
             'category_lists': categorys,
-            'product_images': images, 
             'shop_username': username,
         }
         while i <= 7:
@@ -211,15 +195,13 @@ class UpdateProductView(LoginRequiredMixin, View):
     template_name = 'shopapp/shop_product_update.html'
     def setup(self, request, username, pk, *args, **kwargs):
         if request.user.is_authenticated:
-            product = get_object_or_404(Product, id=pk, shop__manager=request.user, shop__username=username)
+            self.product = get_object_or_404(Product, id=pk, shop__manager=request.user, shop__username=username)
             categorys_list = Category.objects.filter(shop__username=username, shop__manager=request.user)
-            form_class = UpdateProductForm(instance=product)
-            product_images_list = ProductImage.objects.filter(product=product)
+            form_class = UpdateProductForm(instance=self.product)
             self.context = {
                 'categorys_list': categorys_list,
                 'form_product': form_class,
-                'product': product,
-                'products_image': product_images_list,
+                'product': self.product,
                 'shop_username': username,
             }
         return super().setup(request, username, pk, *args, **kwargs)
@@ -228,7 +210,7 @@ class UpdateProductView(LoginRequiredMixin, View):
         return render(request, self.template_name, self.context)
     
     def post(self, request, username, pk):
-        form = UpdateProductForm(request.POST, instance=self.product)
+        form = UpdateProductForm(request.POST, request.FILES, instance=self.product)
         if form.is_valid():
             form.save()
             self.context.update({
@@ -253,23 +235,6 @@ class UpdateProductView(LoginRequiredMixin, View):
             for i in category_remove:
                 category = Category.objects.get(shop__username=username, shop__manager=request.user, id=i)
                 category.products.remove(self.product)
-            
-            # images_add = []
-            # images_remove = []
-            # number = 1
-            # while True:
-            #     if request.FILES.getlist(f'image_{number}'):
-            #         images_add.append(request.FILES.getlist(f'image_{number}'))
-            #     else:
-            #         break
-
-            # for image in self.product_images_list:
-            #     x1 = str(image.image).rfind('/')
-            #     name = str(image.image)[x1+1:]
-            #     if name in images_add:
-            #         images_add.remove(name)
-            #     else:
-            #         images_remove.append(name)
         return render(request, self.template_name, self.context)
 
 class CategoryManagerView(LoginRequiredMixin, View):
@@ -392,11 +357,11 @@ class RequestPaymentView(LoginRequiredMixin, View):
         if request.user.is_authenticated:
             transaction_list = Transaction.objects.filter(user=request.user, shop__username=username, shop__is_active=True)
             self.cards = Card.objects.filter(user=request.user)
-            shop_list = Shop.objects.filter(manager=request.user, is_active=True)
+            # shop_list = Shop.objects.filter(manager=request.user, is_active=True)
             self.context = {
                 'form_transaction': TransactionForm(),
                 'cards': self.cards,
-                'shops_list': shop_list,
+                # 'shops_list': shop_list,
                 'shop_username': username,
                 'transaction_list': transaction_list,
             }
@@ -411,21 +376,24 @@ class RequestPaymentView(LoginRequiredMixin, View):
         if form.is_valid():
             amount = form.cleaned_data['amount']
             transaction_type = form.cleaned_data['transaction_type']
-            shop_username = request.POST['shop_username']
-            shop = Shop.objects.get(manager=request.user, username=shop_username)
-            if shop:
-                if shop.is_active:
-                    if amount > shop.coin and transaction_type == "withdraw":
-                        self.context.update({'msg':'low coin', 'shop lowe coin': username})
+            # shop_username = request.POST['shop_username']
+            try:
+                shop = Shop.objects.get(manager=request.user, is_active=True, username=username)
+                if shop:
+                    if shop.is_active:
+                        if amount > shop.coin and transaction_type == "withdraw":
+                            self.context.update({'msg':'low coin', 'shop lowe coin': username})
+                        else:
+                            card = self.cards.get(id=request.POST.get('card'))
+                            description = form.cleaned_data['description']
+                            Transaction.objects.create(transaction_type=transaction_type, card=card, amount=amount, description=description, user=request.user, shop=shop)
+                            self.context.update({'msg': 'success'})
                     else:
-                        card = self.cards.get(id=request.POST.get('card'))
-                        description = form.cleaned_data['description']
-                        Transaction.objects.create(transaction_type=transaction_type, card=card, amount=amount, description=description, user=request.user, shop=shop)
-                        self.context.update({'msg': 'success'})
+                        self.context.update({'msg': 'shop not active'})
                 else:
-                    self.context.update({'msg': 'shop not active'})
-            else:
-                self.context.update({'msg': 'shop not found'})
+                    self.context.update({'msg': 'shop not found'})
+            except :
+                self.context.update({'msg': 'shop not found or not active'})
         else:
             self.context.update({'msg': 'failed'})
         return render(request, self.template_name, self.context)
@@ -436,19 +404,10 @@ class ShopView(View):
         shop = get_object_or_404(Shop, username=username)
         all_sell = BuyProduct.objects.filter(product__shop__username=username, is_payed=True).count()
         categorys = Category.objects.filter(shop__username=username)
-        # cat = Category.objects.filter(shop__username=username).prefetch_related('products').annotate(left_over_sel=F('products__max_sel'))
-        # for a in cat:
-        #     print(a.left_over_sel)
-        #     for b in a.products.all():
-        #         print(b)
-        products = Product.objects.filter(shop__username=username)
-        products_ids = [p.id for p in products]
-        imgs_product = ProductImage.objects.filter(product__in=products_ids)
         context = {
             'shop': shop,
             'all_sell': all_sell,
             'categorys_list': categorys,
-            'imgs_list': imgs_product
         }
 
 
@@ -461,24 +420,24 @@ class ShopView(View):
         return render(request, 'shopview/shop_info.html', context)
 
 
-class ShopCategorysView(View):
-    def get(self, request, username):
+# class ShopCategorysView(View):
+#     def get(self, request, username):
 
-        categorys = list(Category.objects.filter(shop__username=username, for_sell=True).values())
-        context = {
-            'categorys_list': categorys,
-        }
-        return JsonResponse(context, safe=False, json_dumps_params={'ensure_ascii':False})
+#         categorys = list(Category.objects.filter(shop__username=username, for_sell=True).values())
+#         context = {
+#             'categorys_list': categorys,
+#         }
+#         return JsonResponse(context, safe=False, json_dumps_params={'ensure_ascii':False})
 
 
-class ShopProductsView(View):
-    def get(self, request, username):
+# class ShopProductsView(View):
+#     def get(self, request, username):
 
-        products = list(Product.objects.filter(shop__username=username).values())
-        context = {
-            'products_list': products,
-        }
-        return JsonResponse(context, safe=False, json_dumps_params={'ensure_ascii': False})
+#         products = list(Product.objects.filter(shop__username=username).values())
+#         context = {
+#             'products_list': products,
+#         }
+#         return JsonResponse(context, safe=False, json_dumps_params={'ensure_ascii': False})
 
 
 class CartManagerView(LoginRequiredMixin, View):
@@ -512,13 +471,15 @@ class CartManagerView(LoginRequiredMixin, View):
 
             cart_serialized = serializers.serialize('json', [cart])
             product_serialized = serializers.serialize('json', [product])
-            context.update({
-                'product': product_serialized,
-                'cart': cart_serialized})
+            # context.update({
+            #     'product': product_serialized,
+            #     'cart': cart_serialized})
             
-            return JsonResponse(json.dumps(context),safe=False)
+            # return JsonResponse(json.dumps(context),safe=False)
+            return JsonResponse('add to Cart success', safe=False)
         else:
-            return JsonResponse({'msg': 'product must a integer'}, safe=False)
+            # return JsonResponse({'msg': 'product must a integer'}, safe=False)
+            return JsonResponse('error: product id must be init not anything', safe=False)
 
 
 class ConfirmBuyView(LoginRequiredMixin, View):
@@ -571,9 +532,8 @@ class DeleteCart(LoginRequiredMixin, View):
         if product_id is not None:
             cart = BuyProduct.objects.get(customer=request.user, product__id=product_id)
             cart.delete()
-            context = {'msg' : 'deleted'}
-            return JsonResponse(context)
-        return JsonResponse({'msg': 'not found'})
+            return JsonResponse('delete Cart successfull', safe=False)
+        return JsonResponse('can not find this Cart', safe=False)
 
 
 class LikeView(LoginRequiredMixin, View):
@@ -581,11 +541,8 @@ class LikeView(LoginRequiredMixin, View):
     
     def get(self, request):
         likes = Likes.objects.filter(user=request.user)
-        p_ids = [i.product.id for i in likes]
-        imgs_product = ProductImage.objects.filter(product__in=p_ids)
         context = {
             'likes_list': likes,
-            'imgs_list': imgs_product,
         }
         return render(request, self.template_name, context)
     
@@ -595,10 +552,10 @@ class LikeView(LoginRequiredMixin, View):
             product = get_object_or_404(Product, id=product_id)
             try:
                 Likes.objects.get(user=request.user, product__id=product_id).delete()
-                return JsonResponse({'msg': 'deleted'})
+                return JsonResponse('product deleted from likes', safe=False)
             except:
                 Likes.objects.create(product=product, user=request.user)
-                return JsonResponse({'msg': 'success'})
+                return JsonResponse('Successfull to add product to likes', safe=False)
 
 
 

@@ -1,526 +1,119 @@
 {% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
-    <link href="{% static '/css/layout.css' %}" rel="stylesheet" type="text/css" media="all">
-    <link href="{% static 'css/style.css' %}" rel="stylesheet" type="text/css" media="all">
-    <link href="{% static 'lib/animate/animate.min.css' %}" rel="stylesheet">
-    <link href="{% static 'lib/owlcarousel/assets/owl.carousel.min.css' %}" rel="stylesheet">
-    <link href="{% static 'lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css' %}" rel="stylesheet" />
-    <link href="{% static 'css/home.css' %}" rel="stylesheet">
-    <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet">
-    <link href="{% static 'css/swiper.css' %}" rel="stylesheet">
-    <link href="{% static 'css/magnific-popup.css' %}" rel="stylesheet">
-    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
-    <link href="{% static 'css/theme.css' %}" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <title>خانه</title>
 </head>
-<body dir="rtl">
-    <!-- Topbar Start -->
-    <div class="container-fluid bg-warning px-5 d-none d-lg-block">
-        <div class="row gx-0">
-            <div class="col-lg-8 text-center text-lg-start mb-2 mb-lg-0">
-                <div class="d-inline-flex align-items-center" style="height: 45px;">
-                    <small class="me-3 text-light"><i class="fa fa-map-marker-alt me-2"></i>123 Street, New York, USA</small>
-                    <small class="me-3 text-light"><i class="fa fa-phone-alt me-2"></i>+012 345 6789</small>
-                    <small class="text-light"><i class="fa fa-envelope-open me-2"></i>info@example.com</small>
-                </div>
-            </div>
-            <div class="col-lg-4 text-center text-lg-end">
-                <div class="d-inline-flex align-items-center" style="height: 45px;">
-                    <a class="btn btn-sm btn-outline-light btn-sm-square rounded-circle me-2" href=""><i class="fab fa-twitter fw-normal"></i></a>
-                    <a class="btn btn-sm btn-outline-light btn-sm-square rounded-circle me-2" href=""><i class="fab fa-facebook-f fw-normal"></i></a>
-                    <a class="btn btn-sm btn-outline-light btn-sm-square rounded-circle me-2" href=""><i class="fab fa-linkedin-in fw-normal"></i></a>
-                    <a class="btn btn-sm btn-outline-light btn-sm-square rounded-circle me-2" href=""><i class="fab fa-instagram fw-normal"></i></a>
-                    <a class="btn btn-sm btn-outline-light btn-sm-square rounded-circle" href=""><i class="fab fa-youtube fw-normal"></i></a>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Topbar End -->
 
-    <!-- Navbar & Hero Start -->
-    <div class="container-fluid position-relative p-0">
-        <nav class="navbar bg-warning navbar-expand-lg navbar-light px-4 px-lg-5 py-3 py-lg-0">
-            <a href="" class="navbar-brand p-0">
-                <h1 class="text-primary m-0"><i class="fa fa-map-marker-alt me-3"></i>Tourist</h1>
-                <!-- <img src="img/logo.png" alt="Logo"> -->
-            </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
-                <span class="fa fa-bars"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarCollapse">
-                <div class="navbar-nav ms-auto py-0">
-                    <a href="index.html" class="nav-item nav-link active">Home</a>
-                    <a href="about.html" class="nav-item nav-link">About</a>
-                    <a href="/dashboard/shortlink/" class="nav-item nav-link">Dashboard</a>
-                    <a href="/profile/" class="nav-item nav-link">Profile</a>
-                    <div class="nav-item dropdown">
-                        <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Pages</a>
-                        <div class="dropdown-menu m-0">
-                            <a href="destination.html" class="dropdown-item">Destination</a>
-                            <a href="booking.html" class="dropdown-item">Booking</a>
-                            <a href="team.html" class="dropdown-item">Travel Guides</a>
-                            <a href="testimonial.html" class="dropdown-item">Testimonial</a>
-                            <a href="404.html" class="dropdown-item">404 Page</a>
-                        </div>
-                    </div>
-                    <a href="contact.html" class="nav-item nav-link">Contact</a>
+<body dir="rtl" class="mb-5">
+    <div class="container-fluid">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary  ">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="/">خانه</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor01"
+                    aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarColor01">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="/">خانه</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/profile">پروفایل</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/profile/sinin/">ورود</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/profile/sinup/">ثبت نام</a>
+                        </li>
+                    </ul>
+                    <form class="d-flex">
+                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                        <button class="btn btn-outline-light" type="submit">Search</button>
+                    </form>
                 </div>
-                <a href="" class="btn btn-primary rounded-pill py-2 px-4">Register</a>
             </div>
         </nav>
 
-        <div class="position-relative container-fluid div-bg bg-warning py-5 mb-5 hero-header">
-            <div class="container py-5">
-                <div class="row justify-content-center py-5">
-                    <div class="col-lg-10 pt-lg-5 mt-lg-5 text-center">
-                        <h1 class="display-3 text-white mb-3 animated slideInDown">Enjoy Your Vacation With Us</h1>
-                        <p class="fs-4 text-white mb-4 animated slideInDown">Tempor erat elitr rebum at clita diam amet diam et eos erat ipsum lorem sit</p>
-                        <div class="position-relative w-75 mx-auto animated slideInDown">
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="position-absolute translate-middle start-50 top-96 container bg-light shadow">
-            <div class="row">
-                <div class="input-group col-sm-8 text-center has-validation">
-                    <span class="input-group-text">@</span>
-                    <div class="form-floating is-invalid">
-                      <input type="text" class="form-control is-invalid" id="floatingInputGroup2" placeholder="Username" required>
-                      <label for="floatingInputGroup2">Username</label>
-                    </div>
-                    <!-- <div class="invalid-feedback">
-                        Please choose a username.
-                    </div> -->
-                </div>
-                <div class="col-sm-4">
-                    <button class="btn btn-warning rounded-3 me-5 px-5 py-3" type="submit">کوتاه کن</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="container bg-light shadow">
-        <div class="row">
-            <div class="col-md-3 px-5 col-sm-6">
-                <h3>25M</h3>
-                <h6>پیوند های ایجاد شده</h6>
-            </div>
-            <div class="col-md-3 px-5 col-sm-6">
-                <h3>25M</h3>
-                <h6>پیوند های ایجاد شده</h6>
-                </div>
-            <div class="col-md-3 px-5 col-sm-6">
-                <h3>25M</h3>
-                <h6>پیوند های ایجاد شده</h6>
-                </div>
-            <div class="col-md-3 px-5 col-sm-6">
-                <h3>25M</h3>
-                <h6>پیوند های ایجاد شده</h6>
-            </div>
-        </div>
-    </div>
-    <!-- Navbar & Hero End -->
 
-    <div class="row mt-5">
-        <div class="col-4 col-sm-1"></div>
-            <div class="col-4 col-sm-10">
-                <div class="row">
-                    <div class="col-9 col-md-12 col-sm-12">
-                        <div class="text-center my-5">
-                            <h2>Hellow</h2>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatem pariatur dolores, blanditiis consequuntur doloremque incidunt vero placeat. Nostrum amet qui fugiat magni voluptatem, optio nesciunt. Sunt harum maxime illo sed!</p>
-                        </div>
-                        <div class="row row-cols-md-3">
-                            <div class="card">
-                                <div class="card-body">
-                                    <div class="card-title">
-                                        <div class="d-flex justify-content-between">
-                                            <img src="{% static 'images/1554921351.svg' %}" style="max-width: 60px;" alt="">
-                                            <span class="pt-2">||</span>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex justify-content-between">
-                                        <h6>hellow</h6><h6 class="">World!</h6>
-                                    </div>
-                                    <small class="opacity-50" style="font-size: small;">Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem vitae accusantium unde ipsam hic sed nesciunt eum veniam, corporis odit libero deleniti? Excepturi corporis suscipit veniam ab aut tenetur ducimus nemo optio quae quod, consequatur commodi quibusdam illo earum? Eum.</small>
-                                </div>
-                            </div>
-                            <div class="card">
-                                <div class="card-body">
-                                    <div class="card-title">
-                                        <div class="d-flex justify-content-between">
-                                            <img src="{% static 'images/1554921351.svg' %}" style="max-width: 60px;" alt="">
-                                            <span class="pt-2">||</span>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex justify-content-between">
-                                        <h6>hellow</h6><h6 class="">World!</h6>
-                                    </div>
-                                    <small class="opacity-50" style="font-size: small;">Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem vitae accusantium unde ipsam hic sed nesciunt eum veniam, corporis odit libero deleniti? Excepturi corporis suscipit veniam ab aut tenetur ducimus nemo optio quae quod, consequatur commodi quibusdam illo earum? Eum.</small>
-                                </div>
-                            </div>
-                            <div class="card">
-                                <div class="card-body">
-                                    <div class="card-title">
-                                        <div class="d-flex justify-content-between">
-                                            <img src="{% static 'images/1554921351.svg' %}" style="max-width: 60px;" alt="">
-                                            <span class="pt-2">||</span>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex justify-content-between">
-                                        <h6>hellow</h6><h6 class="">World!</h6>
-                                    </div>
-                                    <small class="opacity-50" style="font-size: small;">Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem vitae accusantium unde ipsam hic sed nesciunt eum veniam, corporis odit libero deleniti? Excepturi corporis suscipit veniam ab aut tenetur ducimus nemo optio quae quod, consequatur commodi quibusdam illo earum? Eum.</small>
-                                </div>
-                            </div>
-                            <div class="card">
-                                <div class="card-body">
-                                    <div class="card-title">
-                                        <div class="d-flex justify-content-between">
-                                            <img src="{% static 'images/1554921351.svg' %}" style="max-width: 60px;" alt="">
-                                            <span class="pt-2">||</span>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex justify-content-between">
-                                        <h6>hellow</h6><h6 class="">World!</h6>
-                                    </div>
-                                    <small class="opacity-50" style="font-size: small;">Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem vitae accusantium unde ipsam hic sed nesciunt eum veniam, corporis odit libero deleniti? Excepturi corporis suscipit veniam ab aut tenetur ducimus nemo optio quae quod, consequatur commodi quibusdam illo earum? Eum.</small>
-                                </div>
-                            </div>
-                            <div class="card">
-                                <div class="card-body">
-                                    <div class="card-title">
-                                        <div class="d-flex justify-content-between">
-                                            <img src="{% static 'images/1554921351.svg' %}" style="max-width: 60px;" alt="">
-                                            <span class="pt-2">||</span>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex justify-content-between">
-                                        <h6>hellow</h6><h6 class="">World!</h6>
-                                    </div>
-                                    <small class="opacity-50" style="font-size: small;">Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem vitae accusantium unde ipsam hic sed nesciunt eum veniam, corporis odit libero deleniti? Excepturi corporis suscipit veniam ab aut tenetur ducimus nemo optio quae quod, consequatur commodi quibusdam illo earum? Eum.</small>
-                                </div>
-                            </div>
-                            <div class="card">
-                                <div class="card-body">
-                                    <div class="card-title">
-                                        <div class="d-flex justify-content-between">
-                                            <img src="{% static 'images/1554921351.svg' %}" style="max-width: 60px;" alt="">
-                                            <span class="pt-2">||</span>
-                                        </div>
-                                    </div>
-                                    <div class="d-flex justify-content-between">
-                                        <h6>hellow</h6><h6 class="">World!</h6>
-                                    </div>
-                                    <small class="opacity-50" style="font-size: small;">Lorem ipsum dolor sit amet consectetur adipisicing elit. Autem vitae accusantium unde ipsam hic sed nesciunt eum veniam, corporis odit libero deleniti? Excepturi corporis suscipit veniam ab aut tenetur ducimus nemo optio quae quod, consequatur commodi quibusdam illo earum? Eum.</small>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="d-flex justify-content-center">
-
-                            <a href="#" class="btn p-3 my-5 btn-warning">more options</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        <div class="col-4 col-sm-1"></div>
-    </div>
-    
-
-    <!--  ndqofbpwdnowqd -->
-    <div class="col mb-5 position-relative bg-warning">
         
-        <!-- <div class="container mt-0 pt-o">
             <div class="row">
-                <div class="col">
-
+                {% for shop in best_shops %}
+                <div class="col-md-3 col-lg-2 card">
+                    <!-- <div class=""> -->
+                        <img class="card-image-top" src="{{shop.small_image.url}}" alt="img">
+                        <div class="card-body">
+                            <h4 class="card-title">{{shop.name}}</h4>
+                            <p class="card-text">
+                                {% if shop.description is None %} چیزی درمورد خودننوشته {% else %} {{shop.description |truncatewords:10}} {% endif%}
+                            </p>
+                            <p>تعداد محصولات: <span class="text-danger">{% if shop.count_product == None %} 0 {% else %} {{shop.count_product}} {% endif %}</span></p>
+                            <a href="/shops/{{shop.username}}" class="btn btn-primary">نمایش صفحه این فروشگاه</a>
+                        </div>
+                    <!-- </div> -->
                 </div>
+                {% endfor %}
             </div>
-        </div> -->
-        <div class="container">
-            <h3>Lorem ipsum dolor sit amet.</h3>
-            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Delectus, pariatur. Itaque error dolor rerum minus deleniti sequi alias hic perferendis illum atque.</p>
-        </div>
-        <div class="position-absolute translate-middle start-50 top-96 container mt-5 pt-5">
-            <div class="col-12 ">
-                <div class="items p-5 bg-light shadow row">
-                    <div class="col-3 px-2">
-                        <div class="item d-flex align-items-center">
-                            <div title="همیشه رایگان" class="icon">
-                                <svg width="70" height="70" viewBox="0 0 70 70" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M49.667 35.407a4.014 4.014 0 0 1-1.16 3.08l-9.627 9.627a5.344 5.344 0 0 1-7.547 0L27.56 44.34a5.344 5.344 0 0 1 0-7.546l9.627-9.627a4.013 4.013 0 0 1 3.08-1.16l6.506.4a2.65 2.65 0 0 1 2.493 2.493l.4 6.507z" fill="#74879D" fill-opacity=".3"></path>
-                                    <path d="M46.827 32.573a4.014 4.014 0 0 1-1.16 3.08L36.04 45.28a5.344 5.344 0 0 1-7.547 0l-3.773-3.773a5.344 5.344 0 0 1 0-7.547l9.627-9.627a4.013 4.013 0 0 1 3.08-1.16l6.506.4a2.65 2.65 0 0 1 2.494 2.494l.4 6.506z" stroke="#292D32" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-                                    <path d="M39.813 33.013a2.012 2.012 0 0 0 0-2.826 2.012 2.012 0 0 0-2.827 0 2.012 2.012 0 0 0 0 2.826 2.012 2.012 0 0 0 2.827 0zM26.613 32.067l11.32 11.32" stroke="#292D32" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-                                </svg>
-                            </div>
-                            <div class="mx-auto content">
-                                <div class="font-weight-bold mb-2 title">همیشه رایگان</div>
-                                <div class="text-muted subtitle small text-truncate">Free Forever</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-3 px-2">
-                        <div class="item d-flex align-items-center">
-                            <div title="امنیت بالا" class="icon">
-                                <svg width="70" height="70" viewBox="0 0 70 70" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="m36.44 24.31-6.653 2.507C28.253 27.39 27 29.203 27 30.83v9.907c0 1.573 1.04 3.64 2.307 4.586l5.733 4.28c1.88 1.414 4.973 1.414 6.853 0l5.734-4.28c1.266-.946 2.306-3.013 2.306-4.586V30.83c0-1.64-1.253-3.453-2.786-4.027l-6.654-2.493c-1.133-.413-2.946-.413-4.053 0z" fill="#74879D" fill-opacity=".3"></path>
-                                    <path d="m32.987 21.973-6.654 2.507c-1.533.573-2.786 2.387-2.786 4.013V38.4c0 1.573 1.04 3.64 2.306 4.587l5.734 4.28c1.88 1.413 4.973 1.413 6.853 0l5.733-4.28c1.267-.947 2.307-3.014 2.307-4.587v-9.907c0-1.64-1.253-3.453-2.786-4.026l-6.654-2.494c-1.133-.413-2.947-.413-4.053 0z" stroke="#292D32" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-                                    <path d="M35 35.667a2.667 2.667 0 1 0 0-5.334 2.667 2.667 0 0 0 0 5.334zM35 35.667v4" stroke="#292D32" stroke-width="2" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path>
-                                </svg>
-                            </div>
-                            <div class="mx-auto content">
-                                <div class="font-weight-bold mb-2 title">امنیت بالا</div>
-                                <div class="text-muted subtitle small text-truncate">High Security</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-3 px-2">
-                        <div class="item d-flex align-items-center">
-                            <div title="کاملا اختصاصی" class="icon">
-                                <svg width="70" height="70" viewBox="0 0 70 70" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M44.708 47.66H32.175c-.56 0-1.187-.44-1.373-.973l-5.52-15.44c-.787-2.214.133-2.894 2.026-1.534l5.2 3.72c.867.6 1.854.294 2.227-.68l2.347-6.253c.746-2 1.986-2 2.733 0l2.347 6.253c.373.974 1.36 1.28 2.213.68l4.88-3.48c2.08-1.493 3.08-.733 2.227 1.68l-5.387 15.08c-.2.507-.827.947-1.387.947z" fill="#74879D" fill-opacity=".3"></path>
-                                    <path d="M41.267 44.307H28.734c-.56 0-1.187-.44-1.374-.974l-5.52-15.44c-.786-2.213.134-2.893 2.027-1.533l5.2 3.72c.867.6 1.853.293 2.227-.68l2.346-6.253c.747-2 1.987-2 2.734 0L38.72 29.4c.374.973 1.36 1.28 2.214.68l4.88-3.48c2.08-1.493 3.08-.733 2.226 1.68l-5.386 15.08c-.2.507-.827.947-1.387.947zM27.667 48.333h14.667M31.667 37.667h6.667" stroke="#292D32" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-                                </svg>
-                            </div>
-                            <div class="mx-auto content">
-                                <div class="font-weight-bold mb-2 title">کاملا اختصاصی</div>
-                                <div class="text-muted subtitle small text-truncate">Fully Whitelabel</div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-3 px-2">
-                        <div class="item d-flex align-items-center">
-                            <div title="سیستم API" class="icon">
-                                <svg width="70" height="70" viewBox="0 0 70 70" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M33.667 47.667H33c-5.333 0-8-1.334-8-8V33c0-5.333 2.667-8 8-8h10.667c5.333 0 8 2.667 8 8v6.667c0 5.333-2.667 8-8 8H43c-.413 0-.813.2-1.067.533l-2 2.667c-.88 1.173-2.32 1.173-3.2 0l-2-2.667c-.213-.293-.693-.533-1.066-.533z" fill="#74879D" fill-opacity=".3"></path>
-                                    <path d="M30.334 44.293h-.667c-5.333 0-8-1.333-8-8v-6.666c0-5.334 2.667-8 8-8h10.667c5.333 0 8 2.666 8 8v6.666c0 5.334-2.667 8-8 8h-.667c-.413 0-.813.2-1.067.534l-2 2.666c-.88 1.174-2.32 1.174-3.2 0l-2-2.666c-.213-.294-.693-.534-1.066-.534z" stroke="#292D32" stroke-width="2" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path>
-                                    <path d="M29.667 30.6 27 33.267l2.667 2.666M40.333 30.6 43 33.267l-2.667 2.666M36.334 30.16l-2.667 6.213" stroke="#292D32" stroke-width="2" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path>
-                                </svg>
-    
-                            </div>
-                            <div class="mx-auto content">
-                                <div class="font-weight-bold mb-2 title">سیستم API</div>
-                                <div class="text-muted subtitle small text-truncate">Developer Friendly</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
 
-    
-    <div id="details" class="basic-1">
-        <div class="container">
+            <hr>
+            <br>
             <div class="row">
-                <div class="col-lg-6">
-                    <div class="text-container">
-                        <h2>Now Is The Time To Upgrade Your Marketing Solution</h2>
-                        <p>Target the right customers for your business with the help of Tivo's patented segmentation technology and deploy efficient marketing campaigns. Keep your customers happy and loyal.</p>
-                        <ul class="list-unstyled li-space-lg">
-                            <li class="media">
-                                <i class="fas fa-square"></i>
-                                <div class="media-body">Understand customers and meet their requirements</div>
-                            </li>
-                            <li class="media">
-                                <i class="fas fa-square"></i>
-                                <div class="media-body">Targeted client base with Tivo's efficient technology</div>
-                            </li>
-                        </ul>
-                        <a class="btn-solid-reg page-scroll" href="sign-up.html">SIGN UP</a>
-                    </div> <!-- end of text-container -->
-                </div> <!-- end of col -->
-                <div class="col-lg-6">
-                    <div class="image-container">
-                        <img class="img-fluid" src="{% static 'images/details.png' %}" alt="alternative">
-                    </div> <!-- end of image-container -->
-                </div> <!-- end of col -->
-            </div> <!-- end of row -->
-        </div> <!-- end of container -->
-    </div> <!-- end of basic-1 -->
-
-
-<div class="bg-warning">
-    <div class="container">
-        
-        <div class="row">
-            <div class="bgded">
-                <section class="hoc container clear">
-                  <div class="points group"> 
-                    <!-- #####g########################################################################################### -->
-                    <div class="sectiontitle">
-                      <p class="nospace font-xs">Etiam id augue in vestibulum</p>
-                      <h6 class="heading font-x2">Turpis in tristique eleifend nulla</h6>
-                    </div>
-                    <figure class="one_half first">
-                      <ul class="nospace clear">
-                        <li><a href="#"><i class="fab fa-fly"></i></a>
-                          <h6 class="heading">Ante fringilla nisl eu</h6>
-                          <p>Gravida lorem ligula quis ligula pellentesque congue semper felis maecenas rutrum euismod nibh class aptent taciti.</p>
-                        </li>
-                        <li><a href="#"><i class="fab fa-audible"></i></a>
-                          <h6 class="heading">Sociosqu ad litora torquent</h6>
-                          <p>Per conubia nostra per inceptos himenaeos mauris lectus enim luctus vitae viverra a pharetra mollis diam aliquam.</p>
-                        </li>
-                        <li><a href="#"><i class="fas fa-umbrella-beach"></i></a>
-                          <h6 class="heading">Tincidunt mi ut pede maecenas</h6>
-                          <p>Nunc urna porttitor eget molestie a consequat at lectus duis eget pede vitae nunc vehicula pharetra donec.</p>
-                        </li>
-                      </ul>
-                    </figure>
-                    <div class="one_half"><a class="imgover" href="#"><img class="borderedbox inspace-10" src="{% static 'images/stock.jpg' %}" alt=""></a></div>
-                    <!-- ################################################################################################ -->
-                  </div>
-                </section>
-              </div>
-        </div>
-    </div>
-</div>
-        
-           <!-- Details -->
-    <div class="bg-light">
-        <div class="container" >
-            <div class="row">
-                <div class="container text-center">
-                    <h2>Programing: توسعه دادن</h2>
-                    <svg class="my-4" width="100%" height="22" viewBox="0 0 244 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path fill-rule="evenodd" clip-rule="evenodd" d="M146.026 10.048c-32.472.391-64.96 1.941-97.29 4.712-15.371 1.317-33.222 1.153-48.13 5.645-.742.226-.601.904-.585.972.032.139.167.6.759.623.064.003.518-.061.691-.084 4.403-.581 8.789-1.26 13.194-1.808 15.21-1.902 30.466-3.34 45.744-4.599 20.278-1.673 40.73-2.564 61.062-3.262 11.13-.38 22.526.126 33.691-.662 4.1-.022 8.2-.025 12.3-.012 17.14.06 34.26.713 51.371 1.608 5.502.287 9.698.597 15.085.807 2.045.08 5.289.136 7.547.171.331.007 1.177.013 1.527.016.036.007.071.007.11.007.135 0 .199-.01.212-.01.765-.113.695-.84.675-.95-.003-.022-.119-.636-.778-.658-.157-.007-1.286-.013-1.72-.02-2.245-.035-5.477-.09-7.512-.167-5.377-.21-9.57-.52-15.062-.808-17.137-.894-34.283-1.55-51.448-1.611-2.097-.007-4.197-.01-6.293-.007-.071-.184-.229-.39-.576-.48-.325-.085-2.65-.159-3.547-.233-6.64-.55-6.444-.523-13.75-.972-11.065-.682-12.751-.837-24.259-1.124-20.906-.523-41.82-.481-62.729-.43-10.322.03-21.375.73-31.855-.578 3.454-.406 6.92-.704 10.38-1.043 11.815-1.156 23.64-1.873 35.502-2.376 28.456-1.208 56.956-1.69 85.402-.042-6.055.058-12.107.193-18.162.28-24.648.362-49.535.091-74.131 1.967a.807.807 0 0 0 .122 1.611c24.565-1.876 49.415-1.601 74.032-1.963 9.145-.132 18.287-.371 27.433-.3 3.138.026 6.277.142 9.415.18.621.01 2.219.133 2.447.081.505-.113.614-.487.647-.671.016-.11.067-.743-.705-.969-5.267-1.544-14.988-1.473-20.107-1.776C127.938-.6 99.084-.121 70.275 1.1c-11.892.507-23.745 1.227-35.592 2.386-4.139.404-8.287.753-12.41 1.289-.665.087-2.16.213-2.884.345-.302.055-.52.133-.617.188-.376.213-.444.523-.444.733-.003.161.064.73.852.885 12.004 2.36 25.066 1.433 37.138 1.401 20.896-.052 41.795-.094 62.687.43 11.48.287 13.159.439 24.201 1.12 1.09.065 2.013.123 2.82.171z" fill="#004EF3"></path>
-                    </svg>
-                    <p class="lh-lg mb-5" style="font-size: medium;max-width: 50%;margin-left: auto;margin-right: auto;">لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط</p>
-                    <div class="row mb-4">
-                        <div class="col-md-4 mb-3 mb-sm-0">
-                            <div class="card pt-4 pe-4 ps-4">
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <img src="{% static 'images/chart1.svg' %}" alt="">
-                                    </div>
-                                    <div class="col-md-8">
-                                        <div class="card-body">
-                                            <h6 class="card-title">lkfjef</h6>
-                                            <p class="card-subtitel">Lorem ipsum dolor sit amet, consectetur </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4 mb-3 mb-sm-0">
-                            <div class="card pt-4 pe-4 ps-4">
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <img src="{% static 'images/chart1.svg' %}" alt="">
-                                    </div>
-                                    <div class="col-md-8">
-                                        <div class="card-body">
-                                            <h6 class="card-title">lkfjef</h6>
-                                            <p class="card-subtitel">Lorem ipsum dolor sit amet, consectetur </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-4 mb-3 mb-sm-0">
-                            <div class="card pt-4 pe-4 ps-4">
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <img src="{% static 'images/chart1.svg' %}"" alt="">
-                                    </div>
-                                    <div class="col-md-8">
-                                        <div class="card-body">
-                                            <h6 class="card-title">lkfjef</h6>
-                                            <p class="card-subtitel">Lorem ipsum dolor sit amet, consectetur </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                {% for product in best_products %}
+                <div class="col-md-3 col-lg-2 card">
+                    <!-- <div class=""> -->
+                    <img class="card-image-top" src="{{product.image.url}}" alt="img">
+                    <div class="card-body">
+                        <h4 class="card-title">{{product.name}}</h4>
+                        <p class="card-text">
+                            {% if product.description is None %} چیزی درمورد خودننوشته {% else %} {{shop.description |truncatewords:10}} {% endif%}
+                        </p>
                     </div>
                     <div class="row">
-                        <div class="col-md-6 mb-3 mb-sm-0">
-                            <div class="card p-4">
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <img src="{% static 'images/chart1.svg' %}"" alt="">
-                                    </div>
-                                    <div class="col-md-8">
-                                        <div class="card-body">
-                                            <h6 class="card-title">lkfjef</h6>
-                                            <p class="card-subtitel">Lorem ipsum dolor sit amet, consectetur </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                        <div class="col-8">
+                            {% if request.user.is_authenticated %}
+                            <form action="/shops/cartmanager/" method="post">
+                                <input type="hidden" name="product" value="{{product.id}}">
+                                <input type="hidden" name="product_count" value="1">
+                                {% csrf_token %}
+                                <button class="btn btn-primary">افزودن به سبد خرید</button>
+                            </form>
+                            {% else %}
+                            <a href="/profile/sinin/" class="btn btn-warning">ورود</a>
+                            {% endif %}
+                            <!-- <a href="" class="btn btn-primary">افزودن به سبد خرید</a> -->
                         </div>
-                        <div class="col-md-6 mb-3 mb-sm-0">
-                            <div class="card p-4">
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <img src="{% static 'images/chart1.svg' %}"" alt="">
-                                    </div>
-                                    <div class="col-md-8">
-                                        <div class="card-body">
-                                            <h6 class="card-title">lkfjef</h6>
-                                            <p class="card-subtitel">Lorem ipsum dolor sit amet, consectetur </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                        <div class="col-4">
+                            {% if request.user.is_authenticated %}
+                            <form action="/shops/u/like/" method="post">
+                                {% csrf_token %}
+                                <input type="hidden" name="product_like" value="{{product.id}}">
+                                {% if product.id in likes_list %}
+                                <button class="btn btn-danger">دیسلایک</button>
+                                {% else %}
+                                <button class="btn btn-primary">لایک</button>
+                                {% endif %}
+                            </form>
+                            {% else %}
+                            <a href="/profile/sinin/" class="btn btn-warning">ورود</a>
+                            {% endif %}
                         </div>
                     </div>
+                    <!-- </div> -->
                 </div>
+                
+                {% endfor %}
             </div>
-        </div>
+
     </div>
-
-
-    <footer class="page-footer py-0 my-0 ">
-        <div class="container pb-2">
-          <div class="row mb-5">
-            <div class="col-lg-3 py-3">
-              <h3>SEOGram</h3>
-              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Libero amet, repellendus eius blanditiis in iusto eligendi iure.</p>
-    
-              <div class="social-media-button">
-                <a href="#"><span class="mai-logo-facebook-f"></span></a>
-                <a href="#"><span class="mai-logo-twitter"></span></a>
-                <a href="#"><span class="mai-logo-google-plus-g"></span></a>
-                <a href="#"><span class="mai-logo-instagram"></span></a>
-                <a href="#"><span class="mai-logo-youtube"></span></a>
-              </div>
-            </div>
-            <div class="col-lg-3 py-3">
-              <h5>Company</h5>
-              <ul class="footer-menu">
-                <li><a href="#">About Us</a></li>
-                <li><a href="#">Career</a></li>
-                <li><a href="#">Advertise</a></li>
-                <li><a href="#">Terms of Service</a></li>
-                <li><a href="#">Help & Support</a></li>
-              </ul>
-            </div>
-            <div class="col-lg-3 py-3">
-              <h5>Contact Us</h5>
-              <p>203 Fake St. Mountain View, San Francisco, California, USA</p>
-              <a href="#" class="footer-link">+00 1122 3344 5566</a>
-              <a href="#" class="footer-link">seogram@temporary.com</a>
-            </div>
-            <div class="col-lg-3 py-3">
-              <!-- <h5>Newsletter</h5> -->
-              <p class="lh-sm">با عضویت در خبرنامه سایت از تخفیفات و اپدیت ها و اخبار جدید با خبر شوید!</p>
-              <form class="d-inline" action="#">
-                  <input type="text" class="form-control" placeholder="Enter your email..">
-                  <button type="submit" style="background-color: rgb(0, 105, 252); border-radius: 0.4rem;" class="btn btn-primary">منو هم خبر کنید</button>
-              </form>
-            </div>
-          </div>
-    
-          <p class="text-center text-danger">طراح: <a href="" target="_blank">adel</a></p>
-        </div>
-      </footer>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus iure deserunt quidem itaque ullam quaerat cum nulla quam, fugiat eveniet accusantium cumque quis quia. At id saepe velit! Voluptatem molestias iusto architecto suscipit laborum, ipsam quod laudantium facilis magni, similique porro odio minima cum, nisi nulla? Labore veniam nobis nulla recusandae odit doloremque obcaecati beatae dignissimos harum officia quod vero inventore ullam necessitatibus molestiae nesciunt odio vel, quam quae ipsam perferendis deleniti. Accusamus ratione unde veritatis doloremque eos sunt, rerum dolore aperiam eaque impedit? Deleniti expedita error iusto adipisci tempore tenetur sequi nesciunt quia fugiat eaque voluptas quidem, illum odio minus consequatur ipsum. Maiores officia corrupti, quam ipsa magni aut quidem, veniam provident esse at odio, minima sit? A eum optio doloribus? Autem deserunt neque sunt doloribus rerum totam iste. Cupiditate exercitationem cum accusamus deserunt pariatur, perspiciatis commodi nisi asperiores totam dolores ratione expedita repellat, harum odio non. Sequi, est, ea autem sint blanditiis ipsa soluta libero nulla obcaecati neque aliquid unde totam perspiciatis officiis magni laborum omnis. Doloribus repellat aliquid vero et dignissimos exercitationem id? Earum sequi enim blanditiis tempora sed. Earum enim, asperiores amet ex nam error, ratione animi culpa officia repudiandae veritatis veniam provident ipsum dignissimos magni dolor recusandae sint, magnam alias! Necessitatibus magnam nemo adipisci dolores, velit perspiciatis inventore, est voluptatibus unde quae modi nihil reprehenderit exercitationem, quis illo voluptate officia labore laudantium nesciunt veritatis quibusdam. Quisquam ab omnis temporibus deleniti, qui debitis enim molestias accusamus ullam corrupti quod obcaecati ut ratione dignissimos excepturi doloremque iure!</p>
 </body>
+
 </html>

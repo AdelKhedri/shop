@@ -1,0 +1,30 @@
+{% extends 'home/base.html' %}
+
+{% load static%}
+
+{% block content %}
+<h2>لیست ایتم های خرید شده</h2>
+<div class="card">
+    <table class="table table-success table-striped my-3">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">نام</th>
+                <th scope="col">قیمت</th>
+                <th scope="col">فروشگاه</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for product in buyeds %}
+          <tr>
+            <th scope="row">{{forloop.counter}}</th>
+            <td>{{product.product.name}}</td>
+            <td>{{product.product.price}}</td>
+            <td>{{product.product.shop}}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+</div>
+<!--  -->
+{% endblock %}

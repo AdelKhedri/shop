@@ -48,12 +48,13 @@ class ShopEditeForm(forms.ModelForm):
 class UpdateProductForm(forms.ModelForm):
     class Meta:
         model = Product
-        exclude = ['shop', 'id']
+        exclude = ['shop', 'id', 'now_selled']
         widgets = {
             'name': forms.TextInput(attrs=attr),
             'max_sel': forms.NumberInput(attrs=attr),
             'proce': forms.NumberInput(attrs=attr),
             'description': forms.Textarea(attrs=attr),
+            'image': forms.FileInput(attrs=attr)
         }
 
 class CreateCategorysForm(forms.Form):

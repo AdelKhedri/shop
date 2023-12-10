@@ -19,14 +19,7 @@ active
 							<div class="card">
 								<div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
 									<div id="imgs_p" class="imgs_p{{forloop.counter}} carousel-inner">
-										{% for img in imgs_list %}
-											{% if img.product.id == like.product.id %}
-												<div class="img_p{{forloop.parentloop.counter}} carousel-item">
-													<img src="{{img.image.url}}" class="d-block w-100" alt="img">
-												</div>
-											
-											{% endif %}
-									{% endfor %}
+										<img src="{{like.product.image.url}}" alt="">
 									<script>
 										$(document).ready(function (){
 											var first_image = $('.imgs_p{{forloop.counter}} .img_p{{forloop.counter}}:first-child')

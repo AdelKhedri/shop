@@ -11,4 +11,5 @@ urlpatterns = [
     path('', views.ProfileUpdate.as_view(), name="update profile"),
     path('support/', views.SupportView.as_view(), name='support'),
     path('logout', views.logout_view, name='logout'),
+    path('buyeds', views.AllBuyedsView.as_view()),
 ]

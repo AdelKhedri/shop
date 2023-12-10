@@ -15,6 +15,12 @@ active
 		<div class="card">
 			<form action="" method="post" enctype="multipart/form-data">
 				{% csrf_token %}
+				<div class="alert alert-info" role="alert">
+					<p>بعد از ساخت فروشگاه صفحه فروشگاه شما از این لینک قابل مشاهده است.</p>
+					<p dir="ltr">127.0.0.1:8000/shops/ID Shop/</p>
+					<p>ID Shop = ایدی فروشگاه شماست.</p>
+					
+				  </div>
 				<div class="row p-3">
 					{% if msg == "success" %}
 					<p class="bg-warning text-danger rounded rounded-2">ساخت فروشگاه موفقیت امیز بود.</p>

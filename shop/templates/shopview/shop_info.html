@@ -67,13 +67,13 @@
                     <div class="col-md-3 col-sm-4">
                         <div>
                             <p>توضیحات</p>
-                            <p>{{shop.description}}</p>
+                            <p>{% if shop.description is not None %} {{shop.description}} {% else %} ندارد {% endif %}</p>
                         </div>
                     </div>
                     <div class="col-md-3 col-sm-4">
                         <div class="row align-items-center">
                             <p>شماره تلفن</p>
-                            <p>{{shop.phone_number}}</p>
+                            <p>{% if shop.phone_number is not None %} {{shop.phone_number}} {% else %} ندارد {% endif %}</p>
                             <p>shop socials</p>
                         </div>
                     </div>
@@ -92,9 +92,9 @@
                 <li id="btn-categorys" onclick="btn_categorys()" class="nav-item">
                     <a class="nav-link active" aria-current="page" href="#">دسته بندی ها</a>
                 </li>
-                <li id="btn-products" onclick="btn_products()" class="nav-item">
+                <!-- <li id="btn-products" onclick="btn_products()" class="nav-item">
                     <a class="nav-link active" aria-current="page" href="#">محصولات</a>
-                </li>
+                </li> -->
                 <li id="btn-info" onclick="btn_info()" class="nav-item">
                     <a class="nav-link active" aria-current="page" href="#">درباره فروشگاه</a>
                 </li>
@@ -115,14 +115,7 @@
 							<div class="card">
 								<div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
 									<div id="imgs_p" class="imgs_p{{forloop.counter}} carousel-inner">
-										{% for img in imgs_list %}
-											{% if img.product.id == product.id %}
-												<div class="img_p{{forloop.parentloop.counter}} carousel-item">
-													<img src="{{img.image.url}}" class="d-block w-100" alt="img">
-												</div>
-											
-											{% endif %}
-									{% endfor %}
+										<img src="{{product.image.url}}" alt="">
 									<script>
 										$(document).ready(function (){
 											var first_image = $('.imgs_p{{forloop.counter}} .img_p{{forloop.counter}}:first-child')
@@ -203,20 +196,15 @@
         </div>
         <div style="display: none;" id="tab-info">
             <h1>info</h1>
-            <p>
-                در این تب اطلاعات توسط لینک زیر بصورت json ارسال میشه
-                فرانت کار اونو دریافت میکنه و اینجا نمایش میده
-                با جاواسکریپت.
-            </p>
-            <a href="http://127.0.0.1:8000/shops/vizard/categorys">نمایش دسته بندی ها</a>
+            <p>نام: {{shop.name}}</p>
+            <p>یوزرنیم: {{shop.username}}</p>
+            <p>توضیحات: {% if shop.description is not None %} {{shop.description}} {% else %} ندارد {% endif %}</p>
+            <p>میدیر: {{shop.manager}}</p>
+            <p>وضعیت فعال بودن: {% if shop.is_active == True %} فعال {% else %} غیرفعال {% endif %}</p>
+            <p>شماره تلفن: {% if shop.phone_number is not None %} {{shop.phone_number}} {% else %} ندارد {% endif %}</p>
         </div>
         <div style="display: none;" id="tab-products">
             <h1>products</h1>
-            <p>
-                در این تب اطلاعات <strong class="text-danger">محصولات</strong> توسط لینک زیر بصورت json ارسال میشه
-                فرانت کار اونو دریافت میکنه و اینجا نمایش میده
-                با جاواسکریپت.
-            </p>
             <a href="http://127.0.0.1:8000/shops/vizard/products">نمایش محصولات</a>
         </div>
         <script>
